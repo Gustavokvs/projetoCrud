@@ -4,25 +4,21 @@ public class Livro {
 
     private int id;
     private String titulo;
-    private String autor;
-    private String editora;
     private String isbn;
-    private int anoPublicacao;
     private double preco;
-    private boolean ativo;
+    private int anoPublicacao;
+    private Autor autor; // Relação 1:N (um autor para vários livros)
 
     public Livro() {
     }
 
-    public Livro(int id, String titulo, String autor, String editora, String isbn, int anoPublicacao, double preco, boolean ativo) {
+    public Livro(int id, String titulo, String isbn, double preco, int anoPublicacao, Autor autor) {
         this.id = id;
         this.titulo = titulo;
-        this.autor = autor;
-        this.editora = editora;
         this.isbn = isbn;
-        this.anoPublicacao = anoPublicacao;
         this.preco = preco;
-        this.ativo = ativo;
+        this.anoPublicacao = anoPublicacao;
+        this.autor = autor;
     }
 
     public int getId() {
@@ -41,36 +37,12 @@ public class Livro {
         this.titulo = titulo;
     }
 
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-    public String getEditora() {
-        return editora;
-    }
-
-    public void setEditora(String editora) {
-        this.editora = editora;
-    }
-
     public String getIsbn() {
         return isbn;
     }
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
-    }
-
-    public int getAnoPublicacao() {
-        return anoPublicacao;
-    }
-
-    public void setAnoPublicacao(int anoPublicacao) {
-        this.anoPublicacao = anoPublicacao;
     }
 
     public double getPreco() {
@@ -81,15 +53,24 @@ public class Livro {
         this.preco = preco;
     }
 
-    public boolean isAtivo() {
-        return ativo;
+    public int getAnoPublicacao() {
+        return anoPublicacao;
     }
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public void setAnoPublicacao(int anoPublicacao) {
+        this.anoPublicacao = anoPublicacao;
     }
 
-    public String ativoToString() {
-        return ativo ? "Ativo" : "Inativo";
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+
+    @Override
+    public String toString() {
+        return titulo;
     }
 }

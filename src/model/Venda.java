@@ -5,20 +5,20 @@ import java.util.Date;
 public class Venda {
 
     private int id;
-    private int idCliente;
-    private int idFuncionario;
+    private Livro livro;
+    private Cliente cliente;
     private Date dataVenda;
-    private double valorTotal;
+    private int quantidade;
 
     public Venda() {
     }
 
-    public Venda(int id, int idCliente, int idFuncionario, Date dataVenda, double valorTotal) {
+    public Venda(int id, Livro livro, Cliente cliente, Date dataVenda, int quantidade) {
         this.id = id;
-        this.idCliente = idCliente;
-        this.idFuncionario = idFuncionario;
+        this.livro = livro;
+        this.cliente = cliente;
         this.dataVenda = dataVenda;
-        this.valorTotal = valorTotal;
+        this.quantidade = quantidade;
     }
 
     public int getId() {
@@ -29,20 +29,20 @@ public class Venda {
         this.id = id;
     }
 
-    public int getIdCliente() {
-        return idCliente;
+    public Livro getLivro() {
+        return livro;
     }
 
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+    public void setLivro(Livro livro) {
+        this.livro = livro;
     }
 
-    public int getIdFuncionario() {
-        return idFuncionario;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdFuncionario(int idFuncionario) {
-        this.idFuncionario = idFuncionario;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Date getDataVenda() {
@@ -53,11 +53,11 @@ public class Venda {
         this.dataVenda = dataVenda;
     }
 
-    public double getValorTotal() {
-        return valorTotal;
+    public int getQuantidade() {
+        return quantidade;
     }
 
-    public void setValorTotal(double valorTotal) {
-        this.valorTotal = valorTotal;
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 }

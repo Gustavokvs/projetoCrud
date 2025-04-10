@@ -6,19 +6,17 @@ public class Cliente {
 
     private int id;
     private String nome;
-    private String cpf;
-    private String telefone;
+    private String email;
     private Date dataNascimento;
     private boolean ativo;
 
     public Cliente() {
     }
 
-    public Cliente(int id, String nome, String cpf, String telefone, Date dataNascimento, boolean ativo) {
+    public Cliente(int id, String nome, String email, Date dataNascimento, boolean ativo) {
         this.id = id;
         this.nome = nome;
-        this.cpf = cpf;
-        this.telefone = telefone;
+        this.email = email;
         this.dataNascimento = dataNascimento;
         this.ativo = ativo;
     }
@@ -39,20 +37,12 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Date getDataNascimento() {
@@ -73,5 +63,10 @@ public class Cliente {
 
     public String ativoToString() {
         return ativo ? "Ativo" : "Inativo";
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
 }
