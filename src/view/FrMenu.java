@@ -7,7 +7,11 @@ package view;
 
 /**
  *
+<<<<<<< HEAD
  * @author thain
+=======
+ * @author gusta
+>>>>>>> 66a7f5058e47c1f4256c0b1fc96e82400e0039bf
  */
 public class FrMenu extends javax.swing.JFrame {
 
@@ -16,8 +20,11 @@ public class FrMenu extends javax.swing.JFrame {
      */
     public FrMenu() {
         initComponents();
+<<<<<<< HEAD
 
         this.setLocationRelativeTo(null);
+=======
+>>>>>>> 66a7f5058e47c1f4256c0b1fc96e82400e0039bf
     }
 
     /**
@@ -30,6 +37,7 @@ public class FrMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+<<<<<<< HEAD
         barMenu = new javax.swing.JMenuBar();
         meCadastro = new javax.swing.JMenu();
         miClienteNovo = new javax.swing.JMenuItem();
@@ -178,11 +186,30 @@ public class FrMenu extends javax.swing.JFrame {
         barMenu.add(meSobre);
 
         setJMenuBar(barMenu);
+=======
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(51, 255, 102));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+>>>>>>> 66a7f5058e47c1f4256c0b1fc96e82400e0039bf
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -192,11 +219,19 @@ public class FrMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+=======
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+>>>>>>> 66a7f5058e47c1f4256c0b1fc96e82400e0039bf
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< HEAD
     private void miClienteNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miClienteNovoActionPerformed
         //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
         FrCadUsuario telaCadastro = new FrCadUsuario(this, rootPaneCheckingEnabled);
@@ -277,6 +312,8 @@ public class FrMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_miCategoriasActionPerformed
 
+=======
+>>>>>>> 66a7f5058e47c1f4256c0b1fc96e82400e0039bf
     /**
      * @param args the command line arguments
      */
@@ -313,6 +350,7 @@ public class FrMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+<<<<<<< HEAD
     private javax.swing.JMenuBar barMenu;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenu meCadastro;
@@ -333,5 +371,11 @@ public class FrMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem miReDeEstoque;
     private javax.swing.JMenuItem miReDeVenda;
     private javax.swing.JMenuItem miRegistarVenda;
+=======
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+>>>>>>> 66a7f5058e47c1f4256c0b1fc96e82400e0039bf
     // End of variables declaration//GEN-END:variables
 }
