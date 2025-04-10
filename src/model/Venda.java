@@ -21,18 +21,43 @@ public class Venda {
         this.valorTotal = valorTotal;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public int getIdCliente() { return idCliente; }
-    public void setIdCliente(int idCliente) { this.idCliente = idCliente; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public int getIdFuncionario() { return idFuncionario; }
-    public void setIdFuncionario(int idFuncionario) { this.idFuncionario = idFuncionario; }
+    public int getIdCliente() {
+        return idCliente;
+    }
 
-    public Date getDataVenda() { return dataVenda; }
-    public void setDataVenda(Date dataVenda) { this.dataVenda = dataVenda; }
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
 
-    public double getValorTotal() { return valorTotal; }
-    public void setValorTotal(double valorTotal) { this.valorTotal = valorTotal; }
+    public int getIdFuncionario() {
+        return idFuncionario;
+    }
+
+    public void setIdFuncionario(int idFuncionario) {
+        this.idFuncionario = idFuncionario;
+    }
+
+    public Date getDataVenda() {
+        return dataVenda;
+    }
+
+    public void setDataVenda(Date dataVenda) {
+        this.dataVenda = dataVenda;
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 }
