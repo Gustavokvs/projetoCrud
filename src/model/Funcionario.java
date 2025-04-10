@@ -21,23 +21,53 @@ public class Funcionario {
         this.ativo = ativo;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getCargo() { return cargo; }
-    public void setCargo(String cargo) { this.cargo = cargo; }
+    public String getNome() {
+        return nome;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-    public String getTelefone() { return telefone; }
-    public void setTelefone(String telefone) { this.telefone = telefone; }
+    public String getCargo() {
+        return cargo;
+    }
 
-    public boolean isAtivo() { return ativo; }
-    public void setAtivo(boolean ativo) { this.ativo = ativo; }
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 
     public String ativoToString() {
         return ativo ? "Ativo" : "Inativo";
