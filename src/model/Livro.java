@@ -71,7 +71,7 @@ public class Livro {
         this.autor = autor;
     }
 
-    public String getCategotia() {
+    public String getCategoria() {
         return categoria;
     }
 

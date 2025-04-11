@@ -1,15 +1,12 @@
-
 package controller;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import model.Livro;
-import java.sql.*;
-import java.util.ArrayList;
 
 public class LivroController {
 
@@ -21,9 +18,10 @@ public class LivroController {
 
             comando.setString(1, livro.getTitulo());
             comando.setString(2, livro.getAutor());
-            comando.setString(3, livro.getIsbn());
-            comando.setDouble(4, livro.getPreco());
-            comando.setInt(5, livro.getAnoPublicacao());
+            comando.setString(3, livro.getCategoria());
+            comando.setString(4, livro.getIsbn());
+            comando.setDouble(5, livro.getPreco());
+            comando.setInt(6, livro.getAnoPublicacao());
 
             comando.executeUpdate();
             return true;
@@ -121,5 +119,3 @@ public class LivroController {
         return lista;
     }
 }
-
-
