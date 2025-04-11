@@ -47,7 +47,7 @@ public class FrCadFuncionario extends javax.swing.JDialog {
         edtEmail = new javax.swing.JTextField();
         edtNome = new javax.swing.JTextField();
         edtTelefone = new javax.swing.JTextField();
-        btnAtivo = new javax.swing.JRadioButton();
+        chkAtivo = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -85,7 +85,7 @@ public class FrCadFuncionario extends javax.swing.JDialog {
 
         lblTelefone.setText("Telefone");
 
-        btnAtivo.setText("Ativo");
+        chkAtivo.setText("Ativo");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -103,7 +103,7 @@ public class FrCadFuncionario extends javax.swing.JDialog {
                             .addComponent(lblNome)
                             .addComponent(lblEmail)
                             .addComponent(lblCargo)
-                            .addComponent(btnAtivo)
+                            .addComponent(chkAtivo)
                             .addComponent(edtTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                             .addComponent(edtEmail)
                             .addComponent(edtCargo, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -137,7 +137,7 @@ public class FrCadFuncionario extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(edtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(btnAtivo)
+                .addComponent(chkAtivo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVoltar)
@@ -180,6 +180,7 @@ public class FrCadFuncionario extends javax.swing.JDialog {
         gravar();
 
     }//GEN-LAST:event_btnSalvarActionPerformed
+    
     public void gravar() {
         Funcionario funcionario = new Funcionario();
         FuncionarioController controller = new FuncionarioController();
@@ -188,7 +189,7 @@ public class FrCadFuncionario extends javax.swing.JDialog {
         funcionario.setCargo(edtCargo.getText());
         funcionario.setEmail(edtEmail.getText());
         funcionario.setTelefone(edtTelefone.getText());
-        funcionario.setAtivo(btnAtivo.isSelected());
+        funcionario.setAtivo(chkAtivo.isSelected());
 
         if (controller.inserir(funcionario)) {
             JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso");
@@ -196,6 +197,55 @@ public class FrCadFuncionario extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Funcionário não pôde ser cadastrado");
         }
     }
+    
+    public boolean verificarCampos() {
+        // Captura os valores dos campos e remove espaços extras
+        String nome = edtNome.getText().trim();
+        String cargo = edtCargo.getText().trim();
+        String email = edtEmail.getText().trim();
+        String telefone = edtTelefone.getText().trim();
+
+        // Validação do Nome
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Nome' está vazio.");
+            return false;
+        }
+        if (!nome.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
+            JOptionPane.showMessageDialog(null, "Nome inválido! Use apenas letras e espaços.");
+            return false;
+        }
+
+        // Validação do Cargo
+        if (cargo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Cargo' está vazio.");
+            return false;
+        }
+
+        // Validação do Email
+        if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Email' está vazio.");
+            return false;
+        }
+        if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+            JOptionPane.showMessageDialog(null, "E-mail inválido! Use o formato a@a.com.");
+            return false;
+        }
+
+        // Validação do Telefone
+        if (telefone.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Telefone' está vazio.");
+            return false;
+        }
+        if (!telefone.matches("^\\+?[0-9]{10,15}$")) {
+            JOptionPane.showMessageDialog(null, "Telefone inválido! Use apenas números (com ou sem código de país).");
+            return false;
+        }
+
+        // Se todos os campos são válidos
+        return true;
+    }
+    
+    
 
     /**
      * @param args the command line arguments
@@ -240,9 +290,9 @@ public class FrCadFuncionario extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton btnAtivo;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnVoltar;
+    private javax.swing.JRadioButton chkAtivo;
     private javax.swing.JTextField edtCargo;
     private javax.swing.JTextField edtEmail;
     private javax.swing.JTextField edtNome;
