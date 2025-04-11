@@ -185,6 +185,7 @@ public class FrCadUsuario extends javax.swing.JDialog {
 
         cl.setNome(edtNome.getText());
         cl.setEmail(edtEmail.getText());
+        cl.setTelefone(edtTelefone.getText());
         cl.setDataNascimento(utils.Utils.converterStringToDate(edtDataNasc.getText()));
         cl.setAtivo(true);
 

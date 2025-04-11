@@ -12,14 +12,15 @@ public class ClienteController {
 
     public boolean inserir(Cliente cliente) {
         GerenciadorConexao conexao = new GerenciadorConexao();
-        String sql = "INSERT INTO cliente (nome, email, data_nascimento, ativo) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO cliente (nome, email, telefone, data_nascimento, ativo) VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement comando = conexao.prepararComando(sql);
         try {
             comando.setString(1, cliente.getNome());
             comando.setString(2, cliente.getEmail());
-            comando.setTimestamp(3, new Timestamp(cliente.getDataNascimento().getTime()));
-            comando.setBoolean(4, cliente.isAtivo());
+            comando.setString(3, cliente.getTelefone());
+            comando.setTimestamp(4, new Timestamp(cliente.getDataNascimento().getTime()));
+            comando.setBoolean(5, cliente.isAtivo());
 
             comando.executeUpdate();
             return true;
@@ -33,15 +34,16 @@ public class ClienteController {
 
     public boolean atualizar(Cliente cliente) {
         GerenciadorConexao conexao = new GerenciadorConexao();
-        String sql = "UPDATE cliente SET nome = ?, email = ?, data_nascimento = ?, ativo = ? WHERE id = ?";
+        String sql = "UPDATE cliente SET nome = ?, email = ?, telefone = ?, data_nascimento = ?, ativo = ? WHERE id = ?";
 
         PreparedStatement comando = conexao.prepararComando(sql);
         try {
             comando.setString(1, cliente.getNome());
             comando.setString(2, cliente.getEmail());
-            comando.setTimestamp(3, new Timestamp(cliente.getDataNascimento().getTime()));
-            comando.setBoolean(4, cliente.isAtivo());
-            comando.setInt(5, cliente.getId());
+            comando.setString(3, cliente.getTelefone());
+            comando.setTimestamp(4, new Timestamp(cliente.getDataNascimento().getTime()));
+            comando.setBoolean(5, cliente.isAtivo());
+            comando.setInt(6, cliente.getId());
 
             comando.executeUpdate();
             return true;
@@ -86,6 +88,7 @@ public class ClienteController {
                 cliente.setId(resultado.getInt("id"));
                 cliente.setNome(resultado.getString("nome"));
                 cliente.setEmail(resultado.getString("email"));
+                cliente.setTelefone(resultado.getString("telefone"));
                 cliente.setDataNascimento(new Date(resultado.getTimestamp("data_nascimento").getTime()));
                 cliente.setAtivo(resultado.getBoolean("ativo"));
             }
@@ -113,6 +116,7 @@ public class ClienteController {
                 cliente.setId(resultado.getInt("id"));
                 cliente.setNome(resultado.getString("nome"));
                 cliente.setEmail(resultado.getString("email"));
+                cliente.setTelefone(resultado.getString("telefone"));
                 cliente.setDataNascimento(new Date(resultado.getTimestamp("data_nascimento").getTime()));
                 cliente.setAtivo(resultado.getBoolean("ativo"));
                 lista.add(cliente);
