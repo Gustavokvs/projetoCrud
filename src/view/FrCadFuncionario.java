@@ -5,7 +5,12 @@
  */
 package view;
 
+import controller.FuncionarioController;
+import javax.swing.JOptionPane;
+import model.Funcionario;
+
 /**
+ *
  *
  * @author thain
  */
@@ -17,7 +22,7 @@ public class FrCadFuncionario extends javax.swing.JDialog {
     public FrCadFuncionario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         this.setLocationRelativeTo(null);
     }
 
@@ -64,6 +69,11 @@ public class FrCadFuncionario extends javax.swing.JDialog {
         btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSalvarMouseClicked(evt);
+            }
+        });
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
             }
         });
 
@@ -152,7 +162,9 @@ public class FrCadFuncionario extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        // TODO add your handling code here:
+        dispose();
+
+
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVoltarMouseClicked
@@ -160,11 +172,30 @@ public class FrCadFuncionario extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarMouseClicked
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
-        
-        
-        
-        
+
+        gravar();
     }//GEN-LAST:event_btnSalvarMouseClicked
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        gravar();
+
+    }//GEN-LAST:event_btnSalvarActionPerformed
+    public void gravar() {
+        Funcionario funcionario = new Funcionario();
+        FuncionarioController controller = new FuncionarioController();
+
+        funcionario.setNome(edtNome.getText());
+        funcionario.setCargo(edtCargo.getText());
+        funcionario.setEmail(edtEmail.getText());
+        funcionario.setTelefone(edtTelefone.getText());
+        funcionario.setAtivo(btnAtivo.isSelected());
+
+        if (controller.inserir(funcionario)) {
+            JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso");
+        } else {
+            JOptionPane.showMessageDialog(null, "Funcionário não pôde ser cadastrado");
+        }
+    }
 
     /**
      * @param args the command line arguments
