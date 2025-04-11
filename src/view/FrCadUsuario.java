@@ -5,6 +5,10 @@
  */
 package view;
 
+import controller.ClienteController;
+import javax.swing.JOptionPane;
+import model.Cliente;
+
 /**
  *
  * @author thain
@@ -17,9 +21,12 @@ public class FrCadUsuario extends javax.swing.JDialog {
     public FrCadUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-           this.setLocationRelativeTo(null);
+
+        this.setLocationRelativeTo(null);
     }
+
+    ClienteController controller = new ClienteController();
+    Cliente cl = new Cliente();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,11 +70,21 @@ public class FrCadUsuario extends javax.swing.JDialog {
         });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnVoltar.setText("Voltar");
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVoltarMouseClicked(evt);
+            }
+        });
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
             }
         });
 
@@ -151,6 +168,34 @@ public class FrCadUsuario extends javax.swing.JDialog {
     private void btnVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVoltarMouseClicked
         this.dispose();
     }//GEN-LAST:event_btnVoltarMouseClicked
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+
+        gravar();
+
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+
+        dispose();
+
+    }//GEN-LAST:event_btnVoltarActionPerformed
+
+    public void gravar() {
+
+        cl.setNome(edtNome.getText());
+        cl.setEmail(edtEmail.getText());
+        cl.setDataNascimento(utils.Utils.converterStringToDate(edtDataNasc.getText()));
+        cl.setAtivo(true);
+
+        if (controller.inserir(cl)) {
+            JOptionPane.showMessageDialog(null, "Usuário gravado com sucesso");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "O cadastro não foi gravado");
+
+        }
+    }
 
     /**
      * @param args the command line arguments
