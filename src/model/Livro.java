@@ -20,7 +20,6 @@ public class Livro {
         this.preco = preco;
         this.anoPublicacao = anoPublicacao;
         this.autor = autor;
-        this.categoria = categoria;
     }
 
     public int getId() {

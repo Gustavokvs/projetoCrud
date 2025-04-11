@@ -99,12 +99,12 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="meRelatorios">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Rel&#xe1;t&#xf3;rios"/>
+            <Property name="text" type="java.lang.String" value="Alterar"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miReDeVenda">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Relat&#xf3;rio de Venda"/>
+                <Property name="text" type="java.lang.String" value="Dados do Cliente"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miReDeVendaActionPerformed"/>
@@ -112,12 +112,12 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miReDeEstoque">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Relat&#xf3;rio de Estoque"/>
+                <Property name="text" type="java.lang.String" value="Dados do Livro"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miHisDoCliente">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Hist&#xf3;rico do Cliente"/>
+                <Property name="text" type="java.lang.String" value="Genero do Livro"/>
               </Properties>
             </MenuItem>
           </SubComponents>

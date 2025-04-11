@@ -149,9 +149,9 @@ public class FrMenu extends javax.swing.JFrame {
 
         barMenu.add(meEstoque);
 
-        meRelatorios.setText("Relátórios");
+        meRelatorios.setText("Alterar");
 
-        miReDeVenda.setText("Relatório de Venda");
+        miReDeVenda.setText("Dados do Cliente");
         miReDeVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 miReDeVendaActionPerformed(evt);
@@ -159,10 +159,10 @@ public class FrMenu extends javax.swing.JFrame {
         });
         meRelatorios.add(miReDeVenda);
 
-        miReDeEstoque.setText("Relatório de Estoque");
+        miReDeEstoque.setText("Dados do Livro");
         meRelatorios.add(miReDeEstoque);
 
-        miHisDoCliente.setText("Histórico do Cliente");
+        miHisDoCliente.setText("Genero do Livro");
         meRelatorios.add(miHisDoCliente);
 
         barMenu.add(meRelatorios);

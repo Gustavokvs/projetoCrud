@@ -120,5 +120,4 @@ public class FuncionarioController {
         }
         return lista;
     }
-
 }
