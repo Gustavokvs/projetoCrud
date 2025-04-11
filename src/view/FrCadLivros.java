@@ -1,14 +1,21 @@
-
 package view;
+
+import controller.ClienteController;
+import controller.LivroController;
+import javax.swing.JOptionPane;
+import model.Livro;
 
 public class FrCadLivros extends javax.swing.JDialog {
 
     public FrCadLivros(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         this.setLocationRelativeTo(null);
     }
+
+    LivroController controller = new LivroController();
+    Livro l1 = new Livro();
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -190,8 +197,108 @@ public class FrCadLivros extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarMouseClicked
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
-  
+        gravar();
     }//GEN-LAST:event_btnSalvarMouseClicked
+
+    public void gravar() {
+
+        l1.setTitulo(edtTitulo.getText());
+        l1.setIsbn(edtIsbn.getText());
+        l1.setPreco(edtPreco.get());
+        l1.setAnoPublicacao(edtAnoPublicacao.getInt());
+        l1.setAutor(edtAutor.getText());
+        l1.setCategoria(edtCategoria.getText());
+
+        if (controller.inserir(l1)) {
+            JOptionPane.showMessageDialog(null, "Livro gravado com sucesso");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "O cadastro do livro não foi gravado");
+
+        }
+    }
+
+    public boolean verificarCampos() {
+        // Captura os valores dos campos e remove espaços extras
+        String titulo = edtTitulo.getText().trim();
+        String isbn = edtIsbn.getText().trim();
+        String autor = edtAutor.getText().trim();
+        String categoria = edtCategoria.getText().trim();
+        String precoStr = edtPreco.getText().trim();
+        String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
+
+        // Validação do Título
+        if (titulo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Título' está vazio.");
+            return false;
+        }
+
+        // Validação do ISBN
+        if (isbn.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'ISBN' está vazio.");
+            return false;
+        }
+        if (!isbn.matches("^\\d{10}|\\d{13}$")) {
+            JOptionPane.showMessageDialog(null, "ISBN inválido! Use o formato de 10 ou 13 dígitos.");
+            return false;
+        }
+
+        // Validação do Autor
+        if (autor.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Autor' está vazio.");
+            return false;
+        }
+
+        if (!autor.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
+            JOptionPane.showMessageDialog(null, "Autor inválido! Use o formato somente com letras.");
+            return false;
+        }
+
+        // Validação da Categoria
+        if (categoria.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Categoria' está vazio.");
+            return false;
+        }
+
+        if (!categoria.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
+            JOptionPane.showMessageDialog(null, "Categoria inválido! Use o formato somente com letras.");
+            return false;
+        }
+
+        // Validação do Preço
+        if (precoStr.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Preço' está vazio.");
+            return false;
+        }
+        try {
+            double preco = Double.parseDouble(precoStr);
+            if (preco <= 0) {
+                JOptionPane.showMessageDialog(null, "Preço inválido! Deve ser maior que zero.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Preço inválido! Use um número válido.");
+            return false;
+        }
+
+        // Validação do Ano de Publicação
+        if (anoPublicacaoStr.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Ano de Publicação' está vazio.");
+            return false;
+        }
+        try {
+            int anoPublicacao = Integer.parseInt(anoPublicacaoStr);
+            if (anoPublicacao < 1000 || anoPublicacao > 2900) {
+                JOptionPane.showMessageDialog(null, "Ano de Publicação inválido! Deve ser um ano válido.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Ano de Publicação inválido! Use um número válido.");
+            return false;
+        }
+
+        return true;
+    }
 
     public static void main(String args[]) {
 

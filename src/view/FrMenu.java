@@ -254,7 +254,7 @@ public class FrMenu extends javax.swing.JFrame {
 
     private void miAtuEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAtuEstoqueActionPerformed
        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrAltEstoque telaAlterar = new FrAltEstoque (this, rootPaneCheckingEnabled);
+        FrAltFuncionario telaAlterar = new FrAltFuncionario (this, rootPaneCheckingEnabled);
 
         //tornou a tela visivel
         telaAlterar.setVisible(true);  
