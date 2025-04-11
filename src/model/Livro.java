@@ -7,18 +7,20 @@ public class Livro {
     private String isbn;
     private double preco;
     private int anoPublicacao;
-    private Autor autor; // Relação 1:N (um autor para vários livros)
+    private String autor;
+    private String categoria;
 
     public Livro() {
     }
 
-    public Livro(int id, String titulo, String isbn, double preco, int anoPublicacao, Autor autor) {
+    public Livro(int id, String titulo, String isbn, double preco, int anoPublicacao, String autor) {
         this.id = id;
         this.titulo = titulo;
         this.isbn = isbn;
         this.preco = preco;
         this.anoPublicacao = anoPublicacao;
         this.autor = autor;
+        this.categoria = categoria;
     }
 
     public int getId() {
@@ -61,12 +63,20 @@ public class Livro {
         this.anoPublicacao = anoPublicacao;
     }
 
-    public Autor getAutor() {
+    public String getAutor() {
         return autor;
     }
 
-    public void setAutor(Autor autor) {
+    public void setAutor(String autor) {
         this.autor = autor;
+    }
+
+    public String getCategotia() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     @Override
