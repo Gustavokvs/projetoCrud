@@ -1,6 +1,5 @@
 package view;
 
-import controller.ClienteController;
 import controller.LivroController;
 import javax.swing.JOptionPane;
 import model.Livro;

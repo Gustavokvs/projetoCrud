@@ -30,6 +30,10 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
     ClienteController controller = new ClienteController();
     Cliente cl = new Cliente();
 
+    FrAltCadUsuario(Object object, boolean rootPaneCheckingEnabled, int Id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public void gravarCliente() {
         // Cria o objeto Cliente
         Cliente cliente = new Cliente();

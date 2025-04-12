@@ -34,7 +34,6 @@ public class FrMenu extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         barMenu = new javax.swing.JMenuBar();
         meCadastro = new javax.swing.JMenu();
-        miClienteNovo = new javax.swing.JMenuItem();
         miAltCadCliente = new javax.swing.JMenuItem();
         miLivros = new javax.swing.JMenuItem();
         miFuncionarios = new javax.swing.JMenuItem();
@@ -43,14 +42,21 @@ public class FrMenu extends javax.swing.JFrame {
         miRegistarVenda = new javax.swing.JMenuItem();
         miConsultarVenda = new javax.swing.JMenuItem();
         meEstoque = new javax.swing.JMenu();
-        miAtuEstoque = new javax.swing.JMenuItem();
-        miListarEstoque = new javax.swing.JMenuItem();
+        miAltCliente = new javax.swing.JMenuItem();
+        miAltLivro = new javax.swing.JMenuItem();
+        miAltCategoria = new javax.swing.JMenuItem();
+        miAltVenda = new javax.swing.JMenuItem();
         meRelatorios = new javax.swing.JMenu();
         miReDeVenda = new javax.swing.JMenuItem();
         miReDeEstoque = new javax.swing.JMenuItem();
         miHisDoCliente = new javax.swing.JMenuItem();
         meSobre = new javax.swing.JMenu();
         miInformações = new javax.swing.JMenuItem();
+        meSobre1 = new javax.swing.JMenu();
+        miConCliente = new javax.swing.JMenuItem();
+        miInformações2 = new javax.swing.JMenuItem();
+        miInformações3 = new javax.swing.JMenuItem();
+        miInformações4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,15 +73,7 @@ public class FrMenu extends javax.swing.JFrame {
 
         meCadastro.setText("Cadastro");
 
-        miClienteNovo.setText("Cliente Novo");
-        miClienteNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miClienteNovoActionPerformed(evt);
-            }
-        });
-        meCadastro.add(miClienteNovo);
-
-        miAltCadCliente.setText("Alterar Dados Cliente");
+        miAltCadCliente.setText("Cliente");
         miAltCadCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 miAltCadClienteActionPerformed(evt);
@@ -129,23 +127,39 @@ public class FrMenu extends javax.swing.JFrame {
 
         barMenu.add(meVendas);
 
-        meEstoque.setText("Estoque");
+        meEstoque.setText("Alterar");
 
-        miAtuEstoque.setText("Atualizar Estoque");
-        miAtuEstoque.addActionListener(new java.awt.event.ActionListener() {
+        miAltCliente.setText("Dados de Clientes");
+        miAltCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miAtuEstoqueActionPerformed(evt);
+                miAltClienteActionPerformed(evt);
             }
         });
-        meEstoque.add(miAtuEstoque);
+        meEstoque.add(miAltCliente);
 
-        miListarEstoque.setText("Listar Estoque");
-        miListarEstoque.addActionListener(new java.awt.event.ActionListener() {
+        miAltLivro.setText("Dados de Livros");
+        miAltLivro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miListarEstoqueActionPerformed(evt);
+                miAltLivroActionPerformed(evt);
             }
         });
-        meEstoque.add(miListarEstoque);
+        meEstoque.add(miAltLivro);
+
+        miAltCategoria.setText("Dados de Categoria");
+        miAltCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAltCategoriaActionPerformed(evt);
+            }
+        });
+        meEstoque.add(miAltCategoria);
+
+        miAltVenda.setText("Dados de Venda");
+        miAltVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAltVendaActionPerformed(evt);
+            }
+        });
+        meEstoque.add(miAltVenda);
 
         barMenu.add(meEstoque);
 
@@ -179,6 +193,42 @@ public class FrMenu extends javax.swing.JFrame {
 
         barMenu.add(meSobre);
 
+        meSobre1.setText("Consultar");
+
+        miConCliente.setText("Clientes");
+        miConCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miConClienteActionPerformed(evt);
+            }
+        });
+        meSobre1.add(miConCliente);
+
+        miInformações2.setText("Livros");
+        miInformações2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miInformações2ActionPerformed(evt);
+            }
+        });
+        meSobre1.add(miInformações2);
+
+        miInformações3.setText("Categorias");
+        miInformações3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miInformações3ActionPerformed(evt);
+            }
+        });
+        meSobre1.add(miInformações3);
+
+        miInformações4.setText("Vendas");
+        miInformações4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miInformações4ActionPerformed(evt);
+            }
+        });
+        meSobre1.add(miInformações4);
+
+        barMenu.add(meSobre1);
+
         setJMenuBar(barMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,17 +250,9 @@ public class FrMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    private void miClienteNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miClienteNovoActionPerformed
-        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrCadUsuario telaCadastro = new FrCadUsuario(this, rootPaneCheckingEnabled);
-
-        //tornou a tela visivel
-        telaCadastro.setVisible(true);
-    }//GEN-LAST:event_miClienteNovoActionPerformed
-
     private void miAltCadClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAltCadClienteActionPerformed
         //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrAltCadUsuario telaAlt = new FrAltCadUsuario (this, rootPaneCheckingEnabled);
+        FrCadUsuario telaAlt = new FrCadUsuario (this, rootPaneCheckingEnabled);
 
         //tornou a tela visivel
         telaAlt.setVisible(true);
@@ -233,11 +275,7 @@ public class FrMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_miFuncionariosActionPerformed
 
     private void miRegistarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRegistarVendaActionPerformed
-        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrCadVenda telaCadastro = new FrCadVenda (this, rootPaneCheckingEnabled);
-
-        //tornou a tela visivel
-        telaCadastro.setVisible(true);  
+ 
     }//GEN-LAST:event_miRegistarVendaActionPerformed
 
     private void miConsultarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConsultarVendaActionPerformed
@@ -245,28 +283,20 @@ public class FrMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_miConsultarVendaActionPerformed
 
     private void miReDeVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miReDeVendaActionPerformed
-        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrRelatorioVendas telaRelatorio = new FrRelatorioVendas (this, rootPaneCheckingEnabled);
 
-        //tornou a tela visivel
-        telaRelatorio.setVisible(true);  
     }//GEN-LAST:event_miReDeVendaActionPerformed
 
-    private void miAtuEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAtuEstoqueActionPerformed
+    private void miAltClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAltClienteActionPerformed
        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrAltFuncionario telaAlterar = new FrAltFuncionario (this, rootPaneCheckingEnabled);
+        FrAltCadUsuario telaAlterar = new FrAltCadUsuario (this, rootPaneCheckingEnabled);
 
         //tornou a tela visivel
         telaAlterar.setVisible(true);  
-    }//GEN-LAST:event_miAtuEstoqueActionPerformed
+    }//GEN-LAST:event_miAltClienteActionPerformed
 
-    private void miListarEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarEstoqueActionPerformed
-        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrEstoque telaRelatorio = new FrEstoque (this, rootPaneCheckingEnabled);
+    private void miAltLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAltLivroActionPerformed
 
-        //tornou a tela visivel
-        telaRelatorio.setVisible(true);  
-    }//GEN-LAST:event_miListarEstoqueActionPerformed
+    }//GEN-LAST:event_miAltLivroActionPerformed
 
     private void miInformaçõesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInformaçõesActionPerformed
        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
@@ -277,8 +307,36 @@ public class FrMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_miInformaçõesActionPerformed
 
     private void miCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCategoriasActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_miCategoriasActionPerformed
+
+    private void miAltCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAltCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miAltCategoriaActionPerformed
+
+    private void miAltVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAltVendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miAltVendaActionPerformed
+
+    private void miConClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConClienteActionPerformed
+        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
+        FrConCliente telaCategoria = new FrConCliente (this, rootPaneCheckingEnabled);
+
+        //tornou a tela visivel
+        telaCategoria.setVisible(true); 
+    }//GEN-LAST:event_miConClienteActionPerformed
+
+    private void miInformações2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInformações2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miInformações2ActionPerformed
+
+    private void miInformações3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInformações3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miInformações3ActionPerformed
+
+    private void miInformações4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInformações4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miInformações4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -322,16 +380,22 @@ public class FrMenu extends javax.swing.JFrame {
     private javax.swing.JMenu meEstoque;
     private javax.swing.JMenu meRelatorios;
     private javax.swing.JMenu meSobre;
+    private javax.swing.JMenu meSobre1;
     private javax.swing.JMenu meVendas;
     private javax.swing.JMenuItem miAltCadCliente;
-    private javax.swing.JMenuItem miAtuEstoque;
+    private javax.swing.JMenuItem miAltCategoria;
+    private javax.swing.JMenuItem miAltCliente;
+    private javax.swing.JMenuItem miAltLivro;
+    private javax.swing.JMenuItem miAltVenda;
     private javax.swing.JMenuItem miCategorias;
-    private javax.swing.JMenuItem miClienteNovo;
+    private javax.swing.JMenuItem miConCliente;
     private javax.swing.JMenuItem miConsultarVenda;
     private javax.swing.JMenuItem miFuncionarios;
     private javax.swing.JMenuItem miHisDoCliente;
     private javax.swing.JMenuItem miInformações;
-    private javax.swing.JMenuItem miListarEstoque;
+    private javax.swing.JMenuItem miInformações2;
+    private javax.swing.JMenuItem miInformações3;
+    private javax.swing.JMenuItem miInformações4;
     private javax.swing.JMenuItem miLivros;
     private javax.swing.JMenuItem miReDeEstoque;
     private javax.swing.JMenuItem miReDeVenda;
