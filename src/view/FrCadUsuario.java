@@ -207,6 +207,7 @@ public class FrCadUsuario extends javax.swing.JDialog {
 
         String nome = edtNome.getText().trim();
         String email = edtEmail.getText().trim();
+        String telefone = edtTelefone.getText().trim();
         String dataNascimento = edtDataNasc.getText().trim();
         boolean ativo = chkAtivo.isSelected();
 

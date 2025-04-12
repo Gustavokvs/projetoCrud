@@ -243,6 +243,7 @@ public class FrConCliente extends javax.swing.JDialog {
                 usu.getId(), //coluna 0
                 usu.getNome(), //coluna 1
                 usu.getEmail(), //coluna 2
+                usu.getTelefone(),
                 Utils.converterDateToString(usu.getDataNascimento()), //coluna 3
                 usu.ativoToString() //coluna 4
             };

@@ -7,10 +7,16 @@ package view;
 
 import controller.VendaController;
 import java.sql.PreparedStatement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Cliente;
 import model.Livro;
+import model.Venda;
 
 /**
  *
@@ -154,30 +160,45 @@ public class FrCadVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarMouseClicked
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
-   String codigoLivro = edtCodLivro.getText();
-    String cliente = edtCliente.getText();
-    String data = edtData.getText();
-    int quantidade;
+  
+          salvar();
+        
+    }//GEN-LAST:event_btnSalvarMouseClicked
 
-    try {
-        quantidade = Integer.parseInt(edtQuantidade.getText());
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Quantidade inválida.");
-        return;
-    }
     
-
-    try {
-        String sql = "INSERT INTO venda (codigo_livro, cliente, data, quantidade) VALUES (?, ?, ?, ?)";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, codigoLivro);
-        stmt.setString(2, cliente);
-        stmt.setString(3, data);
-        stmt.setInt(4, quantidade);
-
-        int linhasAfetadas = stmt.executeUpdate();
-
-        if (linhasAfetadas > 0) {
+    
+    public void salvar(){
+        try {                                       
+        String codigoLivro = edtCodLivro.getText();
+        String cliente = edtCliente.getText();
+        String data = edtData.getText();
+        int quantidade;
+        
+        try {
+            quantidade = Integer.parseInt(edtQuantidade.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Quantidade inválida.");
+            return;
+        }
+        
+        java.sql.Date dataConvertida;
+        java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(data);
+        dataConvertida = new java.sql.Date(utilDate.getTime());
+        
+        VendaController controller = new VendaController();
+        
+        Cliente c = new Cliente();
+        c.setNome(cliente);
+        
+        Livro livro = new Livro();
+        livro.setId(Integer.parseInt(codigoLivro));
+        List<Livro> livros = new ArrayList<>();
+        livros.add(livro);
+        
+        Venda venda = controller.criarVenda(c, livros, quantidade);
+        venda.setDataVenda(dataConvertida);
+        
+        if (controller.inserir(venda)) {
             JOptionPane.showMessageDialog(this, "Venda cadastrada com sucesso!");
             edtCodLivro.setText("");
             edtCliente.setText("");
@@ -186,18 +207,12 @@ public class FrCadVenda extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao cadastrar venda.");
         }
-
-        stmt.close();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Erro ao salvar venda: " + e.getMessage());
         
+    } catch (ParseException ex) { 
+    Logger.getLogger(FrCadVenda.class.getName()).log(Level.SEVERE, null, ex);
+}
     }
 
-        
-
-      
-        
-    }//GEN-LAST:event_btnSalvarMouseClicked
 
     /**
      * @param args the command line arguments

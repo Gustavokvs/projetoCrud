@@ -5,6 +5,8 @@
  */
 package view;
 
+import view.FrAltCadUsuario;
+
 /**
  *
  * @author thain
@@ -16,10 +18,9 @@ public class FrMenu extends javax.swing.JFrame {
      */
     public FrMenu() {
         initComponents();
-
-
+        
         this.setLocationRelativeTo(null);
-
+        
     }
 
     /**
@@ -249,10 +250,10 @@ public class FrMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+
     private void miAltCadClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAltCadClienteActionPerformed
         //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrCadUsuario telaAlt = new FrCadUsuario (this, rootPaneCheckingEnabled);
+        FrCadUsuario telaAlt = new FrCadUsuario(this, rootPaneCheckingEnabled);
 
         //tornou a tela visivel
         telaAlt.setVisible(true);
@@ -260,22 +261,22 @@ public class FrMenu extends javax.swing.JFrame {
 
     private void miLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miLivrosActionPerformed
         //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrCadLivros telaCadastro = new FrCadLivros (this, rootPaneCheckingEnabled);
+        FrCadLivros telaCadastro = new FrCadLivros(this, rootPaneCheckingEnabled);
 
         //tornou a tela visivel
-        telaCadastro.setVisible(true);          
+        telaCadastro.setVisible(true);
     }//GEN-LAST:event_miLivrosActionPerformed
 
     private void miFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miFuncionariosActionPerformed
         //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrCadFuncionario telaCadastro = new FrCadFuncionario (this, rootPaneCheckingEnabled);
+        FrCadFuncionario telaCadastro = new FrCadFuncionario(this, rootPaneCheckingEnabled);
 
         //tornou a tela visivel
-        telaCadastro.setVisible(true);             
+        telaCadastro.setVisible(true);
     }//GEN-LAST:event_miFuncionariosActionPerformed
 
     private void miRegistarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRegistarVendaActionPerformed
- 
+
     }//GEN-LAST:event_miRegistarVendaActionPerformed
 
     private void miConsultarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConsultarVendaActionPerformed
@@ -287,11 +288,10 @@ public class FrMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_miReDeVendaActionPerformed
 
     private void miAltClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAltClienteActionPerformed
-       //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrAltCadUsuario telaAlterar = new FrAltCadUsuario (this, rootPaneCheckingEnabled);
-
+        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
+        FrAltCadUsuario telaAlterar = new FrAltCadUsuario(this, rootPaneCheckingEnabled, WIDTH);
         //tornou a tela visivel
-        telaAlterar.setVisible(true);  
+        telaAlterar.setVisible(true);
     }//GEN-LAST:event_miAltClienteActionPerformed
 
     private void miAltLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAltLivroActionPerformed
@@ -299,11 +299,11 @@ public class FrMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_miAltLivroActionPerformed
 
     private void miInformaçõesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInformaçõesActionPerformed
-       //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrInformacoes telaInformacoes = new FrInformacoes (this, rootPaneCheckingEnabled);
+        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
+        FrInformacoes telaInformacoes = new FrInformacoes(this, rootPaneCheckingEnabled);
 
         //tornou a tela visivel
-        telaInformacoes.setVisible(true); 
+        telaInformacoes.setVisible(true);
     }//GEN-LAST:event_miInformaçõesActionPerformed
 
     private void miCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCategoriasActionPerformed
@@ -320,10 +320,10 @@ public class FrMenu extends javax.swing.JFrame {
 
     private void miConClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConClienteActionPerformed
         //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
-        FrConCliente telaCategoria = new FrConCliente (this, rootPaneCheckingEnabled);
+        FrConCliente telaCategoria = new FrConCliente(this, rootPaneCheckingEnabled);
 
         //tornou a tela visivel
-        telaCategoria.setVisible(true); 
+        telaCategoria.setVisible(true);
     }//GEN-LAST:event_miConClienteActionPerformed
 
     private void miInformações2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInformações2ActionPerformed

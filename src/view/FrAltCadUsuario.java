@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -17,16 +17,19 @@ import utils.Utils;
  */
 public class FrAltCadUsuario extends javax.swing.JDialog {
 
+    private int id;
+
     /**
      * Creates new form FrAltCadUsuario
      */
-    public FrAltCadUsuario(java.awt.Frame parent, boolean modal) {
+    public FrAltCadUsuario(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
-
         this.setLocationRelativeTo(null);
+        this.id = id; // salva o id recebido
+        carregarCliente(); // carrega os dados no formulário
     }
-    
+
     ClienteController controller = new ClienteController();
     Cliente cl = new Cliente();
 
@@ -40,16 +43,18 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
         ClienteController controller = new ClienteController();
 
         // Preenche os dados do cliente capturados do formulário
-        cliente.setNome(edtNome.getText().trim()); // Captura o nome do cliente
-        cliente.setEmail(edtTelefone.getText().trim()); // Captura o email
-        cliente.setDataNascimento(Utils.converterStringToDate(edtDataNasc.getText().trim())); // Captura e converte a data de nascimento
-        cliente.setAtivo(chkAtivo.isSelected()); // Captura o estado ativo/inativo
+        cliente.setId(this.id); // <- IMPORTANTE: definir o id para que seja atualizado
+        cliente.setNome(edtNome.getText().trim());
+        cliente.setEmail(edtEmail.getText().trim()); // <- Corrigido aqui
+        cliente.setTelefone(edtTelefone.getText().trim()); // <- Adicionado caso exista campo telefone no modelo
+        cliente.setDataNascimento(Utils.converterStringToDate(edtDataNasc.getText().trim()));
+        cliente.setAtivo(chkAtivo.isSelected());
 
-        // Chama o método do controlador para inserir o cliente
-        if (controller.inserir(cliente)) {
-            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+        // Atualiza o cliente no banco de dados
+        if (controller.atualizar(cliente)) {
+            JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso!");
         } else {
-            JOptionPane.showMessageDialog(null, "Erro: Cliente não pôde ser cadastrado.");
+            JOptionPane.showMessageDialog(null, "Erro: Cliente não pôde ser atualizado.");
         }
     }
 
@@ -62,7 +67,8 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
         String codigo = String.valueOf(cliente.getId()); // Converte o ID para String
         edtCodigo.setText(codigo); // Campo para o código/ID
         edtNome.setText(cliente.getNome()); // Nome do cliente
-        edtTelefone.setText(cliente.getEmail()); // Email do cliente
+        edtEmail.setText((cliente.getEmail()));
+        edtTelefone.setText(cliente.getTelefone()); // Telefone do cliente
         edtDataNasc.setText(Utils.converterDateToString(cliente.getDataNascimento())); // Converte a data de nascimento para String
         chkAtivo.setSelected(cliente.isAtivo()); // Define o estado ativo/inativo
     }
@@ -132,38 +138,44 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnVoltar)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblDataNasc)
-                                .addComponent(lblEmail)
-                                .addComponent(edtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(edtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(chkAtivo)
-                                .addComponent(lblNome)
-                                .addComponent(lblTelefone)
-                                .addComponent(edtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(79, 79, 79)
-                                .addComponent(btnSalvar))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
-                                .addGap(9, 9, 9)))
-                        .addComponent(edtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(lblTitulo)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGap(127, 127, 127)
+                .addComponent(lblTitulo))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(edtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(51, 51, 51)
+                .addComponent(lblNome)
+                .addGap(178, 178, 178)
+                .addComponent(jLabel1)
+                .addGap(9, 9, 9)
+                .addComponent(edtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(edtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(lblEmail))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(edtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(lblTelefone))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(edtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(lblDataNasc))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(edtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(chkAtivo))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(101, 101, 101)
+                .addComponent(btnVoltar)
+                .addGap(79, 79, 79)
+                .addComponent(btnSalvar))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,31 +183,33 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
                 .addGap(28, 28, 28)
                 .addComponent(lblTitulo)
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(edtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNome))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNome)
+                            .addComponent(jLabel1))))
+                .addGap(6, 6, 6)
                 .addComponent(edtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(lblEmail)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(edtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(lblTelefone)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addComponent(edtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDataNasc)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
+                .addComponent(edtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(lblDataNasc)
+                .addGap(12, 12, 12)
+                .addComponent(edtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
                 .addComponent(chkAtivo)
                 .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnVoltar)
-                    .addComponent(btnSalvar))
-                .addGap(37, 37, 37))
+                    .addComponent(btnSalvar)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -214,21 +228,21 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void edtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edtNomeActionPerformed
-
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
         if (verificarCampos()) {
             gravarCliente();
         }
-
     }//GEN-LAST:event_btnSalvarMouseClicked
+
+    private void edtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtNomeActionPerformed
 
     public boolean verificarCampos() {
 
         String nome = edtNome.getText().trim();
-        String email = edtTelefone.getText().trim();
+        String email = edtEmail.getText().trim();  // capturamos o e-mail do campo correto
+        String telefone = edtTelefone.getText().trim();  // pegamos o telefone
         String dataNascimento = edtDataNasc.getText().trim();
         boolean ativo = chkAtivo.isSelected();
 
@@ -252,6 +266,16 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
             return false;
         }
 
+        // Validação do Telefone
+        if (telefone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "O campo 'Telefone' está em branco.");
+            return false;
+        }
+        if (!telefone.matches("^\\+?\\d{10,15}$")) {
+            JOptionPane.showMessageDialog(this, "Telefone inválido! Use apenas números (com ou sem o código do país) e de 10 a 15 dígitos.");
+            return false;
+        }
+
         // Validação da Data de Nascimento
         if (dataNascimento.isEmpty()) {
             JOptionPane.showMessageDialog(this, "O campo 'Data de Nascimento' está em branco.");
@@ -262,7 +286,7 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
             return false;
         }
 
-        // Validação extra (opcional)
+        // Mensagem de validação (opcional)
         JOptionPane.showMessageDialog(this, "Todos os campos estão validados com sucesso!");
         return true; // Se todos os campos forem válidos
     }
@@ -297,7 +321,8 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrAltCadUsuario dialog = new FrAltCadUsuario(new javax.swing.JFrame(), true);
+                FrAltCadUsuario dialog = new FrAltCadUsuario(new javax.swing.JFrame(), true, 1); // exemplo com id = 1
+
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
