@@ -126,6 +126,11 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
         jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 98, 181, -1));
 
         btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 382, -1, -1));
 
         btnSalvar.setText("Salvar");
@@ -176,6 +181,10 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
     private void edtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_edtNomeActionPerformed
+
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnVoltarActionPerformed
 
     public boolean verificarCampos() {
 

@@ -16,7 +16,7 @@ public class ProjetoCrud {
     public static void main(String[] args) {
         // Instanciando um objeto Autor
         Autor autor = new Autor();
-        autor.setNome("J.K. Rowling");
+        autor.setNome("Machado de assis");
 
         // Criando uma instância do controlador AutorController
         AutorController autorController = new AutorController();

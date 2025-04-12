@@ -69,6 +69,11 @@ public class FrCadLivros extends javax.swing.JDialog {
                 btnSalvarMouseClicked(evt);
             }
         });
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         edtTitulo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,7 +189,7 @@ public class FrCadLivros extends javax.swing.JDialog {
     }//GEN-LAST:event_edtTituloActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVoltarMouseClicked
@@ -193,9 +198,12 @@ public class FrCadLivros extends javax.swing.JDialog {
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
 
+    }//GEN-LAST:event_btnSalvarMouseClicked
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         verificarCampos();
         gravar();
-    }//GEN-LAST:event_btnSalvarMouseClicked
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
     public void gravar() {
         // Pegando os valores dos campos de entrada
@@ -245,94 +253,85 @@ public class FrCadLivros extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "O cadastro do livro não foi gravado");
         }
 
-        l1.setCategoria(edtCategoria.getText());
-
-        // Verificando se a inserção foi bem-sucedida
-        if (controller.inserir(l1)) {
-            JOptionPane.showMessageDialog(null, "Livro gravado com sucesso");
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "O cadastro do livro não foi gravado");
-        }
     }
 
-  public boolean verificarCampos() {
-    String titulo = edtTitulo.getText().trim();
-    String isbn = edtIsbn.getText().trim();
-    String autor = edtAutor.getText().trim();
-    String categoria = edtCategoria.getText().trim();
-    String precoStr = edtPreco.getText().trim();
-    String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
+    public boolean verificarCampos() {
+        String titulo = edtTitulo.getText().trim();
+        String isbn = edtIsbn.getText().trim();
+        String autor = edtAutor.getText().trim();
+        String categoria = edtCategoria.getText().trim();
+        String precoStr = edtPreco.getText().trim();
+        String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
 
-    if (titulo.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "O campo 'Título' está vazio.");
-        return false;
-    }
-
-    if (isbn.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "O campo 'ISBN' está vazio.");
-        return false;
-    }
-    if (!isbn.matches("^\\d{10}|\\d{13}$")) {
-        JOptionPane.showMessageDialog(null, "ISBN inválido! Use o formato de 10 ou 13 dígitos.");
-        return false;
-    }
-
-    if (autor.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "O campo 'Autor' está vazio.");
-        return false;
-    }
-
-    try {
-        // Verificando se o ID do autor é numérico
-        int idAutor = Integer.parseInt(autor);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "ID do autor inválido. Use um número.");
-        return false;
-    }
-
-    if (categoria.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "O campo 'Categoria' está vazio.");
-        return false;
-    }
-
-    if (!categoria.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
-        JOptionPane.showMessageDialog(null, "Categoria inválida! Use o formato somente com letras.");
-        return false;
-    }
-
-    if (precoStr.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "O campo 'Preço' está vazio.");
-        return false;
-    }
-    try {
-        double preco = Double.parseDouble(precoStr);
-        if (preco <= 0) {
-            JOptionPane.showMessageDialog(null, "Preço inválido! Deve ser maior que zero.");
+        if (titulo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Título' está vazio.");
             return false;
         }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Preço inválido! Use um número válido.");
-        return false;
-    }
 
-    if (anoPublicacaoStr.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "O campo 'Ano de Publicação' está vazio.");
-        return false;
-    }
-    try {
-        int anoPublicacao = Integer.parseInt(anoPublicacaoStr);
-        if (anoPublicacao < 1000 || anoPublicacao > 2900) {
-            JOptionPane.showMessageDialog(null, "Ano de Publicação inválido! Deve ser um ano válido.");
+        if (isbn.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'ISBN' está vazio.");
             return false;
         }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Ano de Publicação inválido! Use um número válido.");
-        return false;
-    }
+        if (!isbn.matches("^\\d{10}|\\d{13}$")) {
+            JOptionPane.showMessageDialog(null, "ISBN inválido! Use o formato de 10 ou 13 dígitos.");
+            return false;
+        }
 
-    return true;
-}
+        if (autor.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Autor' está vazio.");
+            return false;
+        }
+
+        try {
+            // Verificando se o ID do autor é numérico
+            int idAutor = Integer.parseInt(autor);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID do autor inválido. Use um número.");
+            return false;
+        }
+
+        if (categoria.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Categoria' está vazio.");
+            return false;
+        }
+
+        if (!categoria.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
+            JOptionPane.showMessageDialog(null, "Categoria inválida! Use o formato somente com letras.");
+            return false;
+        }
+
+        if (precoStr.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Preço' está vazio.");
+            return false;
+        }
+        try {
+            double preco = Double.parseDouble(precoStr);
+            if (preco <= 0) {
+                JOptionPane.showMessageDialog(null, "Preço inválido! Deve ser maior que zero.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Preço inválido! Use um número válido.");
+            return false;
+        }
+
+        if (anoPublicacaoStr.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Ano de Publicação' está vazio.");
+            return false;
+        }
+        try {
+            int anoPublicacao = Integer.parseInt(anoPublicacaoStr);
+            if (anoPublicacao < 1000 || anoPublicacao > 2900) {
+                JOptionPane.showMessageDialog(null, "Ano de Publicação inválido! Deve ser um ano válido.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Ano de Publicação inválido! Use um número válido.");
+            return false;
+        }
+
+        return true;
+    }
 
     public static void main(String args[]) {
 
