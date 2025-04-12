@@ -95,9 +95,9 @@ public class LivroController {
 
     public List<String> buscarGenerosDoLivro(int idLivro) {
         GerenciadorConexao conexao = new GerenciadorConexao();
-        String sql = "SELECT g.nome FROM genero g " +
-                     "INNER JOIN livro_genero lg ON g.id = lg.id_genero " +
-                     "WHERE lg.id_livro = ?";
+        String sql = "SELECT g.nome FROM genero g "
+                + "INNER JOIN livro_genero lg ON g.id = lg.id_genero "
+                + "WHERE lg.id_livro = ?";
         PreparedStatement comando = conexao.prepararComando(sql);
         ResultSet resultado = null;
         List<String> generos = new ArrayList<>();

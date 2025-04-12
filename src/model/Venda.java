@@ -1,11 +1,12 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Venda {
 
     private int id;
-    private Livro livro;
+    private List<Livro> livro;
     private Cliente cliente;
     private Date dataVenda;
     private int quantidade;
@@ -15,7 +16,7 @@ public class Venda {
 
     public Venda(int id, Livro livro, Cliente cliente, Date dataVenda, int quantidade) {
         this.id = id;
-        this.livro = livro;
+        this.livro = (List<Livro>) livro;
         this.cliente = cliente;
         this.dataVenda = dataVenda;
         this.quantidade = quantidade;
@@ -29,12 +30,12 @@ public class Venda {
         this.id = id;
     }
 
-    public Livro getLivro() {
+    public List<Livro> getLivros() {
         return livro;
     }
 
-    public void setLivro(Livro livro) {
-        this.livro = livro;
+    public void setLivros(List<Livro>livros) {
+        this.livro = (List<Livro>) livro;
     }
 
     public Cliente getCliente() {

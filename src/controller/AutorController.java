@@ -1,21 +1,19 @@
 package controller;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import model.Genero;
+import model.Autor;
 
-public class GeneroController {
+public class AutorController {
 
-    // Método para inserir um gênero no banco de dados
-    public boolean inserir(Genero genero) {
-        String sql = "INSERT INTO genero (nome) VALUES (?)";
+    // Método para inserir um autor no banco de dados
+    public boolean inserir(Autor autor) {
+        String sql = "INSERT INTO autor (nome) VALUES (?)";
         GerenciadorConexao conexao = new GerenciadorConexao();
         PreparedStatement comando = conexao.prepararComando(sql);
 
         try {
-            comando.setString(1, genero.getNome());
+            comando.setString(1, autor.getNome());
             comando.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -26,15 +24,15 @@ public class GeneroController {
         }
     }
 
-    // Método para atualizar um gênero
-    public boolean atualizar(Genero genero) {
-        String sql = "UPDATE genero SET nome = ? WHERE id = ?";
+    // Método para atualizar um autor
+    public boolean atualizar(Autor autor) {
+        String sql = "UPDATE autor SET nome = ? WHERE id = ?";
         GerenciadorConexao conexao = new GerenciadorConexao();
         PreparedStatement comando = conexao.prepararComando(sql);
 
         try {
-            comando.setString(1, genero.getNome());
-            comando.setInt(2, genero.getId());
+            comando.setString(1, autor.getNome());
+            comando.setInt(2, autor.getId());
             comando.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -45,9 +43,9 @@ public class GeneroController {
         }
     }
 
-    // Método para excluir um gênero
+    // Método para excluir um autor
     public boolean excluir(int id) {
-        String sql = "DELETE FROM genero WHERE id = ?";
+        String sql = "DELETE FROM autor WHERE id = ?";
         GerenciadorConexao conexao = new GerenciadorConexao();
         PreparedStatement comando = conexao.prepararComando(sql);
 
@@ -63,9 +61,9 @@ public class GeneroController {
         }
     }
 
-    // Método para buscar um gênero pelo ID
-    public Genero buscarPorId(int id) {
-        String sql = "SELECT * FROM genero WHERE id = ?";
+    // Método para buscar um autor pelo ID
+    public Autor buscarPorId(int id) {
+        String sql = "SELECT * FROM autor WHERE id = ?";
         GerenciadorConexao conexao = new GerenciadorConexao();
         PreparedStatement comando = conexao.prepararComando(sql);
 
@@ -74,10 +72,10 @@ public class GeneroController {
             ResultSet resultado = comando.executeQuery();
 
             if (resultado.next()) {
-                Genero genero = new Genero();
-                genero.setId(resultado.getInt("id"));
-                genero.setNome(resultado.getString("nome"));
-                return genero;
+                return new Autor(
+                    resultado.getInt("id"),
+                    resultado.getString("nome")
+                );
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -87,20 +85,20 @@ public class GeneroController {
         return null;
     }
 
-    // Método para listar todos os gêneros
-    public ArrayList<Genero> listarTodos() {
-        String sql = "SELECT * FROM genero";
+    // Método para listar todos os autores
+    public ArrayList<Autor> listarTodos() {
+        String sql = "SELECT * FROM autor";
         GerenciadorConexao conexao = new GerenciadorConexao();
         PreparedStatement comando = conexao.prepararComando(sql);
-        ArrayList<Genero> lista = new ArrayList<>();
+        ArrayList<Autor> lista = new ArrayList<>();
 
         try {
             ResultSet resultado = comando.executeQuery();
             while (resultado.next()) {
-                Genero genero = new Genero();
-                genero.setId(resultado.getInt("id"));
-                genero.setNome(resultado.getString("nome"));
-                lista.add(genero);
+                lista.add(new Autor(
+                        resultado.getInt("id"),
+                        resultado.getString("nome")
+                ));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
