@@ -7,16 +7,18 @@ public class Cliente {
     private int id;
     private String nome;
     private String email;
+    private String telefone;
     private Date dataNascimento;
     private boolean ativo;
 
     public Cliente() {
     }
 
-    public Cliente(int id, String nome, String email, Date dataNascimento, boolean ativo) {
+    public Cliente(int id, String nome, String email, String telefone, Date dataNascimento, boolean ativo) {
         this.id = id;
         this.nome = nome;
         this.email = email;
+        this.telefone = telefone;
         this.dataNascimento = dataNascimento;
         this.ativo = ativo;
     }
@@ -43,6 +45,14 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public Date getDataNascimento() {

@@ -49,6 +49,7 @@ public class FrCadUsuario extends javax.swing.JDialog {
         edtDataNasc = new javax.swing.JFormattedTextField();
         btnSalvar = new javax.swing.JButton();
         btnVoltar = new javax.swing.JButton();
+        chkAtivo = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -88,6 +89,8 @@ public class FrCadUsuario extends javax.swing.JDialog {
             }
         });
 
+        chkAtivo.setText("Ativo");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -97,32 +100,32 @@ public class FrCadUsuario extends javax.swing.JDialog {
                 .addComponent(btnSalvar)
                 .addGap(139, 139, 139))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(175, 175, 175)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnVoltar)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(lblNome, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblEmail, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblTelefone, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(edtDataNasc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(edtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(edtEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(edtTelefone, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblDataNasc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnVoltar)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(lblNome, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblTelefone, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(edtDataNasc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(edtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(edtEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(edtTelefone, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDataNasc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(chkAtivo, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addContainerGap(258, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(164, 164, 164))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel1)
-                .addGap(43, 43, 43)
+                .addGap(33, 33, 33)
                 .addComponent(lblNome)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(edtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -138,7 +141,9 @@ public class FrCadUsuario extends javax.swing.JDialog {
                 .addComponent(lblDataNasc)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(edtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(chkAtivo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnVoltar))
@@ -185,6 +190,7 @@ public class FrCadUsuario extends javax.swing.JDialog {
 
         cl.setNome(edtNome.getText());
         cl.setEmail(edtEmail.getText());
+        cl.setTelefone(edtTelefone.getText());
         cl.setDataNascimento(utils.Utils.converterStringToDate(edtDataNasc.getText()));
         cl.setAtivo(true);
 
@@ -195,6 +201,56 @@ public class FrCadUsuario extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "O cadastro não foi gravado");
 
         }
+    }
+
+    public boolean verificarCampos() {
+
+        String nome = edtNome.getText().trim();
+        String email = edtEmail.getText().trim();
+        String dataNascimento = edtDataNasc.getText().trim();
+        boolean ativo = chkAtivo.isSelected();
+
+        // Validação do Nome
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "O campo 'Nome' está em branco.");
+            return false;
+        }
+        if (!nome.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
+            JOptionPane.showMessageDialog(this, "Nome inválido! Use apenas letras e espaços.");
+            return false;
+        }
+
+        // Validação do Email
+        if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "O campo 'Email' está em branco.");
+            return false;
+        }
+        if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+            JOptionPane.showMessageDialog(this, "E-mail inválido! Use o formato a@a.com.");
+            return false;
+        }
+
+        // Validação do Telefone
+        if (telefone.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Telefone' está vazio.");
+            return false;
+        }
+        if (!telefone.matches("^\\+?[0-9]{10,15}$")) {
+            JOptionPane.showMessageDialog(null, "Telefone inválido! Use apenas números (com ou sem o código do país) e de 10 a 15 dígitos.");
+            return false;
+        }
+
+        if (dataNascimento.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "O campo 'Data de Nascimento' está em branco.");
+            return false;
+        }
+        if (!dataNascimento.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
+            JOptionPane.showMessageDialog(this, "Data de nascimento inválida! Use o formato dd/mm/aaaa.");
+            return false;
+        }
+
+        JOptionPane.showMessageDialog(this, "Todos os campos estão validados com sucesso!");
+        return true; // Se todos os campos forem válidos
     }
 
     /**
@@ -242,6 +298,7 @@ public class FrCadUsuario extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnVoltar;
+    private javax.swing.JRadioButton chkAtivo;
     private javax.swing.JFormattedTextField edtDataNasc;
     private javax.swing.JTextField edtEmail;
     private javax.swing.JTextField edtNome;

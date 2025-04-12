@@ -13,7 +13,7 @@ public class GerenciadorConexao {
 
     private static final String URL = "jdbc:mysql://127.0.0.1:3306/livraria";
     private static final String USER = "root";
-    private static final String PASSWORD = "200567";
+    private static final String PASSWORD = "root";
 
     private Connection conexao;
 

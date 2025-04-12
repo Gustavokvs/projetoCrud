@@ -1,14 +1,20 @@
-
 package view;
+
+import controller.LivroController;
+import javax.swing.JOptionPane;
+import model.Livro;
 
 public class FrCadLivros extends javax.swing.JDialog {
 
     public FrCadLivros(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         this.setLocationRelativeTo(null);
     }
+
+    LivroController controller = new LivroController();
+    Livro l1 = new Livro();
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -78,9 +84,6 @@ public class FrCadLivros extends javax.swing.JDialog {
 
         lblPreco.setText("Preço");
 
-        edtAnoPublicacao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-
-        edtPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
         edtPreco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtPrecoActionPerformed(evt);
@@ -110,9 +113,8 @@ public class FrCadLivros extends javax.swing.JDialog {
                             .addComponent(edtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(edtCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                             .addComponent(edtIsbn)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(edtAnoPublicacao, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblAnoPublicacao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(edtAnoPublicacao)
+                            .addComponent(lblAnoPublicacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(edtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(176, 176, 176)
@@ -190,8 +192,147 @@ public class FrCadLivros extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarMouseClicked
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
-  
+
+        verificarCampos();
+        gravar();
     }//GEN-LAST:event_btnSalvarMouseClicked
+
+    public void gravar() {
+        // Pegando os valores dos campos de entrada
+        l1.setTitulo(edtTitulo.getText());
+        l1.setIsbn(edtIsbn.getText());
+
+        // Corrigindo o acesso ao campo de Preço
+        try {
+            String precoStr = edtPreco.getText().trim();
+            double preco = Double.parseDouble(precoStr);  // Converte para double
+            l1.setPreco(preco);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Preço inválido.");
+            return;
+        }
+
+        // Corrigindo o acesso ao campo de Ano de Publicação
+        try {
+            int anoPublicacao = Integer.parseInt(edtAnoPublicacao.getText().trim());  // Convertendo para int
+            l1.setAnoPublicacao(anoPublicacao);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Ano de publicação inválido.");
+            return;
+        }
+
+        // Setando o idAutor
+        try {
+            String autorStr = edtAutor.getText().trim();
+            if (autorStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O campo 'Autor' está vazio.");
+                return;
+            }
+            int idAutor = Integer.parseInt(autorStr);  // Convertendo para int
+            l1.setIdAutor(idAutor);  // Agora é int
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID do autor inválido. Use um número.");
+            return;
+        }
+
+        l1.setCategoria(edtCategoria.getText());
+
+        // Verificando se a inserção foi bem-sucedida
+        if (controller.inserir(l1)) {
+            JOptionPane.showMessageDialog(null, "Livro gravado com sucesso");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "O cadastro do livro não foi gravado");
+        }
+
+        l1.setCategoria(edtCategoria.getText());
+
+        // Verificando se a inserção foi bem-sucedida
+        if (controller.inserir(l1)) {
+            JOptionPane.showMessageDialog(null, "Livro gravado com sucesso");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "O cadastro do livro não foi gravado");
+        }
+    }
+
+  public boolean verificarCampos() {
+    String titulo = edtTitulo.getText().trim();
+    String isbn = edtIsbn.getText().trim();
+    String autor = edtAutor.getText().trim();
+    String categoria = edtCategoria.getText().trim();
+    String precoStr = edtPreco.getText().trim();
+    String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
+
+    if (titulo.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo 'Título' está vazio.");
+        return false;
+    }
+
+    if (isbn.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo 'ISBN' está vazio.");
+        return false;
+    }
+    if (!isbn.matches("^\\d{10}|\\d{13}$")) {
+        JOptionPane.showMessageDialog(null, "ISBN inválido! Use o formato de 10 ou 13 dígitos.");
+        return false;
+    }
+
+    if (autor.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo 'Autor' está vazio.");
+        return false;
+    }
+
+    try {
+        // Verificando se o ID do autor é numérico
+        int idAutor = Integer.parseInt(autor);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "ID do autor inválido. Use um número.");
+        return false;
+    }
+
+    if (categoria.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo 'Categoria' está vazio.");
+        return false;
+    }
+
+    if (!categoria.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
+        JOptionPane.showMessageDialog(null, "Categoria inválida! Use o formato somente com letras.");
+        return false;
+    }
+
+    if (precoStr.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo 'Preço' está vazio.");
+        return false;
+    }
+    try {
+        double preco = Double.parseDouble(precoStr);
+        if (preco <= 0) {
+            JOptionPane.showMessageDialog(null, "Preço inválido! Deve ser maior que zero.");
+            return false;
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Preço inválido! Use um número válido.");
+        return false;
+    }
+
+    if (anoPublicacaoStr.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo 'Ano de Publicação' está vazio.");
+        return false;
+    }
+    try {
+        int anoPublicacao = Integer.parseInt(anoPublicacaoStr);
+        if (anoPublicacao < 1000 || anoPublicacao > 2900) {
+            JOptionPane.showMessageDialog(null, "Ano de Publicação inválido! Deve ser um ano válido.");
+            return false;
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Ano de Publicação inválido! Use um número válido.");
+        return false;
+    }
+
+    return true;
+}
 
     public static void main(String args[]) {
 

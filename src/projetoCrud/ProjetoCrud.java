@@ -1,16 +1,38 @@
 package projetoCrud;
 
+import controller.AutorController;
 import javax.swing.JOptionPane;
 import model.Cliente;
 import controller.ClienteController;
 import utils.Utils;
 import controller.GerenciadorConexao;
-
+import model.Autor;
 /**
  *
  * @author gusta
  */
 public class ProjetoCrud {
+    
+    public static void main(String[] args) {
+        // Instanciando um objeto Autor
+        Autor autor = new Autor();
+        autor.setNome("J.K. Rowling");
+
+        // Criando uma instância do controlador AutorController
+        AutorController autorController = new AutorController();
+
+        // Inserindo o autor no banco de dados
+        boolean sucesso = autorController.inserir(autor);
+
+        if (sucesso) {
+            System.out.println("Autor inserido com sucesso!");
+        } else {
+            System.out.println("Erro ao inserir o autor.");
+        }
+
+        // Exibindo a instância criada
+        System.out.println("Autor: " + autor.getNome());
+    }
 
     /* public static void main(String[] args) {
 
