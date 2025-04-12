@@ -7,21 +7,23 @@ public class Livro {
     private String isbn;
     private double preco;
     private int anoPublicacao;
-    private String autor;
+    private int idAutor;
     private String categoria;
 
     public Livro() {
     }
 
-    public Livro(int id, String titulo, String isbn, double preco, int anoPublicacao, String autor) {
+    public Livro(int id, String titulo, String isbn, double preco, int anoPublicacao, int idAutor, String categoria) {
         this.id = id;
         this.titulo = titulo;
         this.isbn = isbn;
         this.preco = preco;
         this.anoPublicacao = anoPublicacao;
-        this.autor = autor;
+        this.idAutor = idAutor;
         this.categoria = categoria;
     }
+
+    // Getters e Setters
 
     public int getId() {
         return id;
@@ -63,12 +65,12 @@ public class Livro {
         this.anoPublicacao = anoPublicacao;
     }
 
-    public String getAutor() {
-        return autor;
+    public int getIdAutor() {
+        return idAutor;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setIdAutor(int idAutor) {
+        this.idAutor = idAutor;
     }
 
     public String getCategoria() {
