@@ -5,6 +5,13 @@
  */
 package view;
 
+import controller.VendaController;
+import java.sql.PreparedStatement;
+import java.util.List;
+import javax.swing.JOptionPane;
+import model.Cliente;
+import model.Livro;
+
 /**
  *
  * @author thain
@@ -147,8 +154,48 @@ public class FrCadVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarMouseClicked
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
-       
+   String codigoLivro = edtCodLivro.getText();
+    String cliente = edtCliente.getText();
+    String data = edtData.getText();
+    int quantidade;
+
+    try {
+        quantidade = Integer.parseInt(edtQuantidade.getText());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Quantidade inválida.");
+        return;
+    }
+    
+
+    try {
+        String sql = "INSERT INTO venda (codigo_livro, cliente, data, quantidade) VALUES (?, ?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, codigoLivro);
+        stmt.setString(2, cliente);
+        stmt.setString(3, data);
+        stmt.setInt(4, quantidade);
+
+        int linhasAfetadas = stmt.executeUpdate();
+
+        if (linhasAfetadas > 0) {
+            JOptionPane.showMessageDialog(this, "Venda cadastrada com sucesso!");
+            edtCodLivro.setText("");
+            edtCliente.setText("");
+            edtData.setText("");
+            edtQuantidade.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar venda.");
+        }
+
+        stmt.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Erro ao salvar venda: " + e.getMessage());
         
+    }
+
+        
+
+      
         
     }//GEN-LAST:event_btnSalvarMouseClicked
 

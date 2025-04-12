@@ -17,7 +17,7 @@ public class VendaController {
         Venda novaVenda = new Venda();
         novaVenda.setId(vendas.size()+1);
         novaVenda.setCliente(cliente);
-        novaVenda.setLivro((Livro) livros);
+        novaVenda.setLivros(livros);
         novaVenda.setQuantidade(quantidade);
         novaVenda.setDataVenda(new Date());
         
@@ -37,19 +37,12 @@ public class VendaController {
             }
         }
         return null;
-    }
-    
-    public void imprimirVendas(){
-        for(Venda venda : vendas){
-            System.out.println("Venda ID: "+venda.getId()+ " - Cliente: "+venda.getCliente().getNome()+ "- Data:"+ venda.getDataVenda());
-            System.out.println("Livros: "+ venda.getLivro());
-            
-            
-                
-            }
-        }
-    }
+    } 
     
     
+  }
 
+   
+    
+    
 
