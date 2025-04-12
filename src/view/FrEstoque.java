@@ -17,6 +17,9 @@ public class FrEstoque extends javax.swing.JDialog {
     public FrEstoque(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    
+           this.setLocationRelativeTo(null);
+    
     }
 
     /**

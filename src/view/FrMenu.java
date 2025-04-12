@@ -277,6 +277,11 @@ public class FrMenu extends javax.swing.JFrame {
 
     private void miRegistarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRegistarVendaActionPerformed
 
+        FrCadVenda telaVenda = new FrCadVenda(this, rootPaneCheckingEnabled);
+        
+        telaVenda.setVisible(true);
+        
+        
     }//GEN-LAST:event_miRegistarVendaActionPerformed
 
     private void miConsultarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConsultarVendaActionPerformed

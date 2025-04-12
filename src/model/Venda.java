@@ -1,22 +1,26 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import model.Livro;
+import model.Cliente;
 public class Venda {
 
+    
     private int id;
-    private List<Livro> livro;
+    private List<Livro> livros;
     private Cliente cliente;
     private Date dataVenda;
     private int quantidade;
 
     public Venda() {
+        this.livros = new ArrayList<>();
     }
 
-    public Venda(int id, Livro livro, Cliente cliente, Date dataVenda, int quantidade) {
+    public Venda(int id, List<Livro> livros, Cliente cliente, Date dataVenda, int quantidade) {
         this.id = id;
-        this.livro = (List<Livro>) livro;
+        this.livros = livros; // Ajuste aqui
         this.cliente = cliente;
         this.dataVenda = dataVenda;
         this.quantidade = quantidade;
@@ -31,11 +35,11 @@ public class Venda {
     }
 
     public List<Livro> getLivros() {
-        return livro;
+        return livros;
     }
 
-    public void setLivros(List<Livro>livros) {
-        this.livro = (List<Livro>) livro;
+    public void setLivros(List<Livro> livros) {
+        this.livros = livros;
     }
 
     public Cliente getCliente() {

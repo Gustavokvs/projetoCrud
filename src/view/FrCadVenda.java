@@ -30,6 +30,8 @@ public class FrCadVenda extends javax.swing.JDialog {
     public FrCadVenda(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -72,6 +74,11 @@ public class FrCadVenda extends javax.swing.JDialog {
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVoltarMouseClicked(evt);
+            }
+        });
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
             }
         });
 
@@ -160,59 +167,69 @@ public class FrCadVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarMouseClicked
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
-  
-          salvar();
-        
+
+        salvar();
+
     }//GEN-LAST:event_btnSalvarMouseClicked
 
-    
-    
-    public void salvar(){
-        try {                                       
-        String codigoLivro = edtCodLivro.getText();
-        String cliente = edtCliente.getText();
-        String data = edtData.getText();
-        int quantidade;
-        
-        try {
-            quantidade = Integer.parseInt(edtQuantidade.getText());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Quantidade inválida.");
-            return;
-        }
-        
-        java.sql.Date dataConvertida;
-        java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(data);
-        dataConvertida = new java.sql.Date(utilDate.getTime());
-        
-        VendaController controller = new VendaController();
-        
-        Cliente c = new Cliente();
-        c.setNome(cliente);
-        
-        Livro livro = new Livro();
-        livro.setId(Integer.parseInt(codigoLivro));
-        List<Livro> livros = new ArrayList<>();
-        livros.add(livro);
-        
-        Venda venda = controller.criarVenda(c, livros, quantidade);
-        venda.setDataVenda(dataConvertida);
-        
-        if (controller.inserir(venda)) {
-            JOptionPane.showMessageDialog(this, "Venda cadastrada com sucesso!");
-            edtCodLivro.setText("");
-            edtCliente.setText("");
-            edtData.setText("");
-            edtQuantidade.setText("");
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao cadastrar venda.");
-        }
-        
-    } catch (ParseException ex) { 
-    Logger.getLogger(FrCadVenda.class.getName()).log(Level.SEVERE, null, ex);
-}
-    }
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        dispose();
 
+    }//GEN-LAST:event_btnVoltarActionPerformed
+
+    public void salvar() {
+        try {
+            String codigoLivro = edtCodLivro.getText();
+            String cliente = edtCliente.getText();
+            String data = edtData.getText();
+            int quantidade;
+
+            try {
+                quantidade = Integer.parseInt(edtQuantidade.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Quantidade inválida.");
+                return;
+            }
+
+            java.sql.Date dataConvertida;
+            java.util.Date utilDate = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+            dataConvertida = new java.sql.Date(utilDate.getTime());
+
+            VendaController controller = new VendaController();
+
+            // Buscar o ID do cliente (assumindo que você tem esse dado no banco)
+            int clienteId = Integer.parseInt(cliente);  // Assumindo que cliente é o ID aqui
+
+            Cliente c = new Cliente();
+            c.setId(clienteId);  // Definir ID corretamente
+
+            Livro livro = new Livro();
+            livro.setId(Integer.parseInt(codigoLivro));
+            List<Livro> livros = new ArrayList<>();
+            livros.add(livro);
+
+            Venda venda = controller.criarVenda(c, livros, quantidade);
+            venda.setDataVenda(dataConvertida);
+
+            if (controller.inserir(venda)) {
+                // Inserir livros vendidos (venda_livro)
+                for (Livro l : livros) {
+                    controller.inserirVendaLivro(venda.getId(), l.getId()); // Criar método para inserir na tabela venda_livro
+                }
+
+                JOptionPane.showMessageDialog(this, "Venda cadastrada com sucesso!");
+                edtCodLivro.setText("");
+                edtCliente.setText("");
+                edtData.setText("");
+                edtQuantidade.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar venda.");
+            }
+
+        } catch (ParseException ex) {
+            Logger.getLogger(FrCadVenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * @param args the command line arguments
