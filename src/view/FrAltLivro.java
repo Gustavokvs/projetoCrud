@@ -147,10 +147,10 @@ public class FrAltLivro extends javax.swing.JDialog {
     }//GEN-LAST:event_edtCategoriaActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        if (verificarCampos()) {
-            salvar();
-        }
-       
+
+        salvar();
+
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -200,26 +200,24 @@ public class FrAltLivro extends javax.swing.JDialog {
     }
 
     private void salvar() {
-
         // Capturar os dados dos campos
         String titulo = edtTitulo.getText().trim();
         String isbn = edtIsbn.getText().trim();
         String precoStr = edtPreco.getText().trim();
         String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
-        String categoriaStr = edtCategoria.getText().trim();
+        String categoriaStr = edtCategoria.getText().trim(); // Agora pode ser algo como "1,2"
         String autorIdStr = edtAutorId.getText().trim();
 
         // Converter os dados para os tipos corretos
         double preco;
-        int anoPublicacao, categoriaId, autorId;
+        int anoPublicacao, autorId;
 
         try {
             preco = Double.parseDouble(precoStr);
             anoPublicacao = Integer.parseInt(anoPublicacaoStr);
-            categoriaId = Integer.parseInt(categoriaStr);
             autorId = Integer.parseInt(autorIdStr);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos válidos para preço, ano de publicação, categoria e autor.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos válidos para preço, ano de publicação e autor.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -230,10 +228,24 @@ public class FrAltLivro extends javax.swing.JDialog {
         livro.setIsbn(isbn);
         livro.setPreco(preco);
         livro.setAnoPublicacao(anoPublicacao);
-        livro.setIdGenero(categoriaId); // Corrigido para setar o ID da categoria, não o nome
         livro.setIdAutor(autorId);
 
-        // Chamar o método de atualização no controller
+        // Processar os IDs das categorias
+        String[] categorias = categoriaStr.split(",");
+        for (String categoriaIdStr : categorias) {
+            try {
+                int categoriaId = Integer.parseInt(categoriaIdStr.trim()); // Tenta converter cada ID de categoria
+                // Aqui, você pode chamar o método para atualizar o relacionamento (Tabela LivroGenero)
+                // Isso pode ser feito no controller ou diretamente no banco
+                LivroController controller = new LivroController();
+                controller.adicionarCategoriaAoLivro(livro.getId(), categoriaId); // Chamada para método que vai tratar a relação N:N
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "ID de categoria inválido: " + categoriaIdStr, "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        // Chamar o método de atualização no controller para salvar o livro
         LivroController controller = new LivroController();
         boolean sucesso = controller.atualizar(livro);
 

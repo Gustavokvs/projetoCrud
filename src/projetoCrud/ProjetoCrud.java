@@ -7,51 +7,33 @@ import controller.ClienteController;
 import utils.Utils;
 import controller.GerenciadorConexao;
 import model.Autor;
+import view.FrMenu;
+
 /**
  *
  * @author gusta
  */
 public class ProjetoCrud {
-    
+
     public static void main(String[] args) {
-        // Instanciando um objeto Autor
+        // Instancia o menu
+        FrMenu menu = new FrMenu();
+        menu.setVisible(true);
+
+        // Criação de um autor para cadastro
         Autor autor = new Autor();
-        autor.setNome("Machado de assis");
+        autor.setNome("J.K. Rowling");
 
-        // Criando uma instância do controlador AutorController
+        // Criação do controlador de autor e inserção no banco
         AutorController autorController = new AutorController();
-
-        // Inserindo o autor no banco de dados
         boolean sucesso = autorController.inserir(autor);
 
+        // Exibe uma mensagem confirmando a inserção
         if (sucesso) {
-            System.out.println("Autor inserido com sucesso!");
+            System.out.println("Autor cadastrado com sucesso!");
         } else {
-            System.out.println("Erro ao inserir o autor.");
+            System.out.println("Erro ao cadastrar autor.");
         }
-
-        // Exibindo a instância criada
-        System.out.println("Autor: " + autor.getNome());
     }
 
-    /* public static void main(String[] args) {
-
-        GerenciadorConexao conexao = new GerenciadorConexao();
-        ClienteController clienteControl = new ClienteController();
-        Cliente c = new Cliente();
-
-        c.setNome("Gustavo");
-        c.setEmail("gustavo@gmail.com");
-        c.setId(1);
-        c.setDataNascimento(Utils.converterStringToDate("18/12/2004"));
-
-        if (clienteControl.inserir(c)) {
-            JOptionPane.showMessageDialog(null, "Usuário gravado com sucesso");
-
-        } else {
-            JOptionPane.showMessageDialog(null, "O cadastro não foi gravado");
-
-        }
-
-    }*/
 }

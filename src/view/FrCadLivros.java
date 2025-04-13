@@ -1,8 +1,14 @@
 package view;
 
 import controller.LivroController;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.Livro;
+import model.Genero;
+import model.Autor;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class FrCadLivros extends javax.swing.JDialog {
 
@@ -15,6 +21,7 @@ public class FrCadLivros extends javax.swing.JDialog {
 
     LivroController controller = new LivroController();
     Livro l1 = new Livro();
+    Genero genero = new Genero();
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -206,139 +213,129 @@ public class FrCadLivros extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    public void gravar() {
-        // Pegando os valores dos campos de entrada
-        l1.setTitulo(edtTitulo.getText().trim());
-        l1.setIsbn(edtIsbn.getText().trim());
+    
+    
+  public void gravar() {
+    l1.setTitulo(edtTitulo.getText().trim());
+    l1.setIsbn(edtIsbn.getText().trim());
 
+    // Verificando e atribuindo o preço
+    double preco = getPreco();
+    if (preco == -1) {
+        return; // Se o preço for inválido, não continua a gravação
+    }
+    l1.setPreco(preco);
+
+    // Ano de publicação
+    l1.setAnoPublicacao(Integer.parseInt(edtAnoPublicacao.getText().trim()));
+
+    // ID do autor
+    l1.setIdAutor(Integer.parseInt(edtAutor.getText().trim()));
+
+    // Validação e atribuição das categorias
+    if (!validarCategorias()) {
+        return; // Se alguma categoria for inválida, não continua a gravação
+    }
+    l1.setIdsCategorias(getCategoriasList()); // Armazenando os IDs de categorias como uma lista
+
+    controller.salvar(l1);
+    JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+    limparCampos();
+}
+
+private List<Integer> getCategoriasList() {
+    String[] categorias = edtCategoria.getText().trim().split(",");
+    List<Integer> idsCategorias = new ArrayList<>();
+    for (String categoria : categorias) {
         try {
-            double preco = Double.parseDouble(edtPreco.getText().trim());
-            l1.setPreco(preco);
+            idsCategorias.add(Integer.parseInt(categoria.trim()));
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Preço inválido.");
-            return;
-        }
-
-        try {
-            int anoPublicacao = Integer.parseInt(edtAnoPublicacao.getText().trim());
-            l1.setAnoPublicacao(anoPublicacao);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Ano de publicação inválido.");
-            return;
-        }
-
-        try {
-            int idAutor = Integer.parseInt(edtAutor.getText().trim());
-            l1.setIdAutor(idAutor);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "ID do autor inválido.");
-            return;
-        }
-
-        try {
-            String categoriaStr = edtCategoria.getText().trim();
-            int idCategoria = Integer.parseInt(categoriaStr);
-            l1.setIdGenero(idCategoria); // Armazena o ID da categoria
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "ID da categoria inválido.");
-            return;
-        }
-
-        if (controller.inserir(l1)) {
-            JOptionPane.showMessageDialog(null, "Livro gravado com sucesso");
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "O cadastro do livro não foi gravado");
+            JOptionPane.showMessageDialog(null, "Categoria com ID inválido: " + categoria.trim());
+            return Collections.emptyList(); // Retorna uma lista vazia se houver erro
         }
     }
+    return idsCategorias;
+}
 
-    public boolean verificarCampos() {
-        String titulo = edtTitulo.getText().trim();
-        String isbn = edtIsbn.getText().trim();
-        String autor = edtAutor.getText().trim();
-        String categoria = edtCategoria.getText().trim();  // Agora tratado como ID do gênero
-        String precoStr = edtPreco.getText().trim();
-        String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
+public boolean verificarCampos() {
+    String titulo = edtTitulo.getText().trim();
+    String isbn = edtIsbn.getText().trim();
+    String autor = edtAutor.getText().trim();
+    String categoria = edtCategoria.getText().trim();
+    String precoStr = edtPreco.getText().trim();
+    String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
 
-        if (titulo.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Título' está vazio.");
-            return false;
-        }
+    if (titulo.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo 'Título' está vazio.");
+        return false;
+    }
 
-        if (isbn.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'ISBN' está vazio.");
-            return false;
-        }
+    if (isbn.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo 'ISBN' está vazio.");
+        return false;
+    }
 
-        if (!isbn.matches("^\\d{10}|\\d{13}$")) {
-            JOptionPane.showMessageDialog(null, "ISBN inválido! Use o formato de 10 ou 13 dígitos.");
-            return false;
-        }
+    if (!isbn.matches("^\\d{10}|\\d{13}$")) {
+        JOptionPane.showMessageDialog(null, "ISBN inválido! Use o formato de 10 ou 13 dígitos.");
+        return false;
+    }
 
-        if (autor.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Autor' está vazio.");
-            return false;
-        }
+    if (autor.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo 'Autor' está vazio.");
+        return false;
+    }
 
+    try {
+        Integer.parseInt(autor);  // Validar se o autor é um número (ID do autor)
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "ID do autor inválido. Use um número.");
+        return false;
+    }
+
+    if (categoria.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo 'Categoria' está vazio.");
+        return false;
+    }
+
+    // Validar a categoria como lista de IDs separados por vírgula
+    String[] categorias = categoria.split(",");
+    for (String idCategoria : categorias) {
+        idCategoria = idCategoria.trim(); // Remove espaços extras
         try {
-            Integer.parseInt(autor);  // Validar se o autor é um número (ID do autor)
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "ID do autor inválido. Use um número.");
-            return false;
-        }
-
-        if (categoria.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Categoria' está vazio.");
-            return false;
-        }
-
-        try {
-            int idCategoria = Integer.parseInt(categoria);  // Aqui estamos tratando o valor como um ID numérico
+            int idCategoriaInt = Integer.parseInt(idCategoria); // Converter para inteiro
 
             // Verificar se a categoria com o ID informado existe
-            if (!controller.verificarCategoria(idCategoria)) {
-                JOptionPane.showMessageDialog(null, "ID de categoria inválido! Não existe uma categoria com esse ID.");
+            if (!controller.verificarCategoria(idCategoriaInt)) {
+                JOptionPane.showMessageDialog(null, "ID de categoria " + idCategoriaInt + " inválido!");
                 return false;
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "ID da categoria inválido. Use um número.");
+            JOptionPane.showMessageDialog(null, "ID de categoria inválido: " + idCategoria);
             return false;
         }
-
-        if (precoStr.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Preço' está vazio.");
-            return false;
-        }
-
-        try {
-            double preco = Double.parseDouble(precoStr);
-            if (preco <= 0) {
-                JOptionPane.showMessageDialog(null, "Preço inválido! Deve ser maior que zero.");
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Preço inválido! Use um número válido.");
-            return false;
-        }
-
-        if (anoPublicacaoStr.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Ano de Publicação' está vazio.");
-            return false;
-        }
-
-        try {
-            int anoPublicacao = Integer.parseInt(anoPublicacaoStr);
-            if (anoPublicacao < 1000 || anoPublicacao > 2900) {
-                JOptionPane.showMessageDialog(null, "Ano de Publicação inválido! Deve ser um ano válido.");
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Ano de Publicação inválido! Use um número válido.");
-            return false;
-        }
-
-        return true;
     }
+
+    // Preço
+    if (precoStr.isEmpty() || !precoStr.matches("\\d+(\\.\\d{1,2})?")) {
+        JOptionPane.showMessageDialog(null, "O campo 'Preço' está vazio ou inválido.");
+        return false;
+    }
+
+    // Ano de publicação
+    if (anoPublicacaoStr.isEmpty() || !anoPublicacaoStr.matches("\\d{4}")) {
+        JOptionPane.showMessageDialog(null, "O campo 'Ano de Publicação' está vazio ou inválido.");
+        return false;
+    }
+
+    return true;
+}
+
+private boolean validarCategorias() {
+    List<Integer> categorias = getCategoriasList();
+    return !categorias.isEmpty(); // Verifica se a lista de categorias não está vazia
+}
+
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

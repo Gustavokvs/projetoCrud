@@ -1,21 +1,30 @@
 package model;
 
-import controller.GeneroController;
+import java.util.List;
 
 public class Livro {
 
     private int id;
     private String titulo;
-    private double preco;
-    private int idAutor;
-    private int idGenero;  // Agora armazena o id do gênero diretamente
     private String isbn;
+    private double preco;
     private int anoPublicacao;
+    private int idAutor;
+    private int estoque; // baseado no método de inserção
+    private List<Integer> idsCategorias; // id dos gêneros (categoria)
 
-    private Genero genero;  // Novo campo para armazenar a referência ao objeto Genero
-
-    // Construtor
     public Livro() {
+    }
+
+    public Livro(int id, String titulo, String isbn, double preco, int anoPublicacao, int idAutor, int estoque, List<Integer> idsCategorias) {
+        this.id = id;
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.preco = preco;
+        this.anoPublicacao = anoPublicacao;
+        this.idAutor = idAutor;
+        this.estoque = estoque;
+        this.idsCategorias = idsCategorias;
     }
 
     // Getters e Setters
@@ -35,36 +44,20 @@ public class Livro {
         this.titulo = titulo;
     }
 
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-
-    public int getIdAutor() {
-        return idAutor;
-    }
-
-    public void setIdAutor(int idAutor) {
-        this.idAutor = idAutor;
-    }
-
-    public int getIdGenero() {
-        return idGenero;
-    }
-
-    public void setIdGenero(int idGenero) {
-        this.idGenero = idGenero;
-    }
-
     public String getIsbn() {
         return isbn;
     }
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 
     public int getAnoPublicacao() {
@@ -75,45 +68,28 @@ public class Livro {
         this.anoPublicacao = anoPublicacao;
     }
 
-    public Genero getGenero() {
-        return genero;
+    public int getIdAutor() {
+        return idAutor;
     }
 
-    public void setGenero(Genero genero) {
-        if (genero != null) {
-            this.genero = genero;
-        } else {
-            System.out.println("Erro: Gênero não encontrado");
-        }
-    }
-    
-    @Override
-    public String toString() {
-        return "Livro{"
-                + "id=" + id
-                + ", titulo='" + titulo + '\''
-                + ", preco=" + preco
-                + ", idAutor=" + idAutor
-                + ", idGenero=" + idGenero
-                + ", isbn='" + isbn + '\''
-                + ", anoPublicacao=" + anoPublicacao
-                + '}';
+    public void setIdAutor(int idAutor) {
+        this.idAutor = idAutor;
     }
 
-    // Método para obter o nome da categoria
-    public String getCategoria() {
-        return genero != null ? genero.getNome() : "Categoria não definida";
+    public int getEstoque() {
+        return estoque;
     }
 
-    // Método para setar a categoria a partir de um nome
-    public void setCategoria(String categoriaStr) {
-        // Lógica para buscar o objeto Genero a partir do nome
-        GeneroController controller = new GeneroController();
-        Genero genero = controller.buscarPorNome(categoriaStr);  // Usando buscarPorNome
-        if (genero != null) {
-            this.setGenero(genero);  // Atualiza o objeto Genero e o id
-        } else {
-            this.setGenero(null);  // Ou defina como um valor padrão, caso não encontre
-        }
+    public void setEstoque(int estoque) {
+        this.estoque = estoque;
     }
+
+    public List<Integer> getIdsCategorias() {
+        return idsCategorias;
+    }
+
+    public void setIdsCategorias(List<Integer> idsCategorias) {
+        this.idsCategorias = idsCategorias;
+    }
+
 }
