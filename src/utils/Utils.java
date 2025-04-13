@@ -25,7 +25,7 @@ public class Utils {
     public static Date converterStringToDate(String texto) {
 
         //construo o formato que quero transformar o texto
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yy");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
         Date data = null;
 

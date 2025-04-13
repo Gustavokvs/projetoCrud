@@ -17,66 +17,48 @@ import model.Funcionario;
  */
 public class FrAltFuncionario extends javax.swing.JDialog {
 
-    /**
-     * Creates new form FrAltEstoque
-     */
-    public FrAltFuncionario(java.awt.Frame parent, boolean modal) {
+    private int id;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public FrAltFuncionario(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
+        setId(id);
+        carregarFuncionario();
     }
-    
-    FuncionarioController controller = new FuncionarioController();
-    Funcionario cl = new Funcionario();
-    
-    
-    public void gravarFuncionario() {
-    // Cria o objeto Funcionario
-    Funcionario funcionario = new Funcionario();
 
-    // Preenche os dados do funcionário capturados do formulário
-    funcionario.setId(Integer.parseInt(edtCodigo.getText().trim())); // Captura o ID
-    funcionario.setNome(edtNome.getText().trim()); // Nome do funcionário
-    funcionario.setCargo(edtCargo.getText().trim()); // Cargo do funcionário
-    funcionario.setEmail(edtEmail.getText().trim()); // Email do funcionário
-    funcionario.setTelefone(edtTelefone.getText().trim()); // Telefone do funcionário
-    funcionario.setAtivo(chkAtivo.isSelected()); // Estado ativo/inativo
-
-    // Instancia o controlador para salvar os dados
     FuncionarioController controller = new FuncionarioController();
 
-    // Decide entre inserir ou atualizar com base no ID
-    if (funcionario.getId() == 0) {
-        // Inserção de novo funcionário
-        if (controller.inserir(funcionario)) {
-            JOptionPane.showMessageDialog(null, "Funcionário: " + funcionario.getNome() + " gravado com sucesso!");
-            this.dispose(); // Fecha a tela
-        } else {
-            JOptionPane.showMessageDialog(null, "Erro ao gravar o funcionário!");
-        }
-    } else {
-        // Atualização de funcionário existente
+   public void gravarFuncionario() {
+        Funcionario funcionario = new Funcionario();
+
+        funcionario.setId(id);
+        funcionario.setNome(edtNome.getText().trim());
+        funcionario.setEmail(edtEmail.getText().trim());
+        funcionario.setTelefone(edtTelefone.getText().trim());
+        funcionario.setCargo(edtCargo.getText().trim());
+        funcionario.setAtivo(chkAtivo.isSelected());
+
         if (controller.atualizar(funcionario)) {
-            JOptionPane.showMessageDialog(null, "Funcionário: " + funcionario.getNome() + " atualizado com sucesso!");
-            this.dispose(); // Fecha a tela
+            JOptionPane.showMessageDialog(null, "Funcionário atualizado com sucesso!");
         } else {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar o funcionário!");
+            JOptionPane.showMessageDialog(null, "Erro: Funcionário não pôde ser atualizado.");
         }
     }
-    }
-    
-    public void carregarFuncionario() {
-    // Busca os dados do funcionário no banco
-    FuncionarioController controller = new FuncionarioController();
-    Funcionario funcionario = controller.buscarPorId(Integer.parseInt(edtCodigo.getText().trim())); // Busca pelo ID
 
-    // Preenche os campos do formulário com os dados do funcionário
-    edtCodigo.setText(String.valueOf(funcionario.getId())); // ID do funcionário
-    edtNome.setText(funcionario.getNome()); // Nome do funcionário
-    edtCargo.setText(funcionario.getCargo()); // Cargo do funcionário
-    edtEmail.setText(funcionario.getEmail()); // Email do funcionário
-    edtTelefone.setText(funcionario.getTelefone()); // Telefone do funcionário
-    chkAtivo.setSelected(funcionario.isAtivo()); // Estado ativo/inativo
-    
+    public void carregarFuncionario() {
+        Funcionario funcionario = controller.buscarPorId(id);
+
+        edtCodigo.setText(String.valueOf(funcionario.getId()));
+        edtNome.setText(funcionario.getNome());
+        edtEmail.setText(funcionario.getEmail());
+        edtTelefone.setText(funcionario.getTelefone());
+        edtCargo.setText(funcionario.getCargo());
+        chkAtivo.setSelected(funcionario.isAtivo());
     }
 
     /**
@@ -94,9 +76,8 @@ public class FrAltFuncionario extends javax.swing.JDialog {
         lblCargo = new javax.swing.JLabel();
         edtNome = new javax.swing.JTextField();
         edtCargo = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnVoltar = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
         lblCodigo = new javax.swing.JLabel();
         edtCodigo = new javax.swing.JTextField();
         lblTelefone = new javax.swing.JLabel();
@@ -172,17 +153,26 @@ public class FrAltFuncionario extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_edtNomeActionPerformed
 
-    
+    private void btnVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVoltarMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btnVoltarMouseClicked
+
+    private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
+        if (verificarCampos()) {
+            gravarFuncionario();
+        }
+    }//GEN-LAST:event_btnSalvarMouseClicked
+
     public boolean verificarCampos() {
-        // Captura os valores dos campos e remove espaços extras
+
         String nome = edtNome.getText().trim();
         String cargo = edtCargo.getText().trim();
         String email = edtEmail.getText().trim();
         String telefone = edtTelefone.getText().trim();
+        boolean ativo = chkAtivo.isSelected();
 
-        // Validação do Nome
-        if (nome.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Nome' está vazio.");
+        if (edtNome.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Nome' está em branco");
             return false;
         }
         if (!nome.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
@@ -190,15 +180,17 @@ public class FrAltFuncionario extends javax.swing.JDialog {
             return false;
         }
 
-        // Validação do Cargo
-        if (cargo.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Cargo' está vazio.");
+        if (edtCargo.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Cargo' está em branco");
+            return false;
+        }
+        if (!cargo.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
+            JOptionPane.showMessageDialog(null, "Cargo inválido! Use apenas letras e espaços.");
             return false;
         }
 
-        // Validação do Email
-        if (email.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Email' está vazio.");
+        if (edtEmail.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Email' está em branco");
             return false;
         }
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
@@ -206,19 +198,18 @@ public class FrAltFuncionario extends javax.swing.JDialog {
             return false;
         }
 
-        // Validação do Telefone
-        if (telefone.isEmpty()) {
+        if (edtTelefone.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "O campo 'Telefone' está vazio.");
             return false;
         }
-        if (!telefone.matches("^\\+?[0-9]{10,15}$")) {
-            JOptionPane.showMessageDialog(null, "Telefone inválido! Use apenas números (com ou sem código de país).");
+        if (!telefone.matches("^^[0-9]{11,12}$$")) {
+            JOptionPane.showMessageDialog(null, "Telefone inválido! Use apenas números (com o código do estado) e de 11 a 12 dígitos.");
             return false;
         }
 
-        // Se todos os campos são válidos
         return true;
     }
+
     /**
      * @param args the command line arguments
      */
@@ -250,7 +241,7 @@ public class FrAltFuncionario extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrAltFuncionario dialog = new FrAltFuncionario(new javax.swing.JFrame(), true);
+                FrAltFuncionario dialog = new FrAltFuncionario(new javax.swing.JFrame(), true, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -263,15 +254,14 @@ public class FrAltFuncionario extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnVoltar;
     private javax.swing.JRadioButton chkAtivo;
     private javax.swing.JTextField edtCargo;
     private javax.swing.JTextField edtCodigo;
     private javax.swing.JTextField edtEmail;
     private javax.swing.JTextField edtNome;
     private javax.swing.JTextField edtTelefone;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCargo;

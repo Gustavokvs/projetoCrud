@@ -65,27 +65,29 @@ public class GeneroController {
 
     // Método para buscar um gênero pelo ID
     public Genero buscarPorId(int id) {
-        String sql = "SELECT * FROM genero WHERE id = ?";
-        GerenciadorConexao conexao = new GerenciadorConexao();
-        PreparedStatement comando = conexao.prepararComando(sql);
+    String sql = "SELECT * FROM genero WHERE id = ?";
+    GerenciadorConexao conexao = new GerenciadorConexao();
+    PreparedStatement comando = conexao.prepararComando(sql);
+    
+    try {
+        comando.setInt(1, id);
+        ResultSet resultado = comando.executeQuery();
 
-        try {
-            comando.setInt(1, id);
-            ResultSet resultado = comando.executeQuery();
-
-            if (resultado.next()) {
-                Genero genero = new Genero();
-                genero.setId(resultado.getInt("id"));
-                genero.setNome(resultado.getString("nome"));
-                return genero;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            conexao.fecharConexao(comando);
+        if (resultado.next()) {
+            Genero genero = new Genero();
+            genero.setId(resultado.getInt("id"));
+            genero.setNome(resultado.getString("nome"));
+            return genero;
+        } else {
+            System.out.println("Nenhum gênero encontrado com o ID: " + id);  // Mensagem de depuração
         }
-        return null;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    } finally {
+        conexao.fecharConexao(comando);
     }
+    return null;
+}
 
     // Método para listar todos os gêneros
     public ArrayList<Genero> listarTodos() {
