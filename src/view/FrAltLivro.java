@@ -40,7 +40,8 @@ public class FrAltLivro extends javax.swing.JDialog {
         edtIsbn.setText(livro.getIsbn());
         edtPreco.setText(String.valueOf(livro.getPreco()));
         edtAnoPublicacao.setText(String.valueOf(livro.getAnoPublicacao()));
-        edtCategoria.setText(livro.getCategoria());
+        edtCategoria.setText(String.valueOf(livro.getIdGenero())); // Exibe o ID da categoria
+
         edtAutorId.setText(String.valueOf(livro.getIdAutor()));
     }
 
@@ -120,7 +121,7 @@ public class FrAltLivro extends javax.swing.JDialog {
                 edtCategoriaActionPerformed(evt);
             }
         });
-        jPanel1.add(edtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 40, -1));
+        jPanel1.add(edtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 110, -1));
         jPanel1.add(edtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 110, -1));
         jPanel1.add(edtIsbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, 170, -1));
         jPanel1.add(edtPreco, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 70, -1));
@@ -149,6 +150,7 @@ public class FrAltLivro extends javax.swing.JDialog {
         if (verificarCampos()) {
             salvar();
         }
+       
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -228,7 +230,7 @@ public class FrAltLivro extends javax.swing.JDialog {
         livro.setIsbn(isbn);
         livro.setPreco(preco);
         livro.setAnoPublicacao(anoPublicacao);
-        livro.setCategoria(categoriaStr);
+        livro.setIdGenero(categoriaId); // Corrigido para setar o ID da categoria, não o nome
         livro.setIdAutor(autorId);
 
         // Chamar o método de atualização no controller
@@ -318,7 +320,7 @@ public class FrAltLivro extends javax.swing.JDialog {
             edtIsbn.setText(livro.getIsbn());
             edtPreco.setText(String.valueOf(livro.getPreco()));
             edtAnoPublicacao.setText(String.valueOf(livro.getAnoPublicacao()));
-            edtCategoria.setText(livro.getCategoria());
+            edtCategoria.setText(String.valueOf(livro.getIdGenero())); // Exibe o ID da categoria
             edtAutorId.setText(String.valueOf(livro.getIdAutor()));
         } else {
             JOptionPane.showMessageDialog(this, "Livro não encontrado.");

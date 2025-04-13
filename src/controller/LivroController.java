@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -76,13 +77,25 @@ public class LivroController {
     }
 
     public boolean verificarCategoria(int idCategoria) {
-        GeneroController generoController = new GeneroController();  // Instancia o controller de Gênero
-        Genero genero = generoController.buscarPorId(idCategoria);  // Busca a categoria pelo ID
-
-        if (genero == null) {
-            return false;  // Retorna false se a categoria não existir
+        // Aqui você precisa garantir que a consulta está correta, como:
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        String query = "SELECT * FROM genero WHERE id = ?";
+        try (
+                PreparedStatement pst = conexao.prepararComando(query)) {
+            pst.setInt(1, idCategoria);
+            ResultSet rs = pst.executeQuery();
+            return rs.next(); // Se encontrar o gênero, retorna true
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        return true;  // Retorna true se a categoria for encontrada
+    }
+
+    public String getNomeCategoria(int idGenero) {
+        // Verifique se o idGenero é válido e busque o nome do gênero no banco de dados
+        GeneroController generoController = new GeneroController();
+        Genero genero = generoController.buscarPorId(idGenero);
+        return genero != null ? genero.getNome() : "Gênero inválido"; // Caso o gênero não seja encontrado
     }
 
     public boolean adicionarGenerosAoLivro(int idLivro, List<Integer> idsGeneros) {

@@ -201,15 +201,12 @@ public class FrCadLivros extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSalvarMouseClicked
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        verificarCampos();
-        gravar();
+        if (verificarCampos()) {
+            gravar();
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     public void gravar() {
-        if (!verificarCampos()) {
-            return;
-        }
-
         // Pegando os valores dos campos de entrada
         l1.setTitulo(edtTitulo.getText().trim());
         l1.setIsbn(edtIsbn.getText().trim());
@@ -241,8 +238,7 @@ public class FrCadLivros extends javax.swing.JDialog {
         try {
             String categoriaStr = edtCategoria.getText().trim();
             int idCategoria = Integer.parseInt(categoriaStr);
-            l1.setIdGenero(idCategoria);
-            l1.setCategoria(categoriaStr); // Apenas para exibição, pode ser o mesmo número
+            l1.setIdGenero(idCategoria); // Armazena o ID da categoria
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "ID da categoria inválido.");
             return;

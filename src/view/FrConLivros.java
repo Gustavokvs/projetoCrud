@@ -53,7 +53,7 @@ public class FrConLivros extends javax.swing.JDialog {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("CLIENTES");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, -1, -1));
 
         btnPesquisar.setText("Pesquisar");
         btnPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -66,7 +66,7 @@ public class FrConLivros extends javax.swing.JDialog {
                 btnPesquisarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
+        jPanel1.add(btnPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, -1, -1));
 
         tblLivros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -95,8 +95,17 @@ public class FrConLivros extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(tblLivros);
+        if (tblLivros.getColumnModel().getColumnCount() > 0) {
+            tblLivros.getColumnModel().getColumn(0).setResizable(false);
+            tblLivros.getColumnModel().getColumn(1).setResizable(false);
+            tblLivros.getColumnModel().getColumn(2).setResizable(false);
+            tblLivros.getColumnModel().getColumn(3).setResizable(false);
+            tblLivros.getColumnModel().getColumn(4).setResizable(false);
+            tblLivros.getColumnModel().getColumn(5).setResizable(false);
+            tblLivros.getColumnModel().getColumn(6).setResizable(false);
+        }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 540, 140));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 830, 170));
 
         btnVoltar.setText("Voltar");
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -126,11 +135,11 @@ public class FrConLivros extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
         );
 
         pack();
@@ -146,6 +155,7 @@ public class FrConLivros extends javax.swing.JDialog {
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
         alterarLivro();
+        pesquisar();
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
@@ -164,6 +174,9 @@ public class FrConLivros extends javax.swing.JDialog {
         ArrayList<Livro> listarLivros = controller.listarTodos();
 
         for (Livro liv : listarLivros) {
+            // Obtendo o nome da categoria com base no ID
+            String nomeCategoria = controller.getNomeCategoria(liv.getIdGenero()); // Método para buscar o nome da categoria
+
             Object[] linha = {
                 liv.getId(),
                 liv.getTitulo(),
@@ -171,7 +184,7 @@ public class FrConLivros extends javax.swing.JDialog {
                 liv.getPreco(),
                 liv.getAnoPublicacao(),
                 liv.getIdAutor(),
-                liv.getCategoria()
+                nomeCategoria // Exibe o nome da categoria
             };
             modeloTabela.addRow(linha); // Adiciona as linhas à tabela
         }
