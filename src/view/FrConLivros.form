@@ -76,7 +76,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="30" y="140" width="540" height="140"/>
+              <AbsoluteConstraints x="10" y="140" width="540" height="140"/>
             </Constraint>
           </Constraints>
 
@@ -92,7 +92,7 @@
                     <Column editable="false" title="Pre&#xe7;o" type="java.lang.Double"/>
                     <Column editable="false" title="Ano de publica&#xe7;&#xe3;o" type="java.lang.Integer"/>
                     <Column editable="false" title="Autor" type="java.lang.Integer"/>
-                    <Column editable="false" title="Categoria" type="java.lang.String"/>
+                    <Column editable="false" title="Categoria" type="java.lang.Integer"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

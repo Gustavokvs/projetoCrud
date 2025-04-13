@@ -4,16 +4,16 @@ public class Genero {
 
     private int id;
     private String nome;
-    private Livro livro;
-    
-    public Genero() {
-    }
+
+    // Construtor
+    public Genero() {}
 
     public Genero(int id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
+    // Getters e Setters
     public int getId() {
         return id;
     }

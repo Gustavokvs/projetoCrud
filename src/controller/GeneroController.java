@@ -25,6 +25,32 @@ public class GeneroController {
             conexao.fecharConexao(comando);
         }
     }
+    
+public Genero buscarPorNome(String nomeGenero) {
+    String sql = "SELECT * FROM genero WHERE nome = ?";
+    GerenciadorConexao conexao = new GerenciadorConexao();
+    PreparedStatement comando = conexao.prepararComando(sql);
+    
+    try {
+        comando.setString(1, nomeGenero);
+        ResultSet resultado = comando.executeQuery();
+
+        if (resultado.next()) {
+            Genero genero = new Genero();
+            genero.setId(resultado.getInt("id"));
+            genero.setNome(resultado.getString("nome"));
+            return genero;
+        } else {
+            System.out.println("Nenhum gênero encontrado com o nome: " + nomeGenero);  // Mensagem de depuração
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    } finally {
+        conexao.fecharConexao(comando);
+    }
+    return null;  // Retorna null se não encontrar
+}
+
 
     // Método para atualizar um gênero
     public boolean atualizar(Genero genero) {

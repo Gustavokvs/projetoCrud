@@ -6,36 +6,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Livro;
+import model.Genero;
 
 public class LivroController {
 
     public boolean inserir(Livro livro) {
         GerenciadorConexao conexao = new GerenciadorConexao();
-        String sqlGenero = "SELECT id FROM genero WHERE nome = ?";
-        PreparedStatement comandoGenero = conexao.prepararComando(sqlGenero);
-        ResultSet resultadoGenero = null;
+        String sql = "INSERT INTO livro (titulo, preco, id_autor, id_genero, isbn, ano_publicacao) VALUES (?, ?, ?, ?, ?, ?)";
 
+        PreparedStatement comando = conexao.prepararComando(sql);
         try {
-            // Primeiro, buscar o id do gênero
-            comandoGenero.setString(1, livro.getCategoria());  // A categoria é o nome do gênero inserido no formulário
-            resultadoGenero = comandoGenero.executeQuery();
-
-            int idGenero = -1;
-            if (resultadoGenero.next()) {
-                idGenero = resultadoGenero.getInt("id");
-            } else {
-                System.out.println("Gênero não encontrado.");
-                return false;  // Caso o gênero não exista
-            }
-
-            // Agora insere o livro com o id do gênero
-            String sql = "INSERT INTO livro (titulo, preco, id_autor, categoria, isbn, ano_publicacao) VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement comando = conexao.prepararComando(sql);
-
             comando.setString(1, livro.getTitulo());
             comando.setDouble(2, livro.getPreco());
             comando.setInt(3, livro.getIdAutor());
-            comando.setInt(4, idGenero);  // Usando o ID do gênero em vez do nome
+            comando.setInt(4, livro.getIdGenero());  // Agora usa o id_genero diretamente
             comando.setString(5, livro.getIsbn());
             comando.setInt(6, livro.getAnoPublicacao());
 
@@ -46,20 +30,20 @@ public class LivroController {
             ex.printStackTrace();
             return false;
         } finally {
-            conexao.fecharConexao(comandoGenero, resultadoGenero);
+            conexao.fecharConexao(comando);
         }
     }
 
     public boolean atualizar(Livro livro) {
         GerenciadorConexao conexao = new GerenciadorConexao();
-        String sql = "UPDATE livro SET titulo = ?, preco = ?, id_autor = ?, categoria = ?, isbn = ?, ano_publicacao = ? WHERE id = ?";
+        String sql = "UPDATE livro SET titulo = ?, preco = ?, id_autor = ?, id_genero = ?, isbn = ?, ano_publicacao = ? WHERE id = ?";
 
         PreparedStatement comando = conexao.prepararComando(sql);
         try {
             comando.setString(1, livro.getTitulo());
             comando.setDouble(2, livro.getPreco());
             comando.setInt(3, livro.getIdAutor());
-            comando.setString(4, livro.getCategoria());
+            comando.setInt(4, livro.getIdGenero());  // Corrigido para usar id_genero
             comando.setString(5, livro.getIsbn());
             comando.setInt(6, livro.getAnoPublicacao());
             comando.setInt(7, livro.getId());
@@ -89,6 +73,16 @@ public class LivroController {
         } finally {
             conexao.fecharConexao(comando);
         }
+    }
+
+    public boolean verificarCategoria(int idCategoria) {
+        GeneroController generoController = new GeneroController();  // Instancia o controller de Gênero
+        Genero genero = generoController.buscarPorId(idCategoria);  // Busca a categoria pelo ID
+
+        if (genero == null) {
+            return false;  // Retorna false se a categoria não existir
+        }
+        return true;  // Retorna true se a categoria for encontrada
     }
 
     public boolean adicionarGenerosAoLivro(int idLivro, List<Integer> idsGeneros) {
@@ -150,7 +144,7 @@ public class LivroController {
                 livro.setTitulo(resultado.getString("titulo"));
                 livro.setPreco(resultado.getDouble("preco"));
                 livro.setIdAutor(resultado.getInt("id_autor"));
-                livro.setCategoria(resultado.getString("categoria"));
+                livro.setIdGenero(resultado.getInt("id_genero"));  // Agora pega o id_genero
                 livro.setIsbn(resultado.getString("isbn"));
                 livro.setAnoPublicacao(resultado.getInt("ano_publicacao"));
             }
@@ -166,7 +160,8 @@ public class LivroController {
 
     public ArrayList<Livro> listarTodos() {
         GerenciadorConexao conexao = new GerenciadorConexao();
-        String sql = "SELECT * FROM livro";
+        String sql = "SELECT l.*, g.nome AS nome_genero FROM livro l "
+                + "INNER JOIN genero g ON l.id_genero = g.id";
         PreparedStatement comando = conexao.prepararComando(sql);
         ResultSet resultado = null;
         ArrayList<Livro> lista = new ArrayList<>();
@@ -179,7 +174,7 @@ public class LivroController {
                 livro.setTitulo(resultado.getString("titulo"));
                 livro.setPreco(resultado.getDouble("preco"));
                 livro.setIdAutor(resultado.getInt("id_autor"));
-                livro.setCategoria(resultado.getString("categoria"));
+                livro.setIdGenero(resultado.getInt("id_genero"));  // Agora pega o ID do gênero corretamente
                 livro.setIsbn(resultado.getString("isbn"));
                 livro.setAnoPublicacao(resultado.getInt("ano_publicacao"));
                 lista.add(livro);
@@ -192,4 +187,55 @@ public class LivroController {
 
         return lista;
     }
+
+    public Genero buscarGeneroPorId(int idGenero) {
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        String sql = "SELECT * FROM genero WHERE id = ?";
+        PreparedStatement comando = conexao.prepararComando(sql);
+        ResultSet resultado = null;
+
+        try {
+            comando.setInt(1, idGenero);
+            resultado = comando.executeQuery();
+
+            if (resultado.next()) {
+                Genero genero = new Genero();
+                genero.setId(resultado.getInt("id"));
+                genero.setNome(resultado.getString("nome"));
+                return genero;
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            conexao.fecharConexao(comando, resultado);
+        }
+
+        return null;  // Retorna null se o gênero não for encontrado
+    }
+
+    public int buscarIdGeneroPorNome(String nomeGenero) {
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        String sql = "SELECT id FROM genero WHERE nome = ?";
+        PreparedStatement comando = conexao.prepararComando(sql);
+        ResultSet resultado = null;
+        int idGenero = -1;
+
+        try {
+            comando.setString(1, nomeGenero);
+            resultado = comando.executeQuery();
+
+            if (resultado.next()) {
+                idGenero = resultado.getInt("id");
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            conexao.fecharConexao(comando, resultado);
+        }
+
+        return idGenero;
+    }
+
 }

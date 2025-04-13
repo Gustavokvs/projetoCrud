@@ -206,60 +206,61 @@ public class FrCadLivros extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     public void gravar() {
-        // Pegando os valores dos campos de entrada
-        l1.setTitulo(edtTitulo.getText());
-        l1.setIsbn(edtIsbn.getText());
+        if (!verificarCampos()) {
+            return;
+        }
 
-        // Corrigindo o acesso ao campo de Preço
+        // Pegando os valores dos campos de entrada
+        l1.setTitulo(edtTitulo.getText().trim());
+        l1.setIsbn(edtIsbn.getText().trim());
+
         try {
-            String precoStr = edtPreco.getText().trim();
-            double preco = Double.parseDouble(precoStr);  // Converte para double
+            double preco = Double.parseDouble(edtPreco.getText().trim());
             l1.setPreco(preco);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Preço inválido.");
             return;
         }
 
-        // Corrigindo o acesso ao campo de Ano de Publicação
         try {
-            int anoPublicacao = Integer.parseInt(edtAnoPublicacao.getText().trim());  // Convertendo para int
+            int anoPublicacao = Integer.parseInt(edtAnoPublicacao.getText().trim());
             l1.setAnoPublicacao(anoPublicacao);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Ano de publicação inválido.");
             return;
         }
 
-        // Setando o idAutor
         try {
-            String autorStr = edtAutor.getText().trim();
-            if (autorStr.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O campo 'Autor' está vazio.");
-                return;
-            }
-            int idAutor = Integer.parseInt(autorStr);  // Convertendo para int
-            l1.setIdAutor(idAutor);  // Agora é int
+            int idAutor = Integer.parseInt(edtAutor.getText().trim());
+            l1.setIdAutor(idAutor);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "ID do autor inválido. Use um número.");
+            JOptionPane.showMessageDialog(null, "ID do autor inválido.");
             return;
         }
 
-        l1.setCategoria(edtCategoria.getText());
+        try {
+            String categoriaStr = edtCategoria.getText().trim();
+            int idCategoria = Integer.parseInt(categoriaStr);
+            l1.setIdGenero(idCategoria);
+            l1.setCategoria(categoriaStr); // Apenas para exibição, pode ser o mesmo número
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID da categoria inválido.");
+            return;
+        }
 
-        // Verificando se a inserção foi bem-sucedida
         if (controller.inserir(l1)) {
             JOptionPane.showMessageDialog(null, "Livro gravado com sucesso");
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "O cadastro do livro não foi gravado");
         }
-
     }
 
     public boolean verificarCampos() {
         String titulo = edtTitulo.getText().trim();
         String isbn = edtIsbn.getText().trim();
         String autor = edtAutor.getText().trim();
-        String categoria = edtCategoria.getText().trim();  // Categoria é o nome do gênero
+        String categoria = edtCategoria.getText().trim();  // Agora tratado como ID do gênero
         String precoStr = edtPreco.getText().trim();
         String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
 
@@ -272,6 +273,7 @@ public class FrCadLivros extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "O campo 'ISBN' está vazio.");
             return false;
         }
+
         if (!isbn.matches("^\\d{10}|\\d{13}$")) {
             JOptionPane.showMessageDialog(null, "ISBN inválido! Use o formato de 10 ou 13 dígitos.");
             return false;
@@ -283,8 +285,7 @@ public class FrCadLivros extends javax.swing.JDialog {
         }
 
         try {
-            // Verificando se o ID do autor é numérico
-            int idAutor = Integer.parseInt(autor);
+            Integer.parseInt(autor);  // Validar se o autor é um número (ID do autor)
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "ID do autor inválido. Use um número.");
             return false;
@@ -295,21 +296,24 @@ public class FrCadLivros extends javax.swing.JDialog {
             return false;
         }
 
-        // Aqui você pode buscar o ID do gênero usando o nome da categoria
-        int idCategoria = buscarIdGenero(categoria);
-        if (idCategoria == -1) {
-            JOptionPane.showMessageDialog(null, "Gênero não encontrado.");
+        try {
+            int idCategoria = Integer.parseInt(categoria);  // Aqui estamos tratando o valor como um ID numérico
+
+            // Verificar se a categoria com o ID informado existe
+            if (!controller.verificarCategoria(idCategoria)) {
+                JOptionPane.showMessageDialog(null, "ID de categoria inválido! Não existe uma categoria com esse ID.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID da categoria inválido. Use um número.");
             return false;
         }
-
-        // Agora, você pode adicionar a categoria com o ID
-        l1.setCategoria(categoria);  // Apenas para mostrar no campo
-        l1.setIdCategoria(idCategoria);  // Adicionando o ID do gênero
 
         if (precoStr.isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo 'Preço' está vazio.");
             return false;
         }
+
         try {
             double preco = Double.parseDouble(precoStr);
             if (preco <= 0) {
@@ -325,6 +329,7 @@ public class FrCadLivros extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "O campo 'Ano de Publicação' está vazio.");
             return false;
         }
+
         try {
             int anoPublicacao = Integer.parseInt(anoPublicacaoStr);
             if (anoPublicacao < 1000 || anoPublicacao > 2900) {
@@ -339,29 +344,6 @@ public class FrCadLivros extends javax.swing.JDialog {
         return true;
     }
 
-// Método para buscar o ID do gênero, pode ser alterado conforme a lógica do seu sistema
-    private int buscarIdGenero(String nomeGenero) {
-        // Exemplo de como buscar o gênero no banco de dados ou lista
-        // Aqui você pode buscar no banco ou em uma lista de objetos
-        // Retornando -1 se não encontrar
-        return controller.buscarGenerosDoLivro(WIDTH)oLivro();
-    }
-
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FrCadLivros dialog = new FrCadLivros(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalvar;
