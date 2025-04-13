@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -15,41 +15,42 @@ import utils.Utils;
  *
  * @author thain
  */
-public class FrAltCadUsuario extends javax.swing.JDialog {
+public class FrAltCadCliente extends javax.swing.JDialog {
 
-    /**
-     * Creates new form FrAltCadUsuario
-     */
-    public FrAltCadUsuario(java.awt.Frame parent, boolean modal) {
+    private int id;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public FrAltCadCliente(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
-
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);  
+        setId(id);  
+        carregarCliente();  
     }
-    
+
     ClienteController controller = new ClienteController();
     Cliente cl = new Cliente();
 
-    FrAltCadUsuario(Object object, boolean rootPaneCheckingEnabled, int Id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void gravarCliente() {
-        // Cria o objeto Cliente
-        Cliente cliente = new Cliente();
         ClienteController controller = new ClienteController();
+        Cliente cliente = new Cliente();
 
         // Preenche os dados do cliente capturados do formulário
-        cliente.setNome(edtNome.getText().trim()); // Captura o nome do cliente
-        cliente.setEmail(edtTelefone.getText().trim()); // Captura o email
-        cliente.setDataNascimento(Utils.converterStringToDate(edtDataNasc.getText().trim())); // Captura e converte a data de nascimento
-        cliente.setAtivo(chkAtivo.isSelected()); // Captura o estado ativo/inativo
+        cliente.setId(id);  // Adiciona o ID ao cliente
+        cliente.setNome(edtNome.getText().trim());  // Captura o nome do cliente
+        cliente.setEmail(edtEmail.getText().trim());  // Captura o email
+        cliente.setTelefone(edtTelefone.getText().trim());  // Captura o telefone
+        cliente.setDataNascimento(Utils.converterStringToDate(edtDataNasc.getText().trim()));  // Captura e converte a data de nascimento
+        cliente.setAtivo(chkAtivo.isSelected());  // Captura o estado ativo/inativo
 
-        // Chama o método do controlador para inserir o cliente
-        if (controller.inserir(cliente)) {
-            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+        // Chama o método do controlador para atualizar o cliente
+        if (controller.atualizar(cliente)) {
+            JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso!");
         } else {
-            JOptionPane.showMessageDialog(null, "Erro: Cliente não pôde ser cadastrado.");
+            JOptionPane.showMessageDialog(null, "Erro: Cliente não pôde ser atualizado.");
         }
     }
 
@@ -62,7 +63,8 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
         String codigo = String.valueOf(cliente.getId()); // Converte o ID para String
         edtCodigo.setText(codigo); // Campo para o código/ID
         edtNome.setText(cliente.getNome()); // Nome do cliente
-        edtTelefone.setText(cliente.getEmail()); // Email do cliente
+        edtEmail.setText(cliente.getEmail()); // ✅
+        edtTelefone.setText(cliente.getTelefone()); // ✅
         edtDataNasc.setText(Utils.converterDateToString(cliente.getDataNascimento())); // Converte a data de nascimento para String
         chkAtivo.setSelected(cliente.isAtivo()); // Define o estado ativo/inativo
     }
@@ -111,6 +113,11 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
         });
 
         btnVoltar.setText("Voltar");
+        btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVoltarMouseClicked(evt);
+            }
+        });
 
         btnSalvar.setText("Salvar");
         btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -225,46 +232,55 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnSalvarMouseClicked
 
+    private void btnVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVoltarMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btnVoltarMouseClicked
+
     public boolean verificarCampos() {
 
         String nome = edtNome.getText().trim();
-        String email = edtTelefone.getText().trim();
+        String email = edtEmail.getText().trim();
+        String telefone = edtTelefone.getText().trim();
         String dataNascimento = edtDataNasc.getText().trim();
         boolean ativo = chkAtivo.isSelected();
 
-        // Validação do Nome
-        if (nome.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "O campo 'Nome' está em branco.");
+        if (edtNome.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Nome' está em branco");
             return false;
         }
         if (!nome.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
-            JOptionPane.showMessageDialog(this, "Nome inválido! Use apenas letras e espaços.");
+            JOptionPane.showMessageDialog(null, "Nome inválido! Use apenas letras e espaços.");
             return false;
         }
 
-        // Validação do Email
-        if (email.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "O campo 'Email' está em branco.");
+        if (edtEmail.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Email' está em branco");
             return false;
         }
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
-            JOptionPane.showMessageDialog(this, "E-mail inválido! Use o formato a@a.com.");
+            JOptionPane.showMessageDialog(null, "E-mail inválido! Use o formato a@a.com.");
+            return false;
+        }
+        
+        if (edtTelefone.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Telefone' está vazio.");
+            return false;
+        }
+        if (!telefone.matches("^^[0-9]{11}$$")) {
+            JOptionPane.showMessageDialog(null, "Telefone inválido! Use apenas números (com ou sem o código do país) e de 10 a 15 dígitos.");
             return false;
         }
 
         // Validação da Data de Nascimento
         if (dataNascimento.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "O campo 'Data de Nascimento' está em branco.");
+            JOptionPane.showMessageDialog(null, "O campo 'Data de Nascimento' está em branco.");
             return false;
         }
         if (!dataNascimento.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
-            JOptionPane.showMessageDialog(this, "Data de nascimento inválida! Use o formato dd/mm/aaaa.");
+            JOptionPane.showMessageDialog(null, "Data de nascimento inválida! Use o formato dd/mm/aaaa.");
             return false;
         }
-
-        // Validação extra (opcional)
-        JOptionPane.showMessageDialog(this, "Todos os campos estão validados com sucesso!");
-        return true; // Se todos os campos forem válidos
+        return true;
     }
 
     /**
@@ -284,20 +300,21 @@ public class FrAltCadUsuario extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrAltCadUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrAltCadCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrAltCadUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrAltCadCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrAltCadUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrAltCadCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrAltCadUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrAltCadCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrAltCadUsuario dialog = new FrAltCadUsuario(new javax.swing.JFrame(), true);
+                FrAltCadCliente dialog = new FrAltCadCliente(new javax.swing.JFrame(), true, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -181,7 +181,7 @@ public class FrConCliente extends javax.swing.JDialog {
 
             //com o PkUsuario eu vou criar uma tela de alteração passando o PkUsuario
             //essa tela irá carregar os dados desse usuário para poder alterar
-            FrAltCadUsuario telaAlt = new FrAltCadUsuario(null, rootPaneCheckingEnabled, id);
+            FrAltCadCliente telaAlt = new FrAltCadCliente(null, rootPaneCheckingEnabled, id);
 
             telaAlt.setVisible(true);
             

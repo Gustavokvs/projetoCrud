@@ -5,8 +5,10 @@
  */
 package view;
 
+import controller.ClienteController;
 import controller.FuncionarioController;
 import javax.swing.JOptionPane;
+import model.Cliente;
 import model.Funcionario;
 
 /**
@@ -19,12 +21,15 @@ public class FrCadFuncionario extends javax.swing.JDialog {
     /**
      * Creates new form FrCadFuncionario
      */
-    public FrCadFuncionario(java.awt.Frame parent, boolean modal) {
+    public FrCadFuncionario(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
 
         this.setLocationRelativeTo(null);
     }
+
+    FuncionarioController controller = new FuncionarioController();
+    Funcionario func = new Funcionario();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -177,37 +182,38 @@ public class FrCadFuncionario extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSalvarMouseClicked
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        gravar();
-
+        if (verificarCampos()) {
+            gravar();
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
-    
+
     public void gravar() {
-        Funcionario funcionario = new Funcionario();
-        FuncionarioController controller = new FuncionarioController();
 
-        funcionario.setNome(edtNome.getText());
-        funcionario.setCargo(edtCargo.getText());
-        funcionario.setEmail(edtEmail.getText());
-        funcionario.setTelefone(edtTelefone.getText());
-        funcionario.setAtivo(chkAtivo.isSelected());
+        func.setNome(edtNome.getText());
+        func.setCargo(edtCargo.getText());
+        func.setEmail(edtEmail.getText());
+        func.setTelefone(edtTelefone.getText());
+        func.setAtivo(chkAtivo.isSelected());
 
-        if (controller.inserir(funcionario)) {
-            JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso");
+        if (controller.inserir(func)) {
+            JOptionPane.showMessageDialog(null, "Funcionário gravado com sucesso");
+            this.dispose();
         } else {
-            JOptionPane.showMessageDialog(null, "Funcionário não pôde ser cadastrado");
+            JOptionPane.showMessageDialog(null, "O cadastro não foi gravado");
+
         }
     }
-    
+
     public boolean verificarCampos() {
-        // Captura os valores dos campos e remove espaços extras
+
         String nome = edtNome.getText().trim();
         String cargo = edtCargo.getText().trim();
         String email = edtEmail.getText().trim();
         String telefone = edtTelefone.getText().trim();
+        boolean ativo = chkAtivo.isSelected();
 
-        // Validação do Nome
-        if (nome.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Nome' está vazio.");
+        if (edtNome.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Nome' está em branco");
             return false;
         }
         if (!nome.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
@@ -215,15 +221,17 @@ public class FrCadFuncionario extends javax.swing.JDialog {
             return false;
         }
 
-        // Validação do Cargo
-        if (cargo.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Cargo' está vazio.");
+        if (edtCargo.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Cargo' está em branco");
+            return false;
+        }
+        if (!cargo.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
+            JOptionPane.showMessageDialog(null, "Cargo inválido! Use apenas letras e espaços.");
             return false;
         }
 
-        // Validação do Email
-        if (email.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo 'Email' está vazio.");
+        if (edtEmail.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Email' está em branco");
             return false;
         }
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
@@ -231,21 +239,17 @@ public class FrCadFuncionario extends javax.swing.JDialog {
             return false;
         }
 
-        // Validação do Telefone
-        if (telefone.isEmpty()) {
+        if (edtTelefone.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "O campo 'Telefone' está vazio.");
             return false;
         }
-        if (!telefone.matches("^\\+?[0-9]{10,15}$")) {
-            JOptionPane.showMessageDialog(null, "Telefone inválido! Use apenas números (com ou sem código de país).");
+        if (!telefone.matches("^^[0-9]{11-12}$$")) {
+            JOptionPane.showMessageDialog(null, "Telefone inválido! Use apenas números (com o código do estado) e de 11 a 12 dígitos.");
             return false;
         }
 
-        // Se todos os campos são válidos
         return true;
     }
-    
-    
 
     /**
      * @param args the command line arguments
@@ -277,7 +281,7 @@ public class FrCadFuncionario extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrCadFuncionario dialog = new FrCadFuncionario(new javax.swing.JFrame(), true);
+                FrCadFuncionario dialog = new FrCadFuncionario(new javax.swing.JFrame(), true, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
