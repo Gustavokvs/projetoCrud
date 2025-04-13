@@ -19,17 +19,9 @@ public class FrAltCadCliente extends javax.swing.JDialog {
 
     private int id;
 
-
     /**
      * Creates new form FrAltCadUsuario
      */
-    public FrAltCadUsuario(java.awt.Frame parent, boolean modal, int id) {
-        super(parent, modal);
-        initComponents();
-        this.setLocationRelativeTo(null);
-        this.id = id; // salva o id recebido
-        carregarCliente(); // carrega os dados no formulário
-
     public void setId(int id) {
         this.id = id;
     }
@@ -37,9 +29,9 @@ public class FrAltCadCliente extends javax.swing.JDialog {
     public FrAltCadCliente(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
-        this.setLocationRelativeTo(null);  
-        setId(id);  
-        carregarCliente();  
+        this.setLocationRelativeTo(null);
+        setId(id);
+        carregarCliente();
 
     }
 
@@ -237,7 +229,7 @@ public class FrAltCadCliente extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "E-mail inválido! Use o formato a@a.com.");
             return false;
         }
-        
+
         if (edtTelefone.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "O campo 'Telefone' está vazio.");
             return false;
@@ -303,7 +295,7 @@ public class FrAltCadCliente extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrAltCadUsuario dialog = new FrAltCadUsuario(new javax.swing.JFrame(), true, 1); // exemplo com id = 1
+                FrAltCadCliente dialog = new FrAltCadCliente(new javax.swing.JFrame(), true, 1); // exemplo com id = 1
 
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override

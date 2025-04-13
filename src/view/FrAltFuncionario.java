@@ -33,7 +33,7 @@ public class FrAltFuncionario extends javax.swing.JDialog {
 
     FuncionarioController controller = new FuncionarioController();
 
-   public void gravarFuncionario() {
+    public void gravarFuncionario() {
         Funcionario funcionario = new Funcionario();
 
         funcionario.setId(id);
@@ -51,15 +51,20 @@ public class FrAltFuncionario extends javax.swing.JDialog {
     }
 
     public void carregarFuncionario() {
-        Funcionario funcionario = controller.buscarPorId(id);
+    Funcionario funcionario = controller.buscarPorId(id);
 
-        edtCodigo.setText(String.valueOf(funcionario.getId()));
-        edtNome.setText(funcionario.getNome());
-        edtEmail.setText(funcionario.getEmail());
-        edtTelefone.setText(funcionario.getTelefone());
-        edtCargo.setText(funcionario.getCargo());
-        chkAtivo.setSelected(funcionario.isAtivo());
+    if (funcionario == null) {
+        JOptionPane.showMessageDialog(null, "Funcionário não encontrado.");
+        return;
     }
+
+    edtCodigo.setText(String.valueOf(funcionario.getId()));
+    edtNome.setText(funcionario.getNome());
+    edtEmail.setText(funcionario.getEmail());
+    edtTelefone.setText(funcionario.getTelefone());
+    edtCargo.setText(funcionario.getCargo());
+    chkAtivo.setSelected(funcionario.isAtivo());
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -90,7 +95,7 @@ public class FrAltFuncionario extends javax.swing.JDialog {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Alterar dados do Estoque");
+        jLabel1.setText("Alterar dados do Funcionario");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 28, -1, -1));
 
         lblNome.setText("Nome");
@@ -107,14 +112,26 @@ public class FrAltFuncionario extends javax.swing.JDialog {
         jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 104, 141, -1));
         jPanel1.add(edtCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 174, 141, -1));
 
-        jButton1.setText("Voltar");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 380, -1, -1));
+        btnVoltar.setText("Voltar");
+        btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVoltarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 379, -1, -1));
 
-        jButton2.setText("Salvar");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(246, 380, -1, -1));
-
-        jButton3.setText("Alterar Titulo");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 298, -1, -1));
+        btnSalvar.setText("Salvar");
+        btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSalvarMouseClicked(evt);
+            }
+        });
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(246, 379, -1, -1));
 
         lblCodigo.setText("Código");
         jPanel1.add(lblCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(358, 61, -1, -1));
@@ -162,6 +179,11 @@ public class FrAltFuncionario extends javax.swing.JDialog {
             gravarFuncionario();
         }
     }//GEN-LAST:event_btnSalvarMouseClicked
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        if (verificarCampos()) {
+            gravarFuncionario();
+        }    }//GEN-LAST:event_btnSalvarActionPerformed
 
     public boolean verificarCampos() {
 

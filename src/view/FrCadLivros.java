@@ -259,7 +259,7 @@ public class FrCadLivros extends javax.swing.JDialog {
         String titulo = edtTitulo.getText().trim();
         String isbn = edtIsbn.getText().trim();
         String autor = edtAutor.getText().trim();
-        String categoria = edtCategoria.getText().trim();
+        String categoria = edtCategoria.getText().trim();  // Categoria é o nome do gênero
         String precoStr = edtPreco.getText().trim();
         String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
 
@@ -295,10 +295,16 @@ public class FrCadLivros extends javax.swing.JDialog {
             return false;
         }
 
-        if (!categoria.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$")) {
-            JOptionPane.showMessageDialog(null, "Categoria inválida! Use o formato somente com letras.");
+        // Aqui você pode buscar o ID do gênero usando o nome da categoria
+        int idCategoria = buscarIdGenero(categoria);
+        if (idCategoria == -1) {
+            JOptionPane.showMessageDialog(null, "Gênero não encontrado.");
             return false;
         }
+
+        // Agora, você pode adicionar a categoria com o ID
+        l1.setCategoria(categoria);  // Apenas para mostrar no campo
+        l1.setIdCategoria(idCategoria);  // Adicionando o ID do gênero
 
         if (precoStr.isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo 'Preço' está vazio.");
@@ -331,6 +337,14 @@ public class FrCadLivros extends javax.swing.JDialog {
         }
 
         return true;
+    }
+
+// Método para buscar o ID do gênero, pode ser alterado conforme a lógica do seu sistema
+    private int buscarIdGenero(String nomeGenero) {
+        // Exemplo de como buscar o gênero no banco de dados ou lista
+        // Aqui você pode buscar no banco ou em uma lista de objetos
+        // Retornando -1 se não encontrar
+        return controller.buscarGenerosDoLivro(WIDTH)oLivro();
     }
 
     public static void main(String args[]) {

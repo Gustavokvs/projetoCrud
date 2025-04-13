@@ -200,7 +200,6 @@ public class FrCadCliente extends javax.swing.JDialog {
         String email = edtEmail.getText().trim();
         String telefone = edtTelefone.getText().trim();
         String dataNascimento = edtDataNasc.getText().trim();
-        String telefone = edtTelefone.getText().trim();
         boolean ativo = chkAtivo.isSelected();
 
         if (edtNome.getText().equals("")) {
