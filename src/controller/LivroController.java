@@ -11,24 +11,42 @@ public class LivroController {
 
     public boolean inserir(Livro livro) {
         GerenciadorConexao conexao = new GerenciadorConexao();
-        String sql = "INSERT INTO livro (titulo, preco, id_autor, categoria, isbn, ano_publicacao) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlGenero = "SELECT id FROM genero WHERE nome = ?";
+        PreparedStatement comandoGenero = conexao.prepararComando(sqlGenero);
+        ResultSet resultadoGenero = null;
 
-        PreparedStatement comando = conexao.prepararComando(sql);
         try {
+            // Primeiro, buscar o id do gênero
+            comandoGenero.setString(1, livro.getCategoria());  // A categoria é o nome do gênero inserido no formulário
+            resultadoGenero = comandoGenero.executeQuery();
+
+            int idGenero = -1;
+            if (resultadoGenero.next()) {
+                idGenero = resultadoGenero.getInt("id");
+            } else {
+                System.out.println("Gênero não encontrado.");
+                return false;  // Caso o gênero não exista
+            }
+
+            // Agora insere o livro com o id do gênero
+            String sql = "INSERT INTO livro (titulo, preco, id_autor, categoria, isbn, ano_publicacao) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement comando = conexao.prepararComando(sql);
+
             comando.setString(1, livro.getTitulo());
             comando.setDouble(2, livro.getPreco());
             comando.setInt(3, livro.getIdAutor());
-            comando.setString(4, livro.getCategoria());
+            comando.setInt(4, idGenero);  // Usando o ID do gênero em vez do nome
             comando.setString(5, livro.getIsbn());
             comando.setInt(6, livro.getAnoPublicacao());
 
             comando.executeUpdate();
             return true;
+
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
         } finally {
-            conexao.fecharConexao(comando);
+            conexao.fecharConexao(comandoGenero, resultadoGenero);
         }
     }
 
