@@ -199,7 +199,8 @@ public class FrCadFuncionario extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "O campo 'Telefone' está vazio.");
             return false;
         }
-        if (!telefone.matches("^^[0-9]{11-12}$$")) {
+        if (!telefone.matches("^\\d{11,12}$"
+        )) {
             JOptionPane.showMessageDialog(null, "Telefone inválido! Use apenas números (com o código do estado) e de 11 a 12 dígitos.");
             return false;
         }
