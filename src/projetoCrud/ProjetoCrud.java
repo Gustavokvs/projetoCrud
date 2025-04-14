@@ -16,10 +16,10 @@ import view.FrMenu;
 public class ProjetoCrud {
 
     public static void main(String[] args) {
-        // Instancia o menu
+       // Instancia o menu
         FrMenu menu = new FrMenu();
         menu.setVisible(true);
-
+/*
         // Criação de um autor para cadastro
         Autor autor = new Autor();
         autor.setNome("J.K. Rowling");
@@ -35,5 +35,7 @@ public class ProjetoCrud {
             System.out.println("Erro ao cadastrar autor.");
         }
     }
+*/
 
+}
 }
