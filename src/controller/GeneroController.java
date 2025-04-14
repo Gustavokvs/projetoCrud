@@ -25,32 +25,31 @@ public class GeneroController {
             conexao.fecharConexao(comando);
         }
     }
-    
-public Genero buscarPorNome(String nomeGenero) {
-    String sql = "SELECT * FROM genero WHERE nome = ?";
-    GerenciadorConexao conexao = new GerenciadorConexao();
-    PreparedStatement comando = conexao.prepararComando(sql);
-    
-    try {
-        comando.setString(1, nomeGenero);
-        ResultSet resultado = comando.executeQuery();
 
-        if (resultado.next()) {
-            Genero genero = new Genero();
-            genero.setId(resultado.getInt("id"));
-            genero.setNome(resultado.getString("nome"));
-            return genero;
-        } else {
-            System.out.println("Nenhum gênero encontrado com o nome: " + nomeGenero);  // Mensagem de depuração
+    public Genero buscarPorNome(String nomeGenero) {
+        String sql = "SELECT * FROM genero WHERE nome = ?";
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        PreparedStatement comando = conexao.prepararComando(sql);
+
+        try {
+            comando.setString(1, nomeGenero);
+            ResultSet resultado = comando.executeQuery();
+
+            if (resultado.next()) {
+                Genero genero = new Genero();
+                genero.setId(resultado.getInt("id"));
+                genero.setNome(resultado.getString("nome"));
+                return genero;
+            } else {
+                System.out.println("Nenhum gênero encontrado com o nome: " + nomeGenero);  // Mensagem de depuração
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            conexao.fecharConexao(comando);
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    } finally {
-        conexao.fecharConexao(comando);
+        return null;  // Retorna null se não encontrar
     }
-    return null;  // Retorna null se não encontrar
-}
-
 
     // Método para atualizar um gênero
     public boolean atualizar(Genero genero) {
@@ -91,29 +90,29 @@ public Genero buscarPorNome(String nomeGenero) {
 
     // Método para buscar um gênero pelo ID
     public Genero buscarPorId(int id) {
-    String sql = "SELECT * FROM genero WHERE id = ?";
-    GerenciadorConexao conexao = new GerenciadorConexao();
-    PreparedStatement comando = conexao.prepararComando(sql);
-    
-    try {
-        comando.setInt(1, id);
-        ResultSet resultado = comando.executeQuery();
+        String sql = "SELECT * FROM genero WHERE id = ?";
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        PreparedStatement comando = conexao.prepararComando(sql);
 
-        if (resultado.next()) {
-            Genero genero = new Genero();
-            genero.setId(resultado.getInt("id"));
-            genero.setNome(resultado.getString("nome"));
-            return genero;
-        } else {
-            System.out.println("Nenhum gênero encontrado com o ID: " + id);  // Mensagem de depuração
+        try {
+            comando.setInt(1, id);
+            ResultSet resultado = comando.executeQuery();
+
+            if (resultado.next()) {
+                Genero genero = new Genero();
+                genero.setId(resultado.getInt("id"));
+                genero.setNome(resultado.getString("nome"));
+                return genero;
+            } else {
+                System.out.println("Nenhum gênero encontrado com o ID: " + id);  // Mensagem de depuração
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            conexao.fecharConexao(comando);
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    } finally {
-        conexao.fecharConexao(comando);
+        return null;
     }
-    return null;
-}
 
     // Método para listar todos os gêneros
     public ArrayList<Genero> listarTodos() {

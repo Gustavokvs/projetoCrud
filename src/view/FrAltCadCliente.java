@@ -259,8 +259,6 @@ public class FrAltCadCliente extends javax.swing.JDialog {
             return false;
         }
 
-        // Mensagem de validação (opcional)
-        JOptionPane.showMessageDialog(this, "Todos os campos estão validados com sucesso!");
         return true; // Se todos os campos forem válidos
     }
 

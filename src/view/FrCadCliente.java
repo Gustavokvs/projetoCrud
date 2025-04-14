@@ -186,7 +186,7 @@ public class FrCadCliente extends javax.swing.JDialog {
         cl.setAtivo(chkAtivo.isSelected()); // Em vez de cl.setAtivo(true);
 
         if (controller.inserir(cl)) {
-            JOptionPane.showMessageDialog(null, "Usuário gravado com sucesso");
+            JOptionPane.showMessageDialog(null, "Cliente Registrado com sucesso");
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "O cadastro não foi gravado");
@@ -238,7 +238,6 @@ public class FrCadCliente extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Data de nascimento inválida! Use o formato dd/mm/aaaa.");
             return false;
         }
-        JOptionPane.showMessageDialog(null, "Alteração concluída");
 
         return true;
     }
