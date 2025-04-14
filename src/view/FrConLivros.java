@@ -175,7 +175,7 @@ public class FrConLivros extends javax.swing.JDialog {
 
         for (Livro liv : listarLivros) {
             // Obtendo o nome da categoria com base no ID
-            String nomeCategoria = controller.getNomeCategoria(liv.getIdGenero()); // Método para buscar o nome da categoria
+            String nomeCategoria = controller.getNomeCategoria(liv.getIdsCategorias()); // Método para buscar o nome da categoria
 
             Object[] linha = {
                 liv.getId(),

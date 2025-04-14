@@ -5,52 +5,82 @@ import controller.GerenciadorConexao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Genero;
 
 public class LivroController {
 
+    public String getNomeCategoria(List<Integer> idsCategorias) {
+        // Conectar ao banco e buscar os nomes das categorias
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        StringBuilder nomesCategorias = new StringBuilder();
+        
+        for (int i = 0; i < idsCategorias.size(); i++) {
+            int idCategoria = idsCategorias.get(i);
+            String sql = "SELECT nome FROM genero WHERE id = ?";  // Supondo que 'genero' seja o nome da tabela de categorias
+            
+            try (PreparedStatement pst = conexao.prepararComando(sql)) {
+                pst.setInt(1, idCategoria);
+                try (ResultSet rs = pst.executeQuery()) {
+                    if (rs.next()) {
+                        if (i > 0) {
+                            nomesCategorias.append(", ");  // Se não for o primeiro, adiciona vírgula
+                        }
+                        nomesCategorias.append(rs.getString("nome"));
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return nomesCategorias.toString();
+    }
+    
     public boolean inserir(Livro livro) {
         GerenciadorConexao conexao = new GerenciadorConexao();
-        String sqlLivro = "INSERT INTO livro (titulo, isbn, preco, ano_publicacao, id_autor) VALUES (?, ?, ?, ?, ?)";
-
-        PreparedStatement comandoLivro = conexao.prepararComando(sqlLivro);
+String sql = "INSERT INTO livro (titulo, isbn, preco, ano_publicacao, idAutor) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement pst = conexao.prepararComando(sql, Statement.RETURN_GENERATED_KEYS);
         ResultSet rs = null;
 
         try {
-            comandoLivro.setString(1, livro.getTitulo());
-            comandoLivro.setString(2, livro.getIsbn());
-            comandoLivro.setDouble(3, livro.getPreco());
-            comandoLivro.setInt(4, livro.getAnoPublicacao());
-            comandoLivro.setInt(5, livro.getIdAutor());
+            // Definindo os parâmetros do PreparedStatement
+            pst.setString(1, livro.getTitulo());
+            pst.setString(2, livro.getIsbn());
+            pst.setDouble(3, livro.getPreco());
+            pst.setInt(4, livro.getAnoPublicacao());
+            pst.setInt(5, livro.getIdAutor());
 
-            comandoLivro.executeUpdate();
+            // Executando a inserção no banco
+            int affectedRows = pst.executeUpdate();
 
-            rs = comandoLivro.getGeneratedKeys();
-            if (rs.next()) {
-                int idLivro = rs.getInt(1);
-                livro.setId(idLivro);
-
-                // Inserir gêneros na tabela livro_genero
-                if (livro.getIdsCategorias() != null) {
-                    for (int idGenero : livro.getIdsCategorias()) {
-                        String sqlGenero = "INSERT INTO livro_genero (id_livro, id_genero) VALUES (?, ?)";
-                        PreparedStatement comandoGenero = conexao.prepararComando(sqlGenero);
-                        comandoGenero.setInt(1, idLivro);
-                        comandoGenero.setInt(2, idGenero);
-                        comandoGenero.executeUpdate();
-                        comandoGenero.close();
-                    }
+            // Verificando se o INSERT foi bem-sucedido e recuperando a chave gerada
+            if (affectedRows > 0) {
+                rs = pst.getGeneratedKeys();
+                if (rs.next()) {
+                    // Obtendo o ID gerado (caso tenha sido gerado)
+                    int idGerado = rs.getInt(1);
+                    livro.setId(idGerado);  // Definindo o ID gerado no objeto Livro
+                    return true;  // Inserção bem-sucedida
                 }
             }
-
-            return true;
+            return false;  // Nenhuma linha afetada (inserção falhou)
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return false;  // Erro na execução da consulta
         } finally {
-            conexao.fecharConexao(comandoLivro, rs);
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -207,24 +237,49 @@ public class LivroController {
 
         return false;
     }
-    
-    public boolean adicionarCategoriaAoLivro(int idLivro, int idGenero) {
-    GerenciadorConexao conexao = new GerenciadorConexao();
-    String sql = "INSERT INTO livro_genero (id_livro, id_genero) VALUES (?, ?)";
-    PreparedStatement comando = conexao.prepararComando(sql);
-    try {
-        comando.setInt(1, idLivro);
-        comando.setInt(2, idGenero);
-        comando.executeUpdate();
-        return true;
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
-    } finally {
-        conexao.fecharConexao(comando);
-    }
-}
 
+    public boolean adicionarCategoriaAoLivro(int idLivro, int idGenero) {
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        String sql = "INSERT INTO livro_genero (id_livro, id_genero) VALUES (?, ?)";
+        PreparedStatement comando = conexao.prepararComando(sql);
+        try {
+            comando.setInt(1, idLivro);
+            comando.setInt(2, idGenero);
+            comando.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            conexao.fecharConexao(comando);
+        }
+    }
+
+    public boolean salvar(Livro livro) {
+        // Supondo que o campo de categorias venha como uma string
+        String categoriasString = livro.getCategorias(); // exemplo: "1,2"
+        List<Integer> categorias = new ArrayList<>();
+
+        // Convertendo a string para uma lista de inteiros
+        for (String categoria : categoriasString.split(",")) {
+            categorias.add(Integer.parseInt(categoria.trim()));  // Adiciona cada categoria como inteiro
+        }
+
+        // Agora, você pode passar a lista para o método verificarCategoria
+        if (!verificarCategoria(categorias)) {
+            // Ação caso as categorias não sejam válidas
+            System.out.println("Uma ou mais categorias são inválidas.");
+            return false; // Você pode interromper a operação aqui
+        }
+
+        // Chama os métodos de inserção ou atualização dependendo do caso
+        if (livro.getId() == 0) {
+            return inserir(livro); // Método para inserir livro
+        } else {
+            return atualizar(livro); // Método para atualizar livro
+        }
+
+    }
 
     private ArrayList<Integer> buscarIdsGenerosPorLivro(int idLivro) {
         GerenciadorConexao conexao = new GerenciadorConexao();

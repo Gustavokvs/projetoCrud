@@ -40,7 +40,8 @@ public class FrAltLivro extends javax.swing.JDialog {
         edtIsbn.setText(livro.getIsbn());
         edtPreco.setText(String.valueOf(livro.getPreco()));
         edtAnoPublicacao.setText(String.valueOf(livro.getAnoPublicacao()));
-        edtCategoria.setText(String.valueOf(livro.getIdGenero())); // Exibe o ID da categoria
+        edtCategoria.setText(String.valueOf(livro.getIdsCategorias()));
+
 
         edtAutorId.setText(String.valueOf(livro.getIdAutor()));
     }
@@ -332,7 +333,7 @@ public class FrAltLivro extends javax.swing.JDialog {
             edtIsbn.setText(livro.getIsbn());
             edtPreco.setText(String.valueOf(livro.getPreco()));
             edtAnoPublicacao.setText(String.valueOf(livro.getAnoPublicacao()));
-            edtCategoria.setText(String.valueOf(livro.getIdGenero())); // Exibe o ID da categoria
+           edtCategoria.setText(String.valueOf(livro.getIdsCategorias()));
             edtAutorId.setText(String.valueOf(livro.getIdAutor()));
         } else {
             JOptionPane.showMessageDialog(this, "Livro não encontrado.");

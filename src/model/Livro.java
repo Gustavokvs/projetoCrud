@@ -6,6 +6,7 @@ public class Livro {
 
     private int id;
     private String titulo;
+    
     private String isbn;
     private double preco;
     private int anoPublicacao;
@@ -31,7 +32,9 @@ public class Livro {
     public int getId() {
         return id;
     }
-
+  public List<Integer> getIdsCategorias() {
+        return idsCategorias;
+    }
     public void setId(int id) {
         this.id = id;
     }
@@ -84,12 +87,12 @@ public class Livro {
         this.estoque = estoque;
     }
 
-    public List<Integer> getIdsCategorias() {
-        return idsCategorias;
+     public void setIdsCategorias(List<Integer> idsCategorias) {
+        this.idsCategorias = idsCategorias;
     }
 
-    public void setIdsCategorias(List<Integer> idsCategorias) {
-        this.idsCategorias = idsCategorias;
+     public String getCategorias() {
+        return String.join(",", idsCategorias.stream().map(String::valueOf).toArray(String[]::new));
     }
 
 }

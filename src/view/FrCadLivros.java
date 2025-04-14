@@ -46,17 +46,25 @@ public class FrCadLivros extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         lblTitutolabel.setText("Cadastro de Livro");
+        jPanel1.add(lblTitutolabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 27, -1, -1));
 
         lblTitulo.setText("Titulo");
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 61, -1, -1));
 
         lbltAutor.setText("Autor");
+        jPanel1.add(lbltAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 125, -1, -1));
 
         lblCategoria.setText("Categoria");
+        jPanel1.add(lblCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 186, -1, -1));
 
         lblIsbn.setText("ISBN");
+        jPanel1.add(lblIsbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 256, -1, -1));
 
         lblAnoPublicacao.setText("Ano de publicação");
+        jPanel1.add(lblAnoPublicacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 316, 122, -1));
 
         btnVoltar.setText("Voltar");
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -69,6 +77,7 @@ public class FrCadLivros extends javax.swing.JDialog {
                 btnVoltarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(134, 464, -1, -1));
 
         btnSalvar.setText("Salvar");
         btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -81,93 +90,34 @@ public class FrCadLivros extends javax.swing.JDialog {
                 btnSalvarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 464, -1, -1));
 
         edtTitulo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtTituloActionPerformed(evt);
             }
         });
+        jPanel1.add(edtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 83, 67, -1));
+        jPanel1.add(edtIsbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 280, 122, -1));
 
         edtCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtCategoriaActionPerformed(evt);
             }
         });
+        jPanel1.add(edtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 214, 122, -1));
+        jPanel1.add(edtAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 147, 93, -1));
 
         lblPreco.setText("Preço");
+        jPanel1.add(lblPreco, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 365, -1, -1));
+        jPanel1.add(edtAnoPublicacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 333, 122, -1));
 
         edtPreco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtPrecoActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(btnVoltar)
-                        .addGap(47, 47, 47)
-                        .addComponent(btnSalvar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbltAutor)
-                            .addComponent(lblTitulo)
-                            .addComponent(lblCategoria)
-                            .addComponent(lblIsbn)
-                            .addComponent(lblPreco)
-                            .addComponent(edtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(edtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(edtCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-                            .addComponent(edtIsbn)
-                            .addComponent(edtAnoPublicacao)
-                            .addComponent(lblAnoPublicacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(edtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(176, 176, 176)
-                        .addComponent(lblTitutolabel)))
-                .addContainerGap(148, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(lblTitutolabel)
-                .addGap(18, 18, 18)
-                .addComponent(lblTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lbltAutor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addComponent(lblCategoria)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(edtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblIsbn)
-                .addGap(8, 8, 8)
-                .addComponent(edtIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblAnoPublicacao)
-                .addGap(1, 1, 1)
-                .addComponent(edtAnoPublicacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblPreco)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(edtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVoltar)
-                    .addComponent(btnSalvar))
-                .addGap(37, 37, 37))
-        );
+        jPanel1.add(edtPreco, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 393, 108, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -213,129 +163,143 @@ public class FrCadLivros extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    
-    
-  public void gravar() {
-    l1.setTitulo(edtTitulo.getText().trim());
-    l1.setIsbn(edtIsbn.getText().trim());
+    public void gravar() {
+        l1.setTitulo(edtTitulo.getText().trim());
+        l1.setIsbn(edtIsbn.getText().trim());
 
-    // Verificando e atribuindo o preço
-    double preco = getPreco();
-    if (preco == -1) {
-        return; // Se o preço for inválido, não continua a gravação
-    }
-    l1.setPreco(preco);
-
-    // Ano de publicação
-    l1.setAnoPublicacao(Integer.parseInt(edtAnoPublicacao.getText().trim()));
-
-    // ID do autor
-    l1.setIdAutor(Integer.parseInt(edtAutor.getText().trim()));
-
-    // Validação e atribuição das categorias
-    if (!validarCategorias()) {
-        return; // Se alguma categoria for inválida, não continua a gravação
-    }
-    l1.setIdsCategorias(getCategoriasList()); // Armazenando os IDs de categorias como uma lista
-
-    controller.salvar(l1);
-    JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
-    limparCampos();
-}
-
-private List<Integer> getCategoriasList() {
-    String[] categorias = edtCategoria.getText().trim().split(",");
-    List<Integer> idsCategorias = new ArrayList<>();
-    for (String categoria : categorias) {
-        try {
-            idsCategorias.add(Integer.parseInt(categoria.trim()));
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Categoria com ID inválido: " + categoria.trim());
-            return Collections.emptyList(); // Retorna uma lista vazia se houver erro
+        // Verificando e atribuindo o preço
+        double preco = Double.parseDouble(edtPreco.getText().trim());
+        if (preco <= 0) {
+            JOptionPane.showMessageDialog(this, "Preço inválido!");
+            return;
         }
-    }
-    return idsCategorias;
-}
+        l1.setPreco(preco);
 
-public boolean verificarCampos() {
-    String titulo = edtTitulo.getText().trim();
-    String isbn = edtIsbn.getText().trim();
-    String autor = edtAutor.getText().trim();
-    String categoria = edtCategoria.getText().trim();
-    String precoStr = edtPreco.getText().trim();
-    String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
+        // Ano de publicação
+        l1.setAnoPublicacao(Integer.parseInt(edtAnoPublicacao.getText().trim()));
 
-    if (titulo.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "O campo 'Título' está vazio.");
-        return false;
-    }
-
-    if (isbn.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "O campo 'ISBN' está vazio.");
-        return false;
-    }
-
-    if (!isbn.matches("^\\d{10}|\\d{13}$")) {
-        JOptionPane.showMessageDialog(null, "ISBN inválido! Use o formato de 10 ou 13 dígitos.");
-        return false;
-    }
-
-    if (autor.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "O campo 'Autor' está vazio.");
-        return false;
-    }
-
-    try {
-        Integer.parseInt(autor);  // Validar se o autor é um número (ID do autor)
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "ID do autor inválido. Use um número.");
-        return false;
-    }
-
-    if (categoria.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "O campo 'Categoria' está vazio.");
-        return false;
-    }
-
-    // Validar a categoria como lista de IDs separados por vírgula
-    String[] categorias = categoria.split(",");
-    for (String idCategoria : categorias) {
-        idCategoria = idCategoria.trim(); // Remove espaços extras
+        // ID do autor
         try {
-            int idCategoriaInt = Integer.parseInt(idCategoria); // Converter para inteiro
-
-            // Verificar se a categoria com o ID informado existe
-            if (!controller.verificarCategoria(idCategoriaInt)) {
-                JOptionPane.showMessageDialog(null, "ID de categoria " + idCategoriaInt + " inválido!");
-                return false;
-            }
+            l1.setIdAutor(Integer.parseInt(edtAutor.getText().trim()));
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "ID de categoria inválido: " + idCategoria);
+            JOptionPane.showMessageDialog(this, "ID de autor inválido!");
+            return;
+        }
+
+        // Validação e atribuição das categorias
+        if (!validarCategorias()) {
+            return;
+        }
+        l1.setIdsCategorias(getCategoriasList());
+
+        controller.salvar(l1);
+        JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+        limparCampos();
+    }
+
+    public void limparCampos() {
+        edtTitulo.setText("");
+        edtIsbn.setText("");
+        edtPreco.setText("");
+        edtAnoPublicacao.setText("");
+        edtAutor.setText("");
+        edtCategoria.setText("");  // Limpa o campo de categorias
+    }
+
+    private List<Integer> getCategoriasList() {
+        String[] categorias = edtCategoria.getText().trim().split(",");
+        List<Integer> idsCategorias = new ArrayList<>();
+        for (String categoria : categorias) {
+            try {
+                idsCategorias.add(Integer.parseInt(categoria.trim()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Categoria com ID inválido: " + categoria.trim());
+                return Collections.emptyList();
+            }
+        }
+        return idsCategorias;
+    }
+
+    public boolean verificarCampos() {
+        String titulo = edtTitulo.getText().trim();
+        String isbn = edtIsbn.getText().trim();
+        String autor = edtAutor.getText().trim();
+        String categoria = edtCategoria.getText().trim();
+        String precoStr = edtPreco.getText().trim();
+        String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
+
+        if (titulo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Título' está vazio.");
             return false;
         }
+
+        if (isbn.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'ISBN' está vazio.");
+            return false;
+        }
+
+        if (!isbn.matches("^\\d{10}|\\d{13}$")) {
+            JOptionPane.showMessageDialog(null, "ISBN inválido! Use o formato de 10 ou 13 dígitos.");
+            return false;
+        }
+
+        if (autor.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Autor' está vazio.");
+            return false;
+        }
+
+        try {
+            Integer.parseInt(autor);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID do autor inválido. Use um número.");
+            return false;
+        }
+
+        if (categoria.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Categoria' está vazio.");
+            return false;
+        }
+
+        String[] categorias = categoria.split(",");
+        for (String idCategoria : categorias) {
+            idCategoria = idCategoria.trim();
+            try {
+                int idCategoriaInt = Integer.parseInt(idCategoria);
+
+                List<Integer> categoriaList = new ArrayList<>();
+                categoriaList.add(idCategoriaInt);
+                if (!controller.verificarCategoria(categoriaList)) {
+                    JOptionPane.showMessageDialog(null, "ID de categoria " + idCategoriaInt + " inválido!");
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "ID de categoria inválido: " + idCategoria);
+                return false;
+            }
+        }
+
+        if (precoStr.isEmpty() || !precoStr.matches("\\d+(\\.\\d{1,2})?")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Preço' está vazio ou inválido.");
+            return false;
+        }
+
+        if (anoPublicacaoStr.isEmpty() || !anoPublicacaoStr.matches("\\d{4}")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Ano de Publicação' está vazio ou inválido.");
+            return false;
+        }
+
+        return true;
     }
 
-    // Preço
-    if (precoStr.isEmpty() || !precoStr.matches("\\d+(\\.\\d{1,2})?")) {
-        JOptionPane.showMessageDialog(null, "O campo 'Preço' está vazio ou inválido.");
-        return false;
+    private boolean validarCategorias() {
+        List<Integer> categorias = getCategoriasList();
+        if (categorias.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Categoria(s) inválida(s)!");
+            return false;
+        }
+
+        return true;
     }
-
-    // Ano de publicação
-    if (anoPublicacaoStr.isEmpty() || !anoPublicacaoStr.matches("\\d{4}")) {
-        JOptionPane.showMessageDialog(null, "O campo 'Ano de Publicação' está vazio ou inválido.");
-        return false;
-    }
-
-    return true;
-}
-
-private boolean validarCategorias() {
-    List<Integer> categorias = getCategoriasList();
-    return !categorias.isEmpty(); // Verifica se a lista de categorias não está vazia
-}
-
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
