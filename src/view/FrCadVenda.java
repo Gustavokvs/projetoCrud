@@ -6,17 +6,21 @@
 package view;
 
 import controller.VendaController;
-import java.sql.PreparedStatement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.Cliente;
-import model.Livro;
 import model.Venda;
+import model.Cliente;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import model.Livro;
+import controller.ClienteController;
+import controller.GerenciadorConexao;
+import controller.LivroController;
 
 /**
  *
@@ -24,15 +28,21 @@ import model.Venda;
  */
 public class FrCadVenda extends javax.swing.JDialog {
 
+    private List<Livro> livrosComQuantidade = new ArrayList<>();
+
     /**
      * Creates new form FrCadVenda
      */
     public FrCadVenda(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
         this.setLocationRelativeTo(null);
     }
+
+    VendaController controller = new VendaController();
+    ClienteController cliente = new ClienteController();
+    Venda venda = new Venda();
+    Cliente cl = new Cliente();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,31 +54,42 @@ public class FrCadVenda extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        lblCodLivro = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
+        lblLivro = new javax.swing.JLabel();
         lblCliente = new javax.swing.JLabel();
-        lblData = new javax.swing.JLabel();
+        lblDataVenda = new javax.swing.JLabel();
         lblQuantidade = new javax.swing.JLabel();
-        edtCodLivro = new javax.swing.JTextField();
+        edtLivro = new javax.swing.JTextField();
         edtCliente = new javax.swing.JTextField();
         edtQuantidade = new javax.swing.JTextField();
-        edtData = new javax.swing.JFormattedTextField();
+        edtDataVenda = new javax.swing.JFormattedTextField();
         btnVoltar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Dados de venda");
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblCodLivro.setText("Código do livro");
+        lblTitulo.setText("Dados de venda");
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(175, 27, -1, -1));
+
+        lblLivro.setText("Livro");
+        jPanel1.add(lblLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 71, -1, -1));
 
         lblCliente.setText("Cliente");
+        jPanel1.add(lblCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 134, -1, -1));
 
-        lblData.setText("Data");
+        lblDataVenda.setText("Data");
+        jPanel1.add(lblDataVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, -1, -1));
 
         lblQuantidade.setText("Quantidade");
+        jPanel1.add(lblQuantidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 197, -1, -1));
+        jPanel1.add(edtLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 94, 116, -1));
+        jPanel1.add(edtCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 157, 63, -1));
+        jPanel1.add(edtQuantidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 103, -1));
 
-        edtData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        edtDataVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jPanel1.add(edtDataVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 90, -1));
 
         btnVoltar.setText("Voltar");
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -81,6 +102,7 @@ public class FrCadVenda extends javax.swing.JDialog {
                 btnVoltarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 430, -1, -1));
 
         btnSalvar.setText("Salvar");
         btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -88,75 +110,17 @@ public class FrCadVenda extends javax.swing.JDialog {
                 btnSalvarMouseClicked(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(175, 175, 175)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblQuantidade)
-                            .addComponent(lblCodLivro)
-                            .addComponent(lblCliente)
-                            .addComponent(edtCodLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(edtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblData)
-                            .addComponent(edtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(edtData, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(btnVoltar)
-                        .addGap(42, 42, 42)
-                        .addComponent(btnSalvar)))
-                .addContainerGap(168, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel1)
-                .addGap(28, 28, 28)
-                .addComponent(lblCodLivro)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtCodLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblCliente)
-                .addGap(9, 9, 9)
-                .addComponent(edtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(lblData)
-                .addGap(18, 18, 18)
-                .addComponent(edtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblQuantidade)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVoltar)
-                    .addComponent(btnSalvar))
-                .addGap(37, 37, 37))
-        );
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -167,70 +131,145 @@ public class FrCadVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarMouseClicked
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
-
-        salvar();
-
+        if (verificarCampos()) {
+            gravar();
+        }
     }//GEN-LAST:event_btnSalvarMouseClicked
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        dispose();
 
     }//GEN-LAST:event_btnVoltarActionPerformed
 
-    public void salvar() {
+    public void gravar() {
+
+        // Criação de uma nova venda
+        Venda venda = new Venda();
+
+        // Buscar o cliente
+        int idCliente = Integer.parseInt(edtCliente.getText());
+        Cliente clienteBuscado = cliente.buscarPorId(idCliente);
+        if (clienteBuscado == null) {
+            JOptionPane.showMessageDialog(null, "Cliente não encontrado.");
+            return;
+        }
+        venda.setCliente(clienteBuscado);
+
+        // Pegando a data da venda
+        String dataVendaStr = edtDataVenda.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
         try {
-            String codigoLivro = edtCodLivro.getText();
-            String cliente = edtCliente.getText();
-            String data = edtData.getText();
-            int quantidade;
+            Date dataVenda = sdf.parse(dataVendaStr);
+            venda.setDataVenda(dataVenda);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Erro: A data fornecida é inválida. Use o formato dd/MM/yyyy.");
+            return;
+        }
 
+        // Pegando os IDs dos livros e as quantidades
+        String idsLivrosStr = edtLivro.getText();
+        String quantidadesStr = edtQuantidade.getText();
+
+        // Separando os IDs dos livros e as quantidades
+        String[] idsLivros = idsLivrosStr.split(",");
+        String[] quantidades = quantidadesStr.split(",");
+
+        if (idsLivros.length != quantidades.length) {
+            JOptionPane.showMessageDialog(null, "Erro: O número de IDs e quantidades não corresponde.");
+            return;
+        }
+
+        // Lista de livros a serem associados à venda
+        List<Livro> livrosDaVenda = new ArrayList<>();
+        double valorTotal = 0;  // Inicializa o valor total
+
+        for (int i = 0; i < idsLivros.length; i++) {
             try {
-                quantidade = Integer.parseInt(edtQuantidade.getText());
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Quantidade inválida.");
-                return;
-            }
+                int idLivro = Integer.parseInt(idsLivros[i].trim());
+                int quantidade = Integer.parseInt(quantidades[i].trim());
 
-            java.sql.Date dataConvertida;
-            java.util.Date utilDate = new SimpleDateFormat("dd/MM/yyyy").parse(data);
-            dataConvertida = new java.sql.Date(utilDate.getTime());
-
-            VendaController controller = new VendaController();
-
-            // Buscar o ID do cliente (assumindo que você tem esse dado no banco)
-            int clienteId = Integer.parseInt(cliente);  // Assumindo que cliente é o ID aqui
-
-            Cliente c = new Cliente();
-            c.setId(clienteId);  // Definir ID corretamente
-
-            Livro livro = new Livro();
-            livro.setId(Integer.parseInt(codigoLivro));
-            List<Livro> livros = new ArrayList<>();
-            livros.add(livro);
-
-            Venda venda = controller.criarVenda(c, livros, quantidade);
-            venda.setDataVenda(dataConvertida);
-
-            if (controller.inserir(venda)) {
-                // Inserir livros vendidos (venda_livro)
-                for (Livro l : livros) {
-                    controller.inserirVendaLivro(venda.getId(), l.getId()); // Criar método para inserir na tabela venda_livro
+                // Buscar o livro
+                LivroController livroCtrl = new LivroController();
+                Livro livroBuscado = livroCtrl.buscarPorId(idLivro);
+                if (livroBuscado == null) {
+                    JOptionPane.showMessageDialog(null, "Erro: Livro não encontrado.");
+                    return;
                 }
 
-                JOptionPane.showMessageDialog(this, "Venda cadastrada com sucesso!");
-                edtCodLivro.setText("");
-                edtCliente.setText("");
-                edtData.setText("");
-                edtQuantidade.setText("");
-            } else {
-                JOptionPane.showMessageDialog(this, "Erro ao cadastrar venda.");
-            }
+                // Calcular o valor total (quantidade * preço do livro)
+                double valorLivro = livroBuscado.getPreco() * quantidade;
+                valorTotal += valorLivro;
 
-        } catch (ParseException ex) {
-            Logger.getLogger(FrCadVenda.class.getName()).log(Level.SEVERE, null, ex);
+                // Adicionar o livro à venda
+                livrosDaVenda.add(livroBuscado);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Erro: ID do livro ou quantidade inválidos.");
+                return;
+            }
+        }
+
+        // Definindo os livros na venda
+        venda.setLivros(livrosDaVenda);
+
+        // Definindo a quantidade total de livros vendidos (opcional)
+        int quantidadeTotal = 0;
+        for (int i = 0; i < quantidades.length; i++) {
+            quantidadeTotal += Integer.parseInt(quantidades[i].trim());
+        }
+        venda.setQuantidade(quantidadeTotal);
+
+        // Definindo o valor total da venda
+        venda.setValorTotal(valorTotal);
+
+        // Inserir a venda no banco de dados
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        boolean sucesso = controller.inserir(venda, conexao);
+
+        if (sucesso) {
+            JOptionPane.showMessageDialog(null, "Venda registrada com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao registrar a venda.");
         }
     }
 
+    public void limparCampos() {
+        edtCliente.setText("");
+        edtDataVenda.setText("");
+        edtLivro.setText("");
+        edtQuantidade.setText("");
+        edtCliente.requestFocus(); // volta o cursor pro primeiro campo
+    }
+
+    public boolean verificarCampos() {
+
+        if (edtLivro.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preencha o campo Livro com o ID.");
+            edtLivro.requestFocus();
+            return false;
+        }
+
+        if (edtCliente.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preencha o campo Cliente com o ID.");
+            edtCliente.requestFocus();
+            return false;
+        }
+
+        if (edtQuantidade.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preencha o campo Quantidade.");
+            edtQuantidade.requestFocus();
+            return false;
+        }
+
+        if (edtDataVenda.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preencha o campo Data da Venda.");
+            edtDataVenda.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    //e no campo quantidade posso colocar a quantidade de cada um dos livros? Como
     /**
      * @param args the command line arguments
      */
@@ -277,14 +316,14 @@ public class FrCadVenda extends javax.swing.JDialog {
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JTextField edtCliente;
-    private javax.swing.JTextField edtCodLivro;
-    private javax.swing.JFormattedTextField edtData;
+    private javax.swing.JFormattedTextField edtDataVenda;
+    private javax.swing.JTextField edtLivro;
     private javax.swing.JTextField edtQuantidade;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCliente;
-    private javax.swing.JLabel lblCodLivro;
-    private javax.swing.JLabel lblData;
+    private javax.swing.JLabel lblDataVenda;
+    private javax.swing.JLabel lblLivro;
     private javax.swing.JLabel lblQuantidade;
+    private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }

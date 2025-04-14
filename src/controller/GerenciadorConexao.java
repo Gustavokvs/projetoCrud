@@ -13,7 +13,7 @@ public class GerenciadorConexao {
 
     private static final String URL = "jdbc:mysql://127.0.0.1:3306/livraria";
     private static final String USER = "root";
-    private static final String PASSWORD = "200567";
+    private static final String PASSWORD = "root";
 
     private Connection conexao;
 
@@ -76,5 +76,25 @@ public class GerenciadorConexao {
         } catch (SQLException erro) {
             Logger.getLogger(GerenciadorConexao.class.getName()).log(Level.SEVERE, null, erro);
         }
+    }
+    
+    public void abrirTransacao() throws SQLException {
+        conexao.setAutoCommit(false);
+    }
+
+    public void confirmarTransacao() throws SQLException {
+        conexao.commit();
+    }
+
+    public void cancelarTransacao() {
+        try {
+            conexao.rollback();
+        } catch (SQLException erro) {
+            Logger.getLogger(GerenciadorConexao.class.getName()).log(Level.SEVERE, null, erro);
+        }
+    }
+
+    public Connection getConexao() {
+        return conexao;
     }
 }

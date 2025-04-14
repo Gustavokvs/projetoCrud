@@ -5,13 +5,11 @@
  */
 package view;
 
-import controller.ClienteController;
 import controller.LivroController;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Cliente;
 import utils.Utils;
 import model.Livro;
 
@@ -52,7 +50,7 @@ public class FrConLivros extends javax.swing.JDialog {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("CLIENTES");
+        jLabel1.setText("LIVROS");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, -1, -1));
 
         btnPesquisar.setText("Pesquisar");

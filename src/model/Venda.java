@@ -13,17 +13,19 @@ public class Venda {
     private Cliente cliente;
     private Date dataVenda;
     private int quantidade;
+    private double valorTotal;
 
     public Venda() {
         this.livros = new ArrayList<>();
     }
 
-    public Venda(int id, List<Livro> livros, Cliente cliente, Date dataVenda, int quantidade) {
+    public Venda(int id, List<Livro> livros, Cliente cliente, Date dataVenda, int quantidade, double valorTotal) {
         this.id = id;
         this.livros = livros; // Ajuste aqui
         this.cliente = cliente;
         this.dataVenda = dataVenda;
         this.quantidade = quantidade;
+        this.valorTotal = valorTotal;
     }
 
     public int getId() {
@@ -64,5 +66,13 @@ public class Venda {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
     }
 }

@@ -19,7 +19,7 @@ public class FrMenu extends javax.swing.JFrame {
     public FrMenu() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
     }
 
     /**
@@ -206,36 +206,27 @@ public class FrMenu extends javax.swing.JFrame {
 
 
     private void miAltCadClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAltCadClienteActionPerformed
-        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
         FrCadCliente telaAlt = new FrCadCliente(this, rootPaneCheckingEnabled);
 
-        //tornou a tela visivel
         telaAlt.setVisible(true);
     }//GEN-LAST:event_miAltCadClienteActionPerformed
 
     private void miLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miLivrosActionPerformed
-        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
         FrCadLivros telaCadastro = new FrCadLivros(this, rootPaneCheckingEnabled);
 
-        //tornou a tela visivel
         telaCadastro.setVisible(true);
     }//GEN-LAST:event_miLivrosActionPerformed
 
     private void miFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miFuncionariosActionPerformed
-        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
         FrCadFuncionario telaCadastro = new FrCadFuncionario(this, rootPaneCheckingEnabled, 0);
 
-        //tornou a tela visivel
         telaCadastro.setVisible(true);
     }//GEN-LAST:event_miFuncionariosActionPerformed
 
     private void miRegistarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRegistarVendaActionPerformed
-        
         FrCadVenda telaVenda = new FrCadVenda(this, rootPaneCheckingEnabled);
-        
-        telaVenda.setVisible(true);
-        
 
+        telaVenda.setVisible(true);
     }//GEN-LAST:event_miRegistarVendaActionPerformed
 
     private void miConsultarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConsultarVendaActionPerformed
@@ -243,50 +234,51 @@ public class FrMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_miConsultarVendaActionPerformed
 
     private void miInformaçõesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInformaçõesActionPerformed
-        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
         FrInformacoes telaInformacoes = new FrInformacoes(this, rootPaneCheckingEnabled);
 
-        //tornou a tela visivel
         telaInformacoes.setVisible(true);
     }//GEN-LAST:event_miInformaçõesActionPerformed
 
     private void miCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCategoriasActionPerformed
         FrCadGenero telaCategoria = new FrCadGenero(this, rootPaneCheckingEnabled);
 
-        //tornou a tela visivel
         telaCategoria.setVisible(true);
     }//GEN-LAST:event_miCategoriasActionPerformed
 
     private void miConClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConClienteActionPerformed
-        //criou uma tela de cadastro de usuario, o this referencia a tela anterior de onde ele veio
         FrConCliente telaCliente = new FrConCliente(this, rootPaneCheckingEnabled);
 
-        //tornou a tela visivel
         telaCliente.setVisible(true);
     }//GEN-LAST:event_miConClienteActionPerformed
 
     private void miConLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConLivroActionPerformed
         FrConLivros telaLivros = new FrConLivros(this, rootPaneCheckingEnabled);
-        
+
         telaLivros.setVisible(true);
     }//GEN-LAST:event_miConLivroActionPerformed
 
     private void miConCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConCategoriaActionPerformed
-        // TODO add your handling code here:
+        FrConGenero telaGenero = new FrConGenero(this, rootPaneCheckingEnabled);
+
+        telaGenero.setVisible(true);
     }//GEN-LAST:event_miConCategoriaActionPerformed
 
     private void miConVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConVendasActionPerformed
-        // TODO add your handling code here:
+        FrConVendas telaVendas = new FrConVendas(this, rootPaneCheckingEnabled);
+
+        telaVendas.setVisible(true);
     }//GEN-LAST:event_miConVendasActionPerformed
 
     private void miConFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConFuncionariosActionPerformed
-        // TODO add your handling code here:
+        FrConFuncionario telaFunc = new FrConFuncionario(this, rootPaneCheckingEnabled);
+
+        telaFunc.setVisible(true);
     }//GEN-LAST:event_miConFuncionariosActionPerformed
 
     private void miCadastrarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCadastrarAutorActionPerformed
-        
+
         FrCadAutor autor = new FrCadAutor(this, rootPaneCheckingEnabled);
-        
+
         autor.setVisible(true);
 
     }//GEN-LAST:event_miCadastrarAutorActionPerformed
