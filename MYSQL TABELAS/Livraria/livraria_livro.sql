@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `livraria` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `livraria`;
 -- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: livraria
@@ -29,13 +31,10 @@ CREATE TABLE `livro` (
   `preco` decimal(10,2) DEFAULT NULL,
   `ano_publicacao` int DEFAULT NULL,
   `id_autor` int DEFAULT NULL,
-  `id_genero` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_autor` (`id_autor`),
-  KEY `fk_id_genero` (`id_genero`),
-  CONSTRAINT `fk_id_genero` FOREIGN KEY (`id_genero`) REFERENCES `genero` (`id`),
   CONSTRAINT `livro_ibfk_1` FOREIGN KEY (`id_autor`) REFERENCES `autor` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +43,7 @@ CREATE TABLE `livro` (
 
 LOCK TABLES `livro` WRITE;
 /*!40000 ALTER TABLE `livro` DISABLE KEYS */;
-INSERT INTO `livro` VALUES (1,'Harry potter','1111111111',54.00,2000,1,NULL),(2,'Harry potter','1111111111',54.00,2000,1,NULL),(3,'Harry porra','1234567890',20.00,2019,1,NULL),(4,'Harry porra','1234567890',20.00,2019,1,NULL),(5,'testando','1111111111',20.00,2000,1,NULL),(6,'testando','1111111111',20.00,2000,1,NULL),(7,'dst','5555555555',30.00,2000,1,NULL),(13,'Harry potter','2222222222',20.00,2000,1,1),(14,'Sherlock Holmes','4444444444',36.00,1980,1,2);
+INSERT INTO `livro` VALUES (11,'Pinóquio','6123497345128',75.90,1890,1),(12,'Piratas do caribe','5555555489',66.97,2010,1);
 /*!40000 ALTER TABLE `livro` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 16:58:15
+-- Dump completed on 2025-04-13 21:47:28

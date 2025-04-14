@@ -18,7 +18,7 @@ public class LivroController {
 
         for (int i = 0; i < idsCategorias.size(); i++) {
             int idCategoria = idsCategorias.get(i);
-            String sql = "SELECT nome FROM genero WHERE id = ?";  
+            String sql = "SELECT nome FROM genero WHERE id = ?";
 
             try (PreparedStatement pst = conexao.prepararComando(sql)) {
                 pst.setInt(1, idCategoria);
@@ -277,6 +277,27 @@ public class LivroController {
             return inserir(livro, categoriasString);
         } else {
             return atualizar(livro);
+        }
+    }
+
+    public void atualizarCategorias(int livroId, List<Integer> novaListaDeCategorias) throws SQLException {
+        GerenciadorConexao conexao = new GerenciadorConexao();
+
+// Passo 1: Remover as categorias antigas
+        String deleteQuery = "DELETE FROM livro_genero WHERE livro_id = ?";
+        try (PreparedStatement deleteStmt = conexao.prepararComando(deleteQuery)) {
+            deleteStmt.setInt(1, livroId);
+            deleteStmt.executeUpdate();
+        }
+
+        // Passo 2: Inserir as novas categorias
+        String insertQuery = "INSERT INTO livro_genero (livro_id, genero_id) VALUES (?, ?)";
+        try (PreparedStatement insertStmt = conexao.prepararComando(insertQuery)) {
+            for (Integer categoriaId : novaListaDeCategorias) {
+                insertStmt.setInt(1, livroId);
+                insertStmt.setInt(2, categoriaId);
+                insertStmt.executeUpdate();
+            }
         }
     }
 

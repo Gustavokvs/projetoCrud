@@ -38,6 +38,7 @@ public class FrMenu extends javax.swing.JFrame {
         miLivros = new javax.swing.JMenuItem();
         miFuncionarios = new javax.swing.JMenuItem();
         miCategorias = new javax.swing.JMenuItem();
+        miCadastrarAutor = new javax.swing.JMenuItem();
         meVendas = new javax.swing.JMenu();
         miRegistarVenda = new javax.swing.JMenuItem();
         miConsultarVenda = new javax.swing.JMenuItem();
@@ -96,6 +97,14 @@ public class FrMenu extends javax.swing.JFrame {
             }
         });
         meCadastro.add(miCategorias);
+
+        miCadastrarAutor.setText("Autores");
+        miCadastrarAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCadastrarAutorActionPerformed(evt);
+            }
+        });
+        meCadastro.add(miCadastrarAutor);
 
         barMenu.add(meCadastro);
 
@@ -274,6 +283,12 @@ public class FrMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_miConFuncionariosActionPerformed
 
+    private void miCadastrarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCadastrarAutorActionPerformed
+
+ 
+
+    }//GEN-LAST:event_miCadastrarAutorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -317,6 +332,7 @@ public class FrMenu extends javax.swing.JFrame {
     private javax.swing.JMenu meSobre1;
     private javax.swing.JMenu meVendas;
     private javax.swing.JMenuItem miAltCadCliente;
+    private javax.swing.JMenuItem miCadastrarAutor;
     private javax.swing.JMenuItem miCategorias;
     private javax.swing.JMenuItem miConCategoria;
     private javax.swing.JMenuItem miConCliente;

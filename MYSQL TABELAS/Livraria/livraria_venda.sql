@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `livraria` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `livraria`;
 -- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: livraria
@@ -30,7 +32,7 @@ CREATE TABLE `venda` (
   PRIMARY KEY (`id`),
   KEY `id_cliente` (`id_cliente`),
   CONSTRAINT `venda_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +41,6 @@ CREATE TABLE `venda` (
 
 LOCK TABLES `venda` WRITE;
 /*!40000 ALTER TABLE `venda` DISABLE KEYS */;
-INSERT INTO `venda` VALUES (1,1,'2005-12-18',1),(2,1,'2005-12-18',1),(5,1,'2005-05-12',18),(6,1,'1995-06-08',2),(7,1,'2005-12-18',2),(8,1,'2020-06-18',9);
 /*!40000 ALTER TABLE `venda` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 16:58:15
+-- Dump completed on 2025-04-13 21:47:27

@@ -5,9 +5,14 @@
  */
 package view;
 
+import controller.GerenciadorConexao;
 import controller.LivroController;
 import javax.swing.JOptionPane;
 import model.Livro;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Arrays;
+
 
 /**
  *
@@ -200,146 +205,158 @@ public class FrAltLivro extends javax.swing.JDialog {
         });
     }
 
-    private void salvar() {
-        // Capturar os dados dos campos
-        String titulo = edtTitulo.getText().trim();
-        String isbn = edtIsbn.getText().trim();
-        String precoStr = edtPreco.getText().trim();
-        String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
-        String categoriaStr = edtCategoria.getText().trim(); // Agora pode ser algo como "1,2"
-        String autorIdStr = edtAutorId.getText().trim();
+private void salvar() {
+    
+    if (!verificarCampos()) {
+        return; // Se a validação falhar, interrompe o salvamento
+    }
+    // O re
+    // Capturar os dados dos campos
+    String titulo = edtTitulo.getText().trim();
+    String isbn = edtIsbn.getText().trim();
+    String precoStr = edtPreco.getText().trim();
+    String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
+    String categoriaStr = edtCategoria.getText().trim(); // Agora pode ser algo como "1,2"
+    String autorIdStr = edtAutorId.getText().trim();
 
-        // Converter os dados para os tipos corretos
-        double preco;
-        int anoPublicacao, autorId;
+    // Converter os dados para os tipos corretos
+    double preco;
+    int anoPublicacao, autorId;
 
-        try {
-            preco = Double.parseDouble(precoStr);
-            anoPublicacao = Integer.parseInt(anoPublicacaoStr);
-            autorId = Integer.parseInt(autorIdStr);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos válidos para preço, ano de publicação e autor.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Criar o objeto Livro com os dados capturados
-        Livro livro = new Livro();
-        livro.setId(Integer.parseInt(edtIdLivro.getText())); // O ID do livro já está no campo de texto, mesmo que não editável
-        livro.setTitulo(titulo);
-        livro.setIsbn(isbn);
-        livro.setPreco(preco);
-        livro.setAnoPublicacao(anoPublicacao);
-        livro.setIdAutor(autorId);
-
-        // Processar os IDs das categorias
-        String[] categorias = categoriaStr.split(",");
-        for (String categoriaIdStr : categorias) {
-            try {
-                int categoriaId = Integer.parseInt(categoriaIdStr.trim()); // Tenta converter cada ID de categoria
-                // Aqui, você pode chamar o método para atualizar o relacionamento (Tabela LivroGenero)
-                // Isso pode ser feito no controller ou diretamente no banco
-                LivroController controller = new LivroController();
-                controller.adicionarCategoriaAoLivro(livro.getId(), categoriaId); // Chamada para método que vai tratar a relação N:N
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "ID de categoria inválido: " + categoriaIdStr, "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        }
-
-        // Chamar o método de atualização no controller para salvar o livro
-        LivroController controller = new LivroController();
-        boolean sucesso = controller.atualizar(livro);
-
-        // Exibir mensagens de sucesso ou erro
-        if (sucesso) {
-            JOptionPane.showMessageDialog(this, "Livro atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose(); // Fechar a janela de alteração
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao atualizar o livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+    try {
+        preco = Double.parseDouble(precoStr);
+        anoPublicacao = Integer.parseInt(anoPublicacaoStr);
+        autorId = Integer.parseInt(autorIdStr);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos válidos para preço, ano de publicação e autor.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return;
     }
 
-    private boolean verificarCampos() {
-        // Verificar se todos os campos obrigatórios estão preenchidos
-        if (edtTitulo.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, preencha o título do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+    // Pegar o texto do campo de categorias
+    String inputCategorias = categoriaStr; // Já pegamos do campo
 
-        if (edtIsbn.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, preencha o ISBN do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+    // Converter a entrada em uma lista de inteiros
+    List<Integer> novaListaDeCategorias = Arrays.stream(inputCategorias.split(","))
+        .map(String::trim) // Remover espaços antes ou depois dos números
+        .map(Integer::parseInt) // Converter para Integer
+        .collect(Collectors.toList()); // Coletar em uma lista
 
-        if (edtPreco.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, preencha o preço do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+    // Criar o objeto Livro com os dados capturados
+    Livro livro = new Livro();
+    livro.setId(Integer.parseInt(edtIdLivro.getText())); // O ID do livro já está no campo de texto, mesmo que não editável
+    livro.setTitulo(titulo);
+    livro.setIsbn(isbn);
+    livro.setPreco(preco);
+    livro.setAnoPublicacao(anoPublicacao);
+    livro.setIdAutor(autorId);
+    livro.setIdsCategorias(novaListaDeCategorias); // A lista de categorias foi capturada e convertida
 
-        if (edtAnoPublicacao.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, preencha o ano de publicação do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+    // Chamar o método de atualização no controller para salvar o livro
+    LivroController controller = new LivroController();
+    boolean sucesso = controller.atualizar(livro);
 
-        if (edtCategoria.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, preencha a categoria do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+    // Exibir mensagens de sucesso ou erro
+    if (sucesso) {
+        JOptionPane.showMessageDialog(this, "Livro atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        this.dispose(); // Fechar a janela de alteração
+    } else {
+        JOptionPane.showMessageDialog(this, "Erro ao atualizar o livro.", "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+}
 
-        if (edtAutorId.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, preencha o ID do autor.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+private boolean verificarCampos() {
+    // Verificar se todos os campos obrigatórios estão preenchidos
+    if (edtTitulo.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, preencha o título do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
 
-        // Verificar se os campos numéricos são válidos
+    if (edtIsbn.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, preencha o ISBN do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    if (edtPreco.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, preencha o preço do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    if (edtAnoPublicacao.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, preencha o ano de publicação do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    if (edtCategoria.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, preencha a categoria do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    if (edtAutorId.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, preencha o ID do autor.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    // Verificar se os campos numéricos são válidos
+    try {
+        Double.parseDouble(edtPreco.getText().trim());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Preço inválido. Por favor, insira um valor numérico válido para o preço.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    try {
+        Integer.parseInt(edtAnoPublicacao.getText().trim());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Ano de publicação inválido. Por favor, insira um valor numérico válido para o ano de publicação.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    // Validar as categorias - se o campo não for vazio, deve ser um número válido (ou lista de números separados por vírgula)
+    String categorias = edtCategoria.getText().trim();
+    String[] categoriaArray = categorias.split(",");
+    for (String categoria : categoriaArray) {
         try {
-            Double.parseDouble(edtPreco.getText().trim());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Preço inválido. Por favor, insira um valor numérico válido para o preço.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-        try {
-            Integer.parseInt(edtAnoPublicacao.getText().trim());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Ano de publicação inválido. Por favor, insira um valor numérico válido para o ano de publicação.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-        try {
-            Integer.parseInt(edtCategoria.getText().trim());
+            Integer.parseInt(categoria.trim()); // Tenta converter cada item separado por vírgula
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Categoria inválida. Por favor, insira um valor numérico válido para a categoria.", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-
-        try {
-            Integer.parseInt(edtAutorId.getText().trim());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "ID do autor inválido. Por favor, insira um valor numérico válido para o ID do autor.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-        return true;
     }
+
+    try {
+        Integer.parseInt(edtAutorId.getText().trim());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "ID do autor inválido. Por favor, insira um valor numérico válido para o ID do autor.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    return true;
+}
 
     private void carregarLivro() {
-        LivroController livroController = new LivroController();
-        Livro livro = livroController.buscarPorId(id);
+    LivroController livroController = new LivroController();
+    Livro livro = livroController.buscarPorId(id);
 
-        if (livro != null) {
-            edtIdLivro.setText(String.valueOf(livro.getId()));
-            edtTitulo.setText(livro.getTitulo());
-            edtIsbn.setText(livro.getIsbn());
-            edtPreco.setText(String.valueOf(livro.getPreco()));
-            edtAnoPublicacao.setText(String.valueOf(livro.getAnoPublicacao()));
-           edtCategoria.setText(String.valueOf(livro.getIdsCategorias()));
-            edtAutorId.setText(String.valueOf(livro.getIdAutor()));
-        } else {
-            JOptionPane.showMessageDialog(this, "Livro não encontrado.");
-            dispose();
-        }
+    if (livro != null) {
+        edtIdLivro.setText(String.valueOf(livro.getId()));
+        edtTitulo.setText(livro.getTitulo());
+        edtIsbn.setText(livro.getIsbn());
+        edtPreco.setText(String.valueOf(livro.getPreco()));
+        edtAnoPublicacao.setText(String.valueOf(livro.getAnoPublicacao()));
+        
+        // Converter a lista de categorias em um formato "id1,id2,..."
+        String categorias = livro.getIdsCategorias().stream()
+                                 .map(String::valueOf)
+                                 .collect(Collectors.joining(","));
+        edtCategoria.setText(categorias);  // Preencher o campo com os IDs das categorias
+        
+        edtAutorId.setText(String.valueOf(livro.getIdAutor()));
+    } else {
+        JOptionPane.showMessageDialog(this, "Livro não encontrado.");
+        dispose();
     }
+}
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

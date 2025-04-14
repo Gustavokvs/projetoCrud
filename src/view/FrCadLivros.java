@@ -57,7 +57,7 @@ public class FrCadLivros extends javax.swing.JDialog {
         lbltAutor.setText("Autor");
         jPanel1.add(lbltAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 125, -1, -1));
 
-        lblCategoria.setText("Categoria");
+        lblCategoria.setText("Categoria ID");
         jPanel1.add(lblCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 186, -1, -1));
 
         lblIsbn.setText("ISBN");
@@ -97,7 +97,7 @@ public class FrCadLivros extends javax.swing.JDialog {
                 edtTituloActionPerformed(evt);
             }
         });
-        jPanel1.add(edtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 83, 67, -1));
+        jPanel1.add(edtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 83, 190, -1));
         jPanel1.add(edtIsbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 280, 122, -1));
 
         edtCategoria.addActionListener(new java.awt.event.ActionListener() {
