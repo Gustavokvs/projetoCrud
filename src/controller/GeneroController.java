@@ -8,6 +8,16 @@ import model.Genero;
 
 public class GeneroController {
 
+    
+    
+    public static void main(String[] args) {
+        GeneroController controller = new GeneroController();
+ArrayList<Genero> generos = controller.listarTodos();
+
+for (Genero g : generos) {
+    System.out.println("ID: " + g.getId() + " | Nome: " + g.getNome());
+}
+    }
     // Método para inserir um gênero no banco de dados
     public boolean inserir(Genero genero) {
         String sql = "INSERT INTO genero (nome) VALUES (?)";
