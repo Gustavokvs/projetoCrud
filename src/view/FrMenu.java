@@ -284,8 +284,10 @@ public class FrMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_miConFuncionariosActionPerformed
 
     private void miCadastrarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCadastrarAutorActionPerformed
-
- 
+        
+        FrCadAutor autor = new FrCadAutor(this, rootPaneCheckingEnabled);
+        
+        autor.setVisible(true);
 
     }//GEN-LAST:event_miCadastrarAutorActionPerformed
 
