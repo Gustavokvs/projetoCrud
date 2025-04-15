@@ -21,6 +21,8 @@ public class FrCadGenero extends javax.swing.JDialog {
     public FrCadGenero(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        this.setLocationRelativeTo(null);
     }
 
     /**
