@@ -10,7 +10,17 @@ import java.sql.Timestamp;
 
 public class ClienteController {
 
+    // Método de validação de email
+    public boolean validarEmail(String email) {
+        return email.contains("@") && email.contains(".");
+    }
+
     public boolean inserir(Cliente cliente) {
+        if (!validarEmail(cliente.getEmail())) {
+            System.out.println("Email inválido.");
+            return false;  // Não insere o cliente caso o email seja inválido
+        }
+
         GerenciadorConexao conexao = new GerenciadorConexao();
         String sql = "INSERT INTO cliente (nome, email, telefone, data_nascimento, ativo) VALUES (?, ?, ?, ?, ?)";
 
@@ -19,7 +29,7 @@ public class ClienteController {
             comando.setString(1, cliente.getNome());
             comando.setString(2, cliente.getEmail());
             comando.setString(3, cliente.getTelefone());
-            comando.setTimestamp(4, new Timestamp(cliente.getDataNascimento().getTime()));
+            comando.setDate(4, new java.sql.Date(cliente.getDataNascimento().getTime()));  // Mudança para java.sql.Date
             comando.setBoolean(5, cliente.isAtivo());
 
             comando.executeUpdate();
@@ -32,7 +42,44 @@ public class ClienteController {
         }
     }
 
+    // Método para buscar clientes por nome
+    public ArrayList<Cliente> buscarPorNome(String nome) {
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        String sql = "SELECT * FROM cliente WHERE nome LIKE ?";
+        PreparedStatement comando = conexao.prepararComando(sql);
+        ResultSet resultado = null;
+        ArrayList<Cliente> listaClientes = new ArrayList<>();
+
+        try {
+            comando.setString(1, "%" + nome + "%");  // Pesquisa que seja semelhante ao nome
+            resultado = comando.executeQuery();
+
+            while (resultado.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setId(resultado.getInt("id"));
+                cliente.setNome(resultado.getString("nome"));
+                cliente.setEmail(resultado.getString("email"));
+                cliente.setTelefone(resultado.getString("telefone"));
+                cliente.setDataNascimento(new Date(resultado.getTimestamp("data_nascimento").getTime()));
+                cliente.setAtivo(resultado.getBoolean("ativo"));
+                listaClientes.add(cliente);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            conexao.fecharConexao(comando, resultado);
+        }
+
+        return listaClientes;
+    }
+
     public boolean atualizar(Cliente cliente) {
+        if (!validarEmail(cliente.getEmail())) {
+            System.out.println("Email inválido.");
+            return false;  // Não atualiza o cliente caso o email seja inválido
+        }
+
         GerenciadorConexao conexao = new GerenciadorConexao();
         String sql = "UPDATE cliente SET nome = ?, email = ?, telefone = ?, data_nascimento = ?, ativo = ? WHERE id = ?";
 
@@ -41,7 +88,7 @@ public class ClienteController {
             comando.setString(1, cliente.getNome());
             comando.setString(2, cliente.getEmail());
             comando.setString(3, cliente.getTelefone());
-            comando.setTimestamp(4, new Timestamp(cliente.getDataNascimento().getTime()));
+            comando.setDate(4, new java.sql.Date(cliente.getDataNascimento().getTime()));  // Mudança para java.sql.Date
             comando.setBoolean(5, cliente.isAtivo());
             comando.setInt(6, cliente.getId());
 

@@ -21,6 +21,16 @@ import model.Livro;
 import controller.ClienteController;
 import controller.GerenciadorConexao;
 import controller.LivroController;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+import java.time.LocalDate;
 
 /**
  *
@@ -110,6 +120,11 @@ public class FrCadVenda extends javax.swing.JDialog {
                 btnSalvarMouseClicked(evt);
             }
         });
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -140,8 +155,13 @@ public class FrCadVenda extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnVoltarActionPerformed
 
-    public void gravar() {
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
+// Adicionando livros e quantidades
+// Correção de 'Livro' e 'quantidade'
+    public void gravar() {
         // Criação de uma nova venda
         Venda venda = new Venda();
 
@@ -154,41 +174,31 @@ public class FrCadVenda extends javax.swing.JDialog {
         }
         venda.setCliente(clienteBuscado);
 
-        // Pegando a data da venda
+        // Processando a data da venda
         String dataVendaStr = edtDataVenda.getText();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // Ajuste conforme o formato da sua data
+        LocalDate dataVenda = null;
 
         try {
-            Date dataVenda = sdf.parse(dataVendaStr);
-            venda.setDataVenda(dataVenda);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Erro: A data fornecida é inválida. Use o formato dd/MM/yyyy.");
+            dataVenda = LocalDate.parse(dataVendaStr, formatter);
+            venda.setDataVenda(dataVenda); // Supondo que você tenha um setter para dataVenda na classe Venda
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Formato de data inválido.");
             return;
         }
 
-        // Pegando os IDs dos livros e as quantidades
+        // Processando os livros e suas quantidades
         String idsLivrosStr = edtLivro.getText();
-        String quantidadesStr = edtQuantidade.getText();
-
-        // Separando os IDs dos livros e as quantidades
         String[] idsLivros = idsLivrosStr.split(",");
-        String[] quantidades = quantidadesStr.split(",");
 
-        if (idsLivros.length != quantidades.length) {
-            JOptionPane.showMessageDialog(null, "Erro: O número de IDs e quantidades não corresponde.");
-            return;
-        }
-
-        // Lista de livros a serem associados à venda
         List<Livro> livrosDaVenda = new ArrayList<>();
-        double valorTotal = 0;  // Inicializa o valor total
+        double valorTotal = 0;
 
-        for (int i = 0; i < idsLivros.length; i++) {
+        // Adicionando livros
+        for (String idLivroStr : idsLivros) {
             try {
-                int idLivro = Integer.parseInt(idsLivros[i].trim());
-                int quantidade = Integer.parseInt(quantidades[i].trim());
+                int idLivro = Integer.parseInt(idLivroStr.trim());
 
-                // Buscar o livro
                 LivroController livroCtrl = new LivroController();
                 Livro livroBuscado = livroCtrl.buscarPorId(idLivro);
                 if (livroBuscado == null) {
@@ -196,39 +206,38 @@ public class FrCadVenda extends javax.swing.JDialog {
                     return;
                 }
 
-                // Calcular o valor total (quantidade * preço do livro)
-                double valorLivro = livroBuscado.getPreco() * quantidade;
-                valorTotal += valorLivro;
-
-                // Adicionar o livro à venda
+                valorTotal += livroBuscado.getPreco();
                 livrosDaVenda.add(livroBuscado);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Erro: ID do livro ou quantidade inválidos.");
+                JOptionPane.showMessageDialog(null, "Erro: ID do livro inválido.");
                 return;
             }
         }
 
-        // Definindo os livros na venda
-        venda.setLivros(livrosDaVenda);
+        // Pegar a quantidade inserida pelo usuário
+        String quantidadeStr = edtQuantidade.getText();
+        int quantidade = 0;
 
-        // Definindo a quantidade total de livros vendidos (opcional)
-        int quantidadeTotal = 0;
-        for (int i = 0; i < quantidades.length; i++) {
-            quantidadeTotal += Integer.parseInt(quantidades[i].trim());
+        try {
+            quantidade = Integer.parseInt(quantidadeStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Quantidade inválida.");
+            return;
         }
-        venda.setQuantidade(quantidadeTotal);
 
-        // Definindo o valor total da venda
-        venda.setValorTotal(valorTotal);
+        // Associando livros e suas quantidades
+        Map<Livro, Integer> livrosMap = new HashMap<>();
+        for (Livro livro : livrosDaVenda) {
+            livrosMap.put(livro, quantidade); // Definindo a quantidade de cada livro
+        }
+        venda.setLivrosVendidos(livrosMap);
 
-        // Inserir a venda no banco de dados
-        GerenciadorConexao conexao = new GerenciadorConexao();
-        boolean sucesso = controller.inserir(venda, conexao);
-
-        if (sucesso) {
-            JOptionPane.showMessageDialog(null, "Venda registrada com sucesso!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Erro ao registrar a venda.");
+        // Gravando a venda
+        try {
+            controller.registrarVenda(venda);
+            JOptionPane.showMessageDialog(this, "Venda registrada com sucesso!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao registrar venda: " + e.getMessage());
         }
     }
 

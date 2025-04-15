@@ -1,167 +1,107 @@
 package controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import model.Venda;
 import model.Livro;
-import model.Cliente;
+import java.sql.*;
+import java.util.Map;
 
 public class VendaController {
 
-    private List<Venda> vendas = new ArrayList<>();
+    // Método para registrar uma nova venda no banco de dados
+    public void registrarVenda(Venda venda) {
+        Connection conn = null;
+        PreparedStatement stmtVenda = null;
+        PreparedStatement stmtVendaLivro = null;
+        ResultSet rs = null;
+        GerenciadorConexao conexao = null;
 
-    // Método para criar uma venda sem inserir no banco ainda
-    public Venda criarVenda(Cliente cliente, List<Livro> livros, int quantidade) {
-        Venda novaVenda = new Venda();
-        novaVenda.setId(vendas.size() + 1);
-        novaVenda.setCliente(cliente);
-        novaVenda.setLivros(livros);
-        novaVenda.setQuantidade(quantidade);
-        novaVenda.setDataVenda(new Date());
-
-        vendas.add(novaVenda);
-
-        return novaVenda;
-    }
-
-    // Método para inserir uma venda no banco
-  public boolean inserir(Venda venda, GerenciadorConexao conexao) {
-    String sql = "INSERT INTO venda (id_cliente, data_venda, quantidade) VALUES (?, ?, ?)";
-
-    try (
-        Connection conn = conexao.getConexao();
-        PreparedStatement stmt = conn.prepareStatement(sql)
-    ) {
-        stmt.setInt(1, venda.getCliente().getId());
-        stmt.setDate(2, new java.sql.Date(venda.getDataVenda().getTime()));
-        stmt.setInt(3, venda.getQuantidade());
-
-        int linhasAfetadas = stmt.executeUpdate();
-
-        return linhasAfetadas > 0;
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
-    }
-}
-
-
-
-    // Método para buscar o ID da última venda inserida
-    private int getIdUltimaVenda(GerenciadorConexao conexao) throws SQLException {
-        String sql = "SELECT LAST_INSERT_ID()";
-        PreparedStatement comando = conexao.prepararComando(sql);
-        ResultSet resultSet = comando.executeQuery();
-        if (resultSet.next()) {
-            return resultSet.getInt(1);  // Retorna o último ID gerado
-        }
-        return -1;  // Retorna -1 se não encontrar
-    }
-
-    // Método para listar todas as vendas
-    public List<Venda> listar() {
-        List<Venda> lista = new ArrayList<>();
-        GerenciadorConexao conexao = new GerenciadorConexao();
-        String sql = "SELECT * FROM venda";
-
-        PreparedStatement comando = conexao.prepararComando(sql);
         try {
-            ResultSet resultSet = comando.executeQuery();
-            while (resultSet.next()) {
-                Venda v = new Venda();
-                Cliente cliente = new Cliente();
-                v.setId(resultSet.getInt("id"));
-                cliente.setId(resultSet.getInt("id_cliente"));  // Corrigindo: agora está pegando o ID do cliente
-                v.setCliente(cliente);
-                v.setDataVenda(resultSet.getDate("data_venda"));
-                v.setQuantidade(resultSet.getInt("quantidade"));
+            // Usando o GerenciadorConexao para instanciar a conexão
+            conexao = new GerenciadorConexao();
+            conn = conexao.getConexao(); // Obter a conexão corretamente
 
-                // Buscando os livros associados a essa venda
-                List<Livro> livros = getLivrosPorVenda(v.getId(), conexao);
-                v.setLivros(livros);
+            conexao.abrirTransacao(); // Iniciar transação
 
-                lista.add(v);
+            // Inserir na tabela venda
+            String sqlVenda = "INSERT INTO venda (id_cliente, data_venda) VALUES (?, ?)";
+            stmtVenda = conexao.prepararComando(sqlVenda, Statement.RETURN_GENERATED_KEYS);
+            stmtVenda.setInt(1, venda.getIdCliente());
+            // Passando a data da venda fornecida e não a atual
+            stmtVenda.setDate(2, java.sql.Date.valueOf(venda.getDataVenda()));
+            stmtVenda.executeUpdate();
+
+            rs = stmtVenda.getGeneratedKeys();
+            int idVenda = 0;
+            if (rs.next()) {
+                idVenda = rs.getInt(1);
+                venda.setId(idVenda);
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+
+            // Inserir na tabela venda_livro (relacionando livros com a venda)
+            String sqlVendaLivro = "INSERT INTO venda_livro (id_venda, id_livro, quantidade) VALUES (?, ?, ?)";
+            stmtVendaLivro = conexao.prepararComando(sqlVendaLivro);
+
+            // Garantir que a quantidade de livros seja passada corretamente
+            for (Map.Entry<Livro, Integer> entry : venda.getLivrosVendidos().entrySet()) {
+                stmtVendaLivro.setInt(1, idVenda);
+                stmtVendaLivro.setInt(2, entry.getKey().getId());
+                stmtVendaLivro.setInt(3, entry.getValue()); // Certificando que a quantidade é passada corretamente
+                stmtVendaLivro.executeUpdate(); // Executando a inserção de cada livro vendido com a quantidade correta
+            }
+
+            conexao.confirmarTransacao(); // Finaliza a transação
+            System.out.println("Venda registrada com sucesso no banco!");
+
+        } catch (Exception e) {
+            if (conexao != null) {
+                conexao.cancelarTransacao(); // Desfaz transação em caso de erro
+            }
+            e.printStackTrace();
         } finally {
-            conexao.fecharConexao(comando);
-        }
-        return lista;
-    }
-
-    // Método para buscar os livros relacionados a uma venda
-    private List<Livro> getLivrosPorVenda(int idVenda, GerenciadorConexao conexao) throws SQLException {
-        List<Livro> livros = new ArrayList<>();
-        String sqlLivros = "SELECT l.id, l.titulo FROM livro l "
-                + "JOIN venda vl ON l.id = vl.id_livro "
-                + "WHERE vl.id = ?";
-
-        PreparedStatement comandoLivros = conexao.prepararComando(sqlLivros);
-        comandoLivros.setInt(1, idVenda);
-        ResultSet resultSetLivros = comandoLivros.executeQuery();
-
-        while (resultSetLivros.next()) {
-            Livro livro = new Livro();
-            livro.setId(resultSetLivros.getInt("id"));
-            livro.setTitulo(resultSetLivros.getString("titulo"));
-            livros.add(livro);
-        }
-
-        return livros;
-    }
-
-    // Método para atualizar uma venda
-    public boolean atualizar(Venda venda) {
-        GerenciadorConexao conexao = new GerenciadorConexao();
-        String sql = "UPDATE venda SET id_cliente=?, data_venda=?, quantidade=? WHERE id=?";
-
-        PreparedStatement comando = conexao.prepararComando(sql);
-        try {
-            comando.setInt(1, venda.getCliente().getId());  // Usando o ID do cliente
-            comando.setDate(2, new java.sql.Date(venda.getDataVenda().getTime()));
-            comando.setInt(3, venda.getQuantidade());
-            comando.setInt(4, venda.getId());
-
-            comando.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        } finally {
-            conexao.fecharConexao(comando);
+            // Fechar recursos
+            try { if (rs != null) rs.close(); } catch (SQLException e) {}
+            try { if (stmtVendaLivro != null) stmtVendaLivro.close(); } catch (SQLException e) {}
+            try { if (stmtVenda != null) stmtVenda.close(); } catch (SQLException e) {}
+            if (conexao != null) {
+                conexao.fecharConexao(); // Fechar a conexão após o uso
+            }
         }
     }
 
-    // Método para excluir uma venda
-    public boolean excluir(int id) {
-        GerenciadorConexao conexao = new GerenciadorConexao();
+    // Método para adicionar um livro à venda
+    public void adicionarLivroAVenda(Venda venda, Livro livro, int quantidade) {
+        Map<Livro, Integer> livrosVendidos = venda.getLivrosVendidos();
+        if (livrosVendidos.containsKey(livro)) {
+            livrosVendidos.put(livro, livrosVendidos.get(livro) + quantidade);
+        } else {
+            livrosVendidos.put(livro, quantidade);
+        }
+        venda.setLivrosVendidos(livrosVendidos);
+    }
 
-        // Primeiro, exclui os livros relacionados
-        String sqlVendaLivro = "DELETE FROM venda_livro WHERE id_venda=?";
-        PreparedStatement comandoVendaLivro = conexao.prepararComando(sqlVendaLivro);
-        try {
-            comandoVendaLivro.setInt(1, id);
-            comandoVendaLivro.executeUpdate();
+    // Método para remover um livro da venda
+    public void removerLivroDaVenda(Venda venda, Livro livro) {
+        Map<Livro, Integer> livrosVendidos = venda.getLivrosVendidos();
+        if (livrosVendidos.containsKey(livro)) {
+            livrosVendidos.remove(livro);
+            venda.setLivrosVendidos(livrosVendidos);
+        }
+    }
 
-            // Agora, exclui a venda
-            String sqlVenda = "DELETE FROM venda WHERE id=?";
-            PreparedStatement comandoVenda = conexao.prepararComando(sqlVenda);
-            comandoVenda.setInt(1, id);
-            comandoVenda.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        } finally {
-            conexao.fecharConexao(comandoVendaLivro);
+    // Método para finalizar a venda
+    public void finalizarVenda(Venda venda) {
+        registrarVenda(venda); // Chama o método para registrar no banco
+        System.out.println("Venda finalizada com sucesso!");
+    }
+
+    // Método para exibir detalhes da venda
+    public void exibirDetalhesVenda(Venda venda) {
+        System.out.println("ID da Venda: " + venda.getId());
+        System.out.println("Cliente: " + venda.getClienteNome());
+        System.out.println("Data da Venda: " + venda.getDataVenda());
+        System.out.println("Livros Vendidos:");
+        for (Map.Entry<Livro, Integer> entry : venda.getLivrosVendidos().entrySet()) {
+            System.out.println(" - " + entry.getKey().getTitulo() + " (Quantidade: " + entry.getValue() + ")");
         }
     }
 }
