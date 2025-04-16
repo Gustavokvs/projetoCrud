@@ -149,6 +149,7 @@ public class FrCadVenda extends javax.swing.JDialog {
         if (verificarCampos()) {
             gravar();
         }
+         limparCampos();
     }//GEN-LAST:event_btnSalvarMouseClicked
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
@@ -156,7 +157,11 @@ public class FrCadVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        // TODO add your handling code here:
+ if (verificarCampos()) {
+            gravar();
+        }
+ limparCampos();
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
 // Adicionando livros e quantidades

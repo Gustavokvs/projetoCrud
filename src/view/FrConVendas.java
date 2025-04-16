@@ -5,22 +5,19 @@
  */
 package view;
 
+import controller.GerenciadorConexao;
 import controller.VendaController;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import java.util.Map;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import model.Cliente;
 import model.Livro;
 import model.Venda;
 
@@ -30,6 +27,7 @@ import model.Venda;
  */
 public class FrConVendas extends javax.swing.JDialog {
 
+    private VendaController vendaController;
 
     /*
      * Creates new form FrConVendas
@@ -37,8 +35,9 @@ public class FrConVendas extends javax.swing.JDialog {
     public FrConVendas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
         this.setLocationRelativeTo(null);
+        vendaController = new VendaController();
+
     }
 
     /**
@@ -55,9 +54,9 @@ public class FrConVendas extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVenda = new javax.swing.JTable();
         btnVoltar = new javax.swing.JButton();
-        btnAlterar = new javax.swing.JButton();
         btnPesquisar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
+        btnAlterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -104,14 +103,6 @@ public class FrConVendas extends javax.swing.JDialog {
         });
         jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 614, -1, -1));
 
-        btnAlterar.setText("Alterar");
-        btnAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAlterarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(btnAlterar, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 614, -1, -1));
-
         btnPesquisar.setText("Pesquisar");
         btnPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -133,6 +124,14 @@ public class FrConVendas extends javax.swing.JDialog {
         });
         jPanel1.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(547, 614, -1, -1));
 
+        btnAlterar.setText("Alterar");
+        btnAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlterarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnAlterar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 620, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,7 +141,7 @@ public class FrConVendas extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -150,7 +149,7 @@ public class FrConVendas extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPesquisarMouseClicked
-
+        consultarVendas();
     }//GEN-LAST:event_btnPesquisarMouseClicked
 
     private void btnVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVoltarMouseClicked
@@ -158,29 +157,129 @@ public class FrConVendas extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarMouseClicked
 
     private void btnExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcluirMouseClicked
+       int idVenda = obterIdVendaSelecionada();
+    if (idVenda != -1) {
+        try {
+            vendaController.excluirVenda(idVenda); // Chama o método que pode lançar exceção
+            JOptionPane.showMessageDialog(null, "Venda excluída com sucesso.");
+            atualizarTabela();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir a venda: " + e.getMessage());
+            e.printStackTrace(); // Para depuração
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Selecione uma venda para excluir.");
+    }
 
     }//GEN-LAST:event_btnExcluirMouseClicked
 
-    private void btnAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMouseClicked
-
-    }//GEN-LAST:event_btnAlterarMouseClicked
-
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
+    private void btnAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMouseClicked
+         try {
+        Venda venda = obterDadosVendaDoFormulario(); // Método que você já usa
+        vendaController.alterarVenda(venda); // Chama o método que você quer manter como void
 
+        // Exibe mensagem padrão de sucesso (assumimos que não houve exceção = sucesso)
+        JOptionPane.showMessageDialog(null, "Venda alterada com sucesso!");
 
-        public static void main(String[] args) {
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            FrConVendas dialog = new FrConVendas(new javax.swing.JFrame(), true);
-            dialog.setVisible(true);
+        atualizarTabela();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro ao alterar a venda: " + e.getMessage());
+        e.printStackTrace(); // Log para depuração
+    }
+    }//GEN-LAST:event_btnAlterarMouseClicked
+
+    
+     private int obterIdVendaSelecionada() {
+        int linhaSelecionada = tblVenda.getSelectedRow();
+        if (linhaSelecionada != -1) {
+            return (int) tblVenda.getValueAt(linhaSelecionada, 0);
         }
-    });
-}
+        return -1; // Caso não haja linha selecionada
+    }
+
+    private void atualizarTabela() {
+        List<Venda> vendas = vendaController.listarVendas();
+        DefaultTableModel model = (DefaultTableModel) tblVenda.getModel();
+        model.setRowCount(0); // Limpa a tabela antes de atualizar
+
+        for (Venda venda : vendas) {
+            model.addRow(new Object[] {
+                venda.getId(),
+                venda.getClienteNome(),
+                venda.getDataVenda(),
+                venda.getLivrosVendidos(), // Preencher conforme necessário
+                String.format("R$ %.2f", venda.getValorTotal()) // Preenchendo o valor total
+            });
+        }
+    }
+    
+    public void consultarVendas() {
+        String query = "SELECT v.id AS id_venda, v.data_venda, c.nome AS nome_cliente, "
+                + "l.titulo AS nome_livro, vl.quantidade, (l.preco * vl.quantidade) AS valor_total "
+                + "FROM venda v "
+                + "JOIN cliente c ON v.id_cliente = c.id "
+                + "JOIN venda_livro vl ON v.id = vl.id_venda "
+                + "JOIN livro l ON vl.id_livro = l.id";
+
+        // Cria conexão
+        GerenciadorConexao gerenciador = new GerenciadorConexao();
+        Connection conexao = gerenciador.getConexao();
+
+        try {
+            PreparedStatement ps = conexao.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            DefaultTableModel model = (DefaultTableModel) tblVenda.getModel();
+            model.setRowCount(0); // Limpa a tabela antes de preencher
+
+            while (rs.next()) {
+                int idVenda = rs.getInt("id_venda");
+                Date dataVenda = rs.getDate("data_venda");
+                String nomeCliente = rs.getString("nome_cliente");
+                String nomeLivro = rs.getString("nome_livro");
+                int quantidade = rs.getInt("quantidade");
+                double valorTotal = rs.getDouble("valor_total");
+
+                // Adiciona a linha na tabela
+                model.addRow(new Object[]{
+                    idVenda,
+                    nomeCliente,
+                    dataVenda.toString(),
+                    nomeLivro,
+                    quantidade,
+                    String.format("R$ %.2f", valorTotal)
+                });
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar as vendas: " + e.getMessage());
+        } finally {
+            gerenciador.fecharConexao();
+        }
+    }
 
 
+    private void atualizarTabela() {
+    List<Venda> vendas = vendaController.listarVendas(); // Usando o controlador instanciado
+
+    DefaultTableModel model = (DefaultTableModel) tblVenda.getModel();
+    model.setRowCount(0);
+
+    for (Venda venda : vendas) {
+        model.addRow(new Object[] {
+            venda.getId(),
+            venda.getClienteNome(),
+            venda.getDataVenda(),
+            venda.getLivrosVendidos(),
+            venda.getLivrosVendidos(),
+            String.format("R$ %.2f", venda.getValorTotal()) // Formatando o valor na model
+        });
+    }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnExcluir;
