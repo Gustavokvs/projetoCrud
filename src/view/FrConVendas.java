@@ -11,8 +11,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -51,6 +53,9 @@ public class FrConVendas extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        btmExcluir = new javax.swing.JButton();
+        btmVoltar = new javax.swing.JButton();
+        BtmEditar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVenda = new javax.swing.JTable();
@@ -62,6 +67,30 @@ public class FrConVendas extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btmExcluir.setText("Excluir");
+        btmExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btmExcluirActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btmExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, -1, -1));
+
+        btmVoltar.setText("Voltar");
+        btmVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btmVoltarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btmVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 430, -1, -1));
+
+        BtmEditar.setText("Editar");
+        BtmEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtmEditarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(BtmEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 430, -1, -1));
 
         jLabel1.setText("Vendas");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(289, 38, -1, -1));
@@ -166,22 +195,116 @@ public class FrConVendas extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAlterarMouseClicked
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        // TODO add your handling code here:
+        pesquisar();
+
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
+    private void BtmEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtmEditarActionPerformed
+        alterarVenda();
 
+    }//GEN-LAST:event_BtmEditarActionPerformed
 
-        public static void main(String[] args) {
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            FrConVendas dialog = new FrConVendas(new javax.swing.JFrame(), true);
-            dialog.setVisible(true);
+    private void btmExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmExcluirActionPerformed
+        excluirVenda();
+    }//GEN-LAST:event_btmExcluirActionPerformed
+
+    private void btmVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmVoltarActionPerformed
+        dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_btmVoltarActionPerformed
+
+    private void alterarVenda() {
+        // Verifica se há uma linha selecionada na tabela
+        if (tblVenda.getSelectedRow() != -1) {
+            // Se houver uma linha selecionada, pega o ID da venda (coluna 0)
+            int linhaSelecionada = tblVenda.getSelectedRow();
+            String textoCelula = tblVenda.getValueAt(linhaSelecionada, 0).toString();
+
+            // Converte o texto da célula em inteiro
+            int idVenda = Integer.parseInt(textoCelula);
+
+            // Cria uma nova tela de alteração de venda passando o ID da venda
+            FrAltVenda telaAltVenda = new FrAltVenda(new javax.swing.JFrame(), true, idVenda);  // Passando o idVenda corretamente
+
+            // Exibe a tela de alteração
+            telaAltVenda.setVisible(true);
+
+            // Após fechar a tela de alteração, atualiza a tabela de vendas
+            pesquisar();
+        } else {
+            // Exibe uma mensagem de erro caso nenhuma linha seja selecionada
+            JOptionPane.showMessageDialog(rootPane, "Selecione uma venda para alterar.");
         }
-    });
-}
+    }
+
+    private void excluirVenda() {
+        int row = tblVenda.getSelectedRow();  // Pega a linha selecionada na tabela
+        if (row != -1) {
+            int idVenda = (int) tblVenda.getValueAt(row, 0);  // Obtém o ID da venda selecionada
+            int confirm = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir esta venda?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                // Chama o método da VendaController para excluir a venda
+                VendaController.excluirVenda(idVenda);
+                // Atualiza a tabela após a exclusão
+                pesquisar();
+                JOptionPane.showMessageDialog(this, "Venda excluída com sucesso.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione uma venda para excluir.");
+        }
+    }
+
+    public void pesquisar() {
+        DefaultTableModel modelo = (DefaultTableModel) tblVenda.getModel();
+        modelo.setRowCount(0); // Limpa a tabela antes de preencher
+
+        VendaController controller = new VendaController();
+        ArrayList<Venda> vendas = controller.listarTodos();
+        System.out.println("Vendas no controlador: " + vendas.size());  // Aqui você vê quantas vendas estão sendo recuperadas
+
+        for (Venda v : vendas) {
+            StringBuilder livrosStr = new StringBuilder();
+            StringBuilder qtdStr = new StringBuilder();
+            double total = 0;
+
+            for (Map.Entry<Livro, Integer> entry : v.getLivrosVendidos().entrySet()) {
+                Livro livro = entry.getKey();
+                int quantidade = entry.getValue();
+
+                livrosStr.append(livro.getTitulo()).append(", ");
+                qtdStr.append(quantidade).append(", ");
+
+                total += livro.getPreco() * quantidade;
+            }
+
+            // Remover a última vírgula e espaço
+            String livrosFormatado = livrosStr.length() > 0 ? livrosStr.substring(0, livrosStr.length() - 2) : "";
+            String qtdFormatado = qtdStr.length() > 0 ? qtdStr.substring(0, qtdStr.length() - 2) : "";
+
+            modelo.addRow(new Object[]{
+                v.getId(),
+                v.getClienteNome(),
+                v.getDataVenda(),
+                livrosFormatado,
+                qtdFormatado,
+                String.format("R$ %.2f", total)
+            });
+        }
+    }
+
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                FrConVendas dialog = new FrConVendas(new javax.swing.JFrame(), true);
+                dialog.setVisible(true);
+            }
+        });
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtmEditar;
+    private javax.swing.JButton btmExcluir;
+    private javax.swing.JButton btmVoltar;
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;

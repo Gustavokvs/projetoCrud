@@ -102,4 +102,6 @@ public class Venda {
         // Aqui você pode realizar qualquer formatação necessária antes de enviar os dados para o banco
         // Exemplo: criar uma lista de IDs de livros vendidos com quantidades para a tabela Venda_Livro
     }
+
+   
 }

@@ -230,7 +230,9 @@ public class FrMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_miRegistarVendaActionPerformed
 
     private void miConsultarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConsultarVendaActionPerformed
-        // TODO add your handling code here:
+        FrConVendas convenda = new FrConVendas(this, rootPaneCheckingEnabled);
+
+        convenda.setVisible(true);
     }//GEN-LAST:event_miConsultarVendaActionPerformed
 
     private void miInformaçõesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInformaçõesActionPerformed

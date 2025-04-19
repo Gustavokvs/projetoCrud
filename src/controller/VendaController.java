@@ -3,67 +3,55 @@ package controller;
 import model.Venda;
 import model.Livro;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class VendaController {
 
     // Método para registrar uma nova venda no banco de dados
     public void registrarVenda(Venda venda) {
-        Connection conn = null;
-        PreparedStatement stmtVenda = null;
-        PreparedStatement stmtVendaLivro = null;
-        ResultSet rs = null;
-        GerenciadorConexao conexao = null;
+        String sqlVenda = "INSERT INTO venda (id_cliente, data_venda) VALUES (?, ?)";
+        String sqlVendaLivro = "INSERT INTO venda_livro (id_venda, id_livro, quantidade) VALUES (?, ?, ?)";
 
-        try {
-            // Usando o GerenciadorConexao para instanciar a conexão
-            conexao = new GerenciadorConexao();
-            conn = conexao.getConexao(); // Obter a conexão corretamente
+        try (Connection conn = new GerenciadorConexao().getConexao();
+             PreparedStatement stmtVenda = conn.prepareStatement(sqlVenda, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement stmtVendaLivro = conn.prepareStatement(sqlVendaLivro)) {
 
-            conexao.abrirTransacao(); // Iniciar transação
+            // Inicia a transação
+            conn.setAutoCommit(false);
 
             // Inserir na tabela venda
-            String sqlVenda = "INSERT INTO venda (id_cliente, data_venda) VALUES (?, ?)";
-            stmtVenda = conexao.prepararComando(sqlVenda, Statement.RETURN_GENERATED_KEYS);
             stmtVenda.setInt(1, venda.getIdCliente());
-            // Passando a data da venda fornecida e não a atual
             stmtVenda.setDate(2, java.sql.Date.valueOf(venda.getDataVenda()));
             stmtVenda.executeUpdate();
 
-            rs = stmtVenda.getGeneratedKeys();
-            int idVenda = 0;
-            if (rs.next()) {
-                idVenda = rs.getInt(1);
-                venda.setId(idVenda);
+            // Recupera o ID da venda gerado
+            try (ResultSet rs = stmtVenda.getGeneratedKeys()) {
+                if (rs.next()) {
+                    venda.setId(rs.getInt(1));
+                }
             }
 
             // Inserir na tabela venda_livro (relacionando livros com a venda)
-            String sqlVendaLivro = "INSERT INTO venda_livro (id_venda, id_livro, quantidade) VALUES (?, ?, ?)";
-            stmtVendaLivro = conexao.prepararComando(sqlVendaLivro);
-
-            // Garantir que a quantidade de livros seja passada corretamente
             for (Map.Entry<Livro, Integer> entry : venda.getLivrosVendidos().entrySet()) {
-                stmtVendaLivro.setInt(1, idVenda);
+                stmtVendaLivro.setInt(1, venda.getId());
                 stmtVendaLivro.setInt(2, entry.getKey().getId());
-                stmtVendaLivro.setInt(3, entry.getValue()); // Certificando que a quantidade é passada corretamente
-                stmtVendaLivro.executeUpdate(); // Executando a inserção de cada livro vendido com a quantidade correta
+                stmtVendaLivro.setInt(3, entry.getValue());
+                stmtVendaLivro.executeUpdate();
             }
 
-            conexao.confirmarTransacao(); // Finaliza a transação
+            // Confirma a transação
+            conn.commit();
             System.out.println("Venda registrada com sucesso no banco!");
 
-        } catch (Exception e) {
-            if (conexao != null) {
-                conexao.cancelarTransacao(); // Desfaz transação em caso de erro
-            }
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Fechar recursos
-            try { if (rs != null) rs.close(); } catch (SQLException e) {}
-            try { if (stmtVendaLivro != null) stmtVendaLivro.close(); } catch (SQLException e) {}
-            try { if (stmtVenda != null) stmtVenda.close(); } catch (SQLException e) {}
-            if (conexao != null) {
-                conexao.fecharConexao(); // Fechar a conexão após o uso
+            try (Connection conn = new GerenciadorConexao().getConexao()) {
+                if (conn != null) {
+                    conn.rollback(); // Desfaz a transação em caso de erro
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
     }
@@ -71,21 +59,15 @@ public class VendaController {
     // Método para adicionar um livro à venda
     public void adicionarLivroAVenda(Venda venda, Livro livro, int quantidade) {
         Map<Livro, Integer> livrosVendidos = venda.getLivrosVendidos();
-        if (livrosVendidos.containsKey(livro)) {
-            livrosVendidos.put(livro, livrosVendidos.get(livro) + quantidade);
-        } else {
-            livrosVendidos.put(livro, quantidade);
-        }
+        livrosVendidos.merge(livro, quantidade, Integer::sum);
         venda.setLivrosVendidos(livrosVendidos);
     }
 
     // Método para remover um livro da venda
     public void removerLivroDaVenda(Venda venda, Livro livro) {
         Map<Livro, Integer> livrosVendidos = venda.getLivrosVendidos();
-        if (livrosVendidos.containsKey(livro)) {
-            livrosVendidos.remove(livro);
-            venda.setLivrosVendidos(livrosVendidos);
-        }
+        livrosVendidos.remove(livro);
+        venda.setLivrosVendidos(livrosVendidos);
     }
 
     // Método para finalizar a venda
@@ -102,6 +84,136 @@ public class VendaController {
         System.out.println("Livros Vendidos:");
         for (Map.Entry<Livro, Integer> entry : venda.getLivrosVendidos().entrySet()) {
             System.out.println(" - " + entry.getKey().getTitulo() + " (Quantidade: " + entry.getValue() + ")");
+        }
+    }
+
+    // Método para listar todas as vendas
+// Método para listar todas as vendas
+public ArrayList<Venda> listarTodos() {
+    ArrayList<Venda> lista = new ArrayList<>();
+    String sqlVenda = "SELECT v.id, v.data_venda, v.id_cliente, c.nome AS cliente_nome "
+            + "FROM venda v JOIN cliente c ON v.id_cliente = c.id";
+    String sqlVendaLivro = "SELECT vl.id_livro, vl.quantidade, l.titulo, l.preco "
+            + "FROM venda_livro vl JOIN livro l ON vl.id_livro = l.id WHERE vl.id_venda = ?";
+
+    try (Connection conn = new GerenciadorConexao().getConexao();
+         PreparedStatement stmtVenda = conn.prepareStatement(sqlVenda);
+         PreparedStatement stmtVendaLivro = conn.prepareStatement(sqlVendaLivro);
+         ResultSet rsVenda = stmtVenda.executeQuery()) {
+
+        while (rsVenda.next()) {
+            Venda venda = new Venda();
+            venda.setId(rsVenda.getInt("id"));
+            venda.setDataVenda(rsVenda.getDate("data_venda").toLocalDate());
+            venda.setIdCliente(rsVenda.getInt("id_cliente")); // ✅ Aqui está o que faltava!
+            venda.setClienteNome(rsVenda.getString("cliente_nome"));
+
+            // Obter os livros relacionados à venda
+            stmtVendaLivro.setInt(1, venda.getId());
+            try (ResultSet rsVendaLivro = stmtVendaLivro.executeQuery()) {
+                while (rsVendaLivro.next()) {
+                    Livro livro = new Livro();
+                    livro.setId(rsVendaLivro.getInt("id_livro"));
+                    livro.setTitulo(rsVendaLivro.getString("titulo"));
+                    livro.setPreco(rsVendaLivro.getDouble("preco"));
+
+                    // Adicionando o livro à venda
+                    venda.getLivrosVendidos().put(livro, rsVendaLivro.getInt("quantidade"));
+                }
+            }
+
+            lista.add(venda);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return lista;
+}
+
+    // Método para alterar uma venda
+// Método para alterar uma venda
+public void alterarVenda(Venda venda) {
+    String sqlVenda = "UPDATE venda SET id_cliente = ?, data_venda = ? WHERE id = ?";
+    String sqlVendaLivroDelete = "DELETE FROM venda_livro WHERE id_venda = ?";
+    String sqlVendaLivroInsert = "INSERT INTO venda_livro (id_venda, id_livro, quantidade) VALUES (?, ?, ?)";
+
+    try (Connection conn = new GerenciadorConexao().getConexao();
+         PreparedStatement stmtVenda = conn.prepareStatement(sqlVenda);
+         PreparedStatement stmtVendaLivroDelete = conn.prepareStatement(sqlVendaLivroDelete);
+         PreparedStatement stmtVendaLivroInsert = conn.prepareStatement(sqlVendaLivroInsert)) {
+
+        // Inicia a transação
+        conn.setAutoCommit(false);
+
+        // Atualiza a tabela venda
+        stmtVenda.setInt(1, venda.getIdCliente());
+        stmtVenda.setDate(2, java.sql.Date.valueOf(venda.getDataVenda()));
+        stmtVenda.setInt(3, venda.getId());
+        stmtVenda.executeUpdate();
+
+        // Exclui os livros anteriores da venda
+        stmtVendaLivroDelete.setInt(1, venda.getId());
+        stmtVendaLivroDelete.executeUpdate();
+
+        // Insere os novos livros na venda
+        for (Map.Entry<Livro, Integer> entry : venda.getLivrosVendidos().entrySet()) {
+            stmtVendaLivroInsert.setInt(1, venda.getId());
+            stmtVendaLivroInsert.setInt(2, entry.getKey().getId());
+            stmtVendaLivroInsert.setInt(3, entry.getValue());
+            stmtVendaLivroInsert.executeUpdate();
+        }
+
+        // Confirma a transação
+        conn.commit();
+        System.out.println("Venda alterada com sucesso!");
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        try (Connection conn = new GerenciadorConexao().getConexao()) {
+            if (conn != null) {
+                conn.rollback(); // Desfaz a transação em caso de erro
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+
+    // Método para excluir uma venda
+    public static void excluirVenda(int idVenda) {
+        String sqlVendaLivro = "DELETE FROM venda_livro WHERE id_venda = ?";
+        String sqlVenda = "DELETE FROM venda WHERE id = ?";
+
+        try (Connection conn = new GerenciadorConexao().getConexao();
+             PreparedStatement stmtVendaLivro = conn.prepareStatement(sqlVendaLivro);
+             PreparedStatement stmtVenda = conn.prepareStatement(sqlVenda)) {
+
+            // Inicia a transação
+            conn.setAutoCommit(false);
+
+            // Exclui os livros relacionados à venda
+            stmtVendaLivro.setInt(1, idVenda);
+            stmtVendaLivro.executeUpdate();
+
+            // Exclui a venda
+            stmtVenda.setInt(1, idVenda);
+            stmtVenda.executeUpdate();
+
+            // Confirma a transação
+            conn.commit();
+            System.out.println("Venda excluída com sucesso!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try (Connection conn = new GerenciadorConexao().getConexao()) {
+                if (conn != null) {
+                    conn.rollback(); // Desfaz a transação em caso de erro
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }
