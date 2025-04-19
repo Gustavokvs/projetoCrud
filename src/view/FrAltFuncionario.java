@@ -93,33 +93,46 @@ public class FrAltFuncionario extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 204, 0));
         jLabel1.setText("Alterar dados do Funcionario");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 28, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, -1, -1));
 
+        lblNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblNome.setForeground(new java.awt.Color(204, 204, 0));
         lblNome.setText("Nome");
-        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 82, -1, -1));
+        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
+        lblCargo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblCargo.setForeground(new java.awt.Color(204, 204, 0));
         lblCargo.setText("Cargo");
-        jPanel1.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 140, -1, -1));
+        jPanel1.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, -1, -1));
 
         edtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtNomeActionPerformed(evt);
             }
         });
-        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 104, 141, -1));
-        jPanel1.add(edtCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 174, 141, -1));
+        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 141, -1));
+        jPanel1.add(edtCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 141, -1));
 
+        btnVoltar.setBackground(new java.awt.Color(255, 255, 153));
+        btnVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voltar.png"))); // NOI18N
         btnVoltar.setText("Voltar");
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVoltarMouseClicked(evt);
             }
         });
-        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 379, -1, -1));
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 381, 110, 30));
 
+        btnSalvar.setBackground(new java.awt.Color(255, 255, 153));
+        btnSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
         btnSalvar.setText("Salvar");
         btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -131,35 +144,46 @@ public class FrAltFuncionario extends javax.swing.JDialog {
                 btnSalvarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(246, 379, -1, -1));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 381, 110, 30));
 
+        lblCodigo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblCodigo.setForeground(new java.awt.Color(204, 204, 0));
         lblCodigo.setText("Código");
-        jPanel1.add(lblCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(358, 61, -1, -1));
+        jPanel1.add(lblCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
 
         edtCodigo.setEditable(false);
-        jPanel1.add(edtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(409, 57, 54, -1));
+        edtCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(edtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, 54, -1));
 
+        lblTelefone.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblTelefone.setForeground(new java.awt.Color(204, 204, 0));
         lblTelefone.setText("Telefone");
-        jPanel1.add(lblTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 276, -1, -1));
+        jPanel1.add(lblTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, -1, -1));
 
+        lblEmail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblEmail.setForeground(new java.awt.Color(204, 204, 0));
         lblEmail.setText("E-mail");
-        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 216, -1, -1));
-        jPanel1.add(edtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 240, 141, -1));
-        jPanel1.add(edtTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 298, 141, -1));
+        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, -1, -1));
+        jPanel1.add(edtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 141, -1));
+        jPanel1.add(edtTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 141, -1));
 
+        chkAtivo.setBackground(new java.awt.Color(204, 204, 0));
+        chkAtivo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         chkAtivo.setText("Ativo");
-        jPanel1.add(chkAtivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 340, -1, -1));
+        jPanel1.add(chkAtivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, 70, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 

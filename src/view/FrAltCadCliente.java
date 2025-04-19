@@ -107,81 +107,102 @@ public class FrAltCadCliente extends javax.swing.JDialog {
         chkAtivo = new javax.swing.JRadioButton();
         lblTelefone = new javax.swing.JLabel();
         edtEmail = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblTitulo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(204, 204, 0));
         lblTitulo.setText("Alteração nos dados do Cliente");
-        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 28, -1, -1));
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
+        lblNome.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        lblNome.setForeground(new java.awt.Color(204, 204, 0));
         lblNome.setText("Nome");
-        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 72, -1, -1));
+        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
 
+        lblEmail.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        lblEmail.setForeground(new java.awt.Color(204, 204, 0));
         lblEmail.setText("E-mail");
-        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 134, -1, -1));
+        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
 
+        lblDataNasc.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        lblDataNasc.setForeground(new java.awt.Color(204, 204, 0));
         lblDataNasc.setText("Data de Nascimento");
-        jPanel1.add(lblDataNasc, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 252, -1, -1));
+        jPanel1.add(lblDataNasc, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, -1));
 
         edtDataNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-        jPanel1.add(edtDataNasc, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 104, -1));
-        jPanel1.add(edtTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 222, 181, -1));
+        jPanel1.add(edtDataNasc, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 130, -1));
+        jPanel1.add(edtTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 181, -1));
 
         edtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtNomeActionPerformed(evt);
             }
         });
-        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 98, 181, -1));
+        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 181, -1));
 
+        btnVoltar.setBackground(new java.awt.Color(255, 255, 153));
+        btnVoltar.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voltar.png"))); // NOI18N
         btnVoltar.setText("Voltar");
-        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVoltarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 382, -1, -1));
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVoltarMouseClicked(evt);
             }
         });
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, 110, 30));
 
+        btnSalvar.setBackground(new java.awt.Color(255, 255, 153));
+        btnSalvar.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
         btnSalvar.setText("Salvar");
         btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSalvarMouseClicked(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(244, 382, -1, -1));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 380, -1, 30));
 
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 204, 0));
         jLabel1.setText("Código");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(262, 72, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, -1, -1));
 
         edtCodigo.setEditable(false);
-        jPanel1.add(edtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 68, 43, -1));
+        jPanel1.add(edtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, 43, -1));
 
+        chkAtivo.setBackground(new java.awt.Color(204, 204, 0));
+        chkAtivo.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         chkAtivo.setText("Ativo");
-        jPanel1.add(chkAtivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 314, -1, -1));
+        jPanel1.add(chkAtivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 70, -1));
 
+        lblTelefone.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        lblTelefone.setForeground(new java.awt.Color(204, 204, 0));
         lblTelefone.setText("Telefone");
-        jPanel1.add(lblTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 186, -1, -1));
-        jPanel1.add(edtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 156, 181, -1));
+        jPanel1.add(lblTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
+        jPanel1.add(edtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 181, -1));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, 370, 280));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 18, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
         );
 
         pack();
@@ -316,6 +337,7 @@ public class FrAltCadCliente extends javax.swing.JDialog {
     private javax.swing.JTextField edtNome;
     private javax.swing.JTextField edtTelefone;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblDataNasc;
     private javax.swing.JLabel lblEmail;
