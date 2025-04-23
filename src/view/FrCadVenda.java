@@ -127,7 +127,7 @@ public class FrCadVenda extends javax.swing.JDialog {
                 ComQuantActionPerformed(evt);
             }
         });
-        jPanel1.add(ComQuant, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, -1, -1));
+        jPanel1.add(ComQuant, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, -1, -1));
 
         btnAddLivro.setText("Adicionar Livro");
         btnAddLivro.addActionListener(new java.awt.event.ActionListener() {
@@ -149,11 +149,11 @@ public class FrCadVenda extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
         );
 
         pack();
@@ -185,46 +185,48 @@ public class FrCadVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_ComQuantActionPerformed
 
     private void btnAddLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLivroActionPerformed
-/// Criar novos JComboBox para livros e quantidades
-        JComboBox<String> novoComLivro = new JComboBox<>();
-        JComboBox<String> novoComQuant = new JComboBox<>();
 
-        // Preencher com os dados existentes
-        LivroController livroController = new LivroController();
-        List<Livro> livros = livroController.listarTodos();
-        DefaultComboBoxModel<String> modelLivro = new DefaultComboBoxModel<>();
-        for (Livro livro : livros) {
-            modelLivro.addElement(livro.getTitulo());
-        }
-        novoComLivro.setModel(modelLivro);
-
-        // Preencher quantidades (1 a 10)
-        String[] quantidades = new String[10];
-        for (int i = 0; i < 10; i++) {
-            quantidades[i] = String.valueOf(i + 1);
-        }
-        novoComQuant.setModel(new DefaultComboBoxModel<>(quantidades));
-
-        // Adicionar os novos JComboBox ao painel
-        int yOffset = 170 + (livrosComQuantidade.size() * 60); // Ajusta a posição dinamicamente
-        jPanel1.add(novoComLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, yOffset, -1, -1));
-        jPanel1.add(novoComQuant, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, yOffset + 30, -1, -1));
-
-        // Atualizar a lista de livros com quantidade
-        this.livrosComQuantidade.add(new JComboBox[]{novoComLivro, novoComQuant});
-
-        livrosComQuantidade.add(new JComboBox[]{novoComLivro, novoComQuant});
-
-        // Revalidar o layout
-        jPanel1.revalidate();
-        jPanel1.repaint();
-
-
+        adicionarComboDinamico();
     }//GEN-LAST:event_btnAddLivroActionPerformed
 
     private void ComClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComClientesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ComClientesActionPerformed
+
+private void adicionarComboDinamico() {
+    JComboBox<String> novoComLivro = new JComboBox<>();
+    JComboBox<String> novoComQuant = new JComboBox<>();
+
+    // Preencher livros
+    LivroController livroController = new LivroController();
+    List<Livro> livros = livroController.listarTodos();
+    DefaultComboBoxModel<String> modelLivro = new DefaultComboBoxModel<>();
+    for (Livro livro : livros) {
+        modelLivro.addElement(livro.getTitulo());
+    }
+    novoComLivro.setModel(modelLivro);
+
+    // Quantidades
+    String[] quantidades = new String[10];
+    for (int i = 0; i < 10; i++) {
+        quantidades[i] = String.valueOf(i + 1);
+    }
+    novoComQuant.setModel(new DefaultComboBoxModel<>(quantidades));
+
+    // Alinhamento com o ComLivro existente
+    int xLivro = 190;      // mesma posição de ComLivro
+    int xQuant = 350;      // posiciona o ComQuant ao lado (ajuste se necessário)
+    int baseY = 130;       // Y do primeiro combo
+    int yOffset = (livrosComQuantidade.size() + 1) * 40;  // pula o primeiro fixo, começa abaixo
+
+    jPanel1.add(novoComLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(xLivro, baseY + yOffset, 140, -1));
+    jPanel1.add(novoComQuant, new org.netbeans.lib.awtextra.AbsoluteConstraints(xQuant, baseY + yOffset, 80, -1));
+
+    livrosComQuantidade.add(new JComboBox[]{novoComLivro, novoComQuant});
+
+    jPanel1.revalidate();
+    jPanel1.repaint();
+}
 
     public class LivroQuant {
 
