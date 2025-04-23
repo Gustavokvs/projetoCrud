@@ -73,8 +73,8 @@ public class AutorController {
 
             if (resultado.next()) {
                 return new Autor(
-                    resultado.getInt("id"),
-                    resultado.getString("nome")
+                        resultado.getInt("id"),
+                        resultado.getString("nome")
                 );
             }
         } catch (SQLException ex) {
@@ -107,4 +107,31 @@ public class AutorController {
         }
         return lista;
     }
+
+    // Método para buscar autores pelo nome
+    public ArrayList<Autor> buscarPorNome(String nome) {
+        String sql = "SELECT * FROM autor WHERE nome LIKE ?";
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        PreparedStatement comando = conexao.prepararComando(sql);
+        ArrayList<Autor> lista = new ArrayList<>();
+
+        try {
+            // Usamos o LIKE para buscar qualquer autor cujo nome contenha o valor fornecido
+            comando.setString(1, "%" + nome + "%");
+            ResultSet resultado = comando.executeQuery();
+
+            while (resultado.next()) {
+                lista.add(new Autor(
+                        resultado.getInt("id"),
+                        resultado.getString("nome")
+                ));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            conexao.fecharConexao(comando);
+        }
+        return lista;
+    }
+
 }

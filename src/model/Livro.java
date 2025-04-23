@@ -6,25 +6,22 @@ public class Livro {
 
     private int id;
     private String titulo;
-    
     private String isbn;
     private double preco;
     private int anoPublicacao;
     private int idAutor;
-    private int estoque; // baseado no método de inserção
     private List<Integer> idsCategorias; // id dos gêneros (categoria)
 
     public Livro() {
     }
 
-    public Livro(int id, String titulo, String isbn, double preco, int anoPublicacao, int idAutor, int estoque, List<Integer> idsCategorias) {
+    public Livro(int id, String titulo, String isbn, double preco, int anoPublicacao, int idAutor, List<Integer> idsCategorias) {
         this.id = id;
         this.titulo = titulo;
         this.isbn = isbn;
         this.preco = preco;
         this.anoPublicacao = anoPublicacao;
         this.idAutor = idAutor;
-        this.estoque = estoque;
         this.idsCategorias = idsCategorias;
     }
 
@@ -32,9 +29,7 @@ public class Livro {
     public int getId() {
         return id;
     }
-  public List<Integer> getIdsCategorias() {
-        return idsCategorias;
-    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -79,20 +74,16 @@ public class Livro {
         this.idAutor = idAutor;
     }
 
-    public int getEstoque() {
-        return estoque;
+    public List<Integer> getIdsCategorias() {
+        return idsCategorias;
     }
 
-    public void setEstoque(int estoque) {
-        this.estoque = estoque;
-    }
-
-     public void setIdsCategorias(List<Integer> idsCategorias) {
+    public void setIdsCategorias(List<Integer> idsCategorias) {
         this.idsCategorias = idsCategorias;
     }
 
-     public String getCategorias() {
+    public String getCategorias() {
+        if (idsCategorias == null) return ""; // evita NullPointerException
         return String.join(",", idsCategorias.stream().map(String::valueOf).toArray(String[]::new));
     }
-
 }
