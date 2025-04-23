@@ -53,9 +53,6 @@ public class FrConVendas extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        btmExcluir = new javax.swing.JButton();
-        btmVoltar = new javax.swing.JButton();
-        BtmEditar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVenda = new javax.swing.JTable();
@@ -67,30 +64,6 @@ public class FrConVendas extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btmExcluir.setText("Excluir");
-        btmExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btmExcluirActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btmExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, -1, -1));
-
-        btmVoltar.setText("Voltar");
-        btmVoltar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btmVoltarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btmVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 430, -1, -1));
-
-        BtmEditar.setText("Editar");
-        BtmEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtmEditarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(BtmEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 430, -1, -1));
 
         jLabel1.setText("Vendas");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(289, 38, -1, -1));
@@ -131,12 +104,22 @@ public class FrConVendas extends javax.swing.JDialog {
                 btnVoltarMouseClicked(evt);
             }
         });
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 614, -1, -1));
 
         btnAlterar.setText("Alterar");
         btnAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAlterarMouseClicked(evt);
+            }
+        });
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
             }
         });
         jPanel1.add(btnAlterar, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 614, -1, -1));
@@ -158,6 +141,11 @@ public class FrConVendas extends javax.swing.JDialog {
         btnExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnExcluirMouseClicked(evt);
+            }
+        });
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
             }
         });
         jPanel1.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(547, 614, -1, -1));
@@ -199,18 +187,17 @@ public class FrConVendas extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
-    private void BtmEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtmEditarActionPerformed
-        alterarVenda();
-
-    }//GEN-LAST:event_BtmEditarActionPerformed
-
-    private void btmExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmExcluirActionPerformed
-        excluirVenda();
-    }//GEN-LAST:event_btmExcluirActionPerformed
-
-    private void btmVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmVoltarActionPerformed
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_btmVoltarActionPerformed
+    }//GEN-LAST:event_btnVoltarActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        alterarVenda();
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        excluirVenda();
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void alterarVenda() {
         // Verifica se há uma linha selecionada na tabela
@@ -302,9 +289,6 @@ public class FrConVendas extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtmEditar;
-    private javax.swing.JButton btmExcluir;
-    private javax.swing.JButton btmVoltar;
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;
