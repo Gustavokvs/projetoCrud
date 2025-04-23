@@ -58,6 +58,8 @@ public class FrAltVenda extends javax.swing.JDialog {
         btmCancelar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -96,43 +98,53 @@ public class FrAltVenda extends javax.swing.JDialog {
 
         btmSalvar.setBackground(new java.awt.Color(255, 255, 153));
         btmSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btmSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
-        btmSalvar.setText("Salvar");
+        btmSalvar.setBorderPainted(false);
+        btmSalvar.setContentAreaFilled(false);
+        btmSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btmSalvar.setFocusPainted(false);
         btmSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btmSalvarActionPerformed(evt);
             }
         });
-        jPanel1.add(btmSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 400, -1, -1));
+        jPanel1.add(btmSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 400, 120, 40));
 
         btmCancelar.setBackground(new java.awt.Color(255, 255, 153));
         btmCancelar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btmCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel.png"))); // NOI18N
-        btmCancelar.setText("Cancelar");
+        btmCancelar.setBorderPainted(false);
+        btmCancelar.setContentAreaFilled(false);
+        btmCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btmCancelar.setFocusPainted(false);
         btmCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btmCancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btmCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 400, 130, -1));
+        jPanel1.add(btmCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 400, 120, 40));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(204, 204, 0));
         jLabel1.setText("Alterar Venda");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, 30));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gif.gif"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 190, 160));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 100, 400, 310));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_salvar.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 400, 120, 40));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_voltar.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 400, 130, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
         );
 
         pack();
@@ -302,6 +314,8 @@ public class FrAltVenda extends javax.swing.JDialog {
     private javax.swing.JTextField edtQuantidade;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbData;
     private javax.swing.JLabel lbIdCliente1;

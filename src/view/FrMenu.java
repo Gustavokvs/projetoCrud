@@ -20,6 +20,7 @@ public class FrMenu extends javax.swing.JFrame {
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/logo3.png")).getImage());
         this.setLocationRelativeTo(null);
+        
 
     }
 
@@ -34,7 +35,8 @@ public class FrMenu extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         barMenu = new javax.swing.JMenuBar();
         meCadastro = new javax.swing.JMenu();
         miAltCadCliente = new javax.swing.JMenuItem();
@@ -63,15 +65,19 @@ public class FrMenu extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 480, 312));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gif.gif"))); // NOI18N
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 430, 100, 70));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 480));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 490, 300));
 
-        barMenu.setBackground(new java.awt.Color(204, 204, 0));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 650, 510));
+
+        barMenu.setBackground(new java.awt.Color(255, 255, 0));
 
         meCadastro.setText("Cadastro");
-        meCadastro.setFont(new java.awt.Font("Arial", 2, 15)); // NOI18N
+        meCadastro.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
+        meCadastro.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
         miAltCadCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cliente.png"))); // NOI18N
         miAltCadCliente.setText("Clientes");
@@ -121,7 +127,8 @@ public class FrMenu extends javax.swing.JFrame {
         barMenu.add(meCadastro);
 
         meVendas.setText("Vendas");
-        meVendas.setFont(new java.awt.Font("Arial", 2, 15)); // NOI18N
+        meVendas.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
+        meVendas.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
         miRegistarVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro.png"))); // NOI18N
         miRegistarVenda.setText("Cadastrar Vendas");
@@ -144,7 +151,8 @@ public class FrMenu extends javax.swing.JFrame {
         barMenu.add(meVendas);
 
         meSobre1.setText("Consultar");
-        meSobre1.setFont(new java.awt.Font("Arial", 2, 15)); // NOI18N
+        meSobre1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
+        meSobre1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
         miConCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cliente.png"))); // NOI18N
         miConCliente.setText("Clientes");
@@ -194,7 +202,8 @@ public class FrMenu extends javax.swing.JFrame {
         barMenu.add(meSobre1);
 
         meSobre.setText("Sobre");
-        meSobre.setFont(new java.awt.Font("Arial", 2, 15)); // NOI18N
+        meSobre.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
+        meSobre.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
         miInformações.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/informacoes.png"))); // NOI18N
         miInformações.setText("Informações");
@@ -330,7 +339,8 @@ public class FrMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barMenu;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JMenu meCadastro;

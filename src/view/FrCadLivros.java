@@ -43,6 +43,9 @@ public class FrCadLivros extends javax.swing.JDialog {
         lblPreco = new javax.swing.JLabel();
         edtAnoPublicacao = new javax.swing.JFormattedTextField();
         edtPreco = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -57,32 +60,34 @@ public class FrCadLivros extends javax.swing.JDialog {
         lblTitulo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(204, 204, 0));
         lblTitulo.setText("Titulo");
-        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
 
         lbltAutor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbltAutor.setForeground(new java.awt.Color(204, 204, 0));
         lbltAutor.setText("Autor");
-        jPanel1.add(lbltAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
+        jPanel1.add(lbltAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, -1));
 
         lblCategoria.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblCategoria.setForeground(new java.awt.Color(204, 204, 0));
         lblCategoria.setText("Categoria ID");
-        jPanel1.add(lblCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, -1));
+        jPanel1.add(lblCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
 
         lblIsbn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblIsbn.setForeground(new java.awt.Color(204, 204, 0));
         lblIsbn.setText("ISBN");
-        jPanel1.add(lblIsbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 256, -1, -1));
+        jPanel1.add(lblIsbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
 
         lblAnoPublicacao.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblAnoPublicacao.setForeground(new java.awt.Color(204, 204, 0));
         lblAnoPublicacao.setText("Ano de publicação");
-        jPanel1.add(lblAnoPublicacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 316, 122, -1));
+        jPanel1.add(lblAnoPublicacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 140, -1));
 
         btnVoltar.setBackground(new java.awt.Color(255, 255, 153));
         btnVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voltar.png"))); // NOI18N
-        btnVoltar.setText("Voltar");
+        btnVoltar.setBorderPainted(false);
+        btnVoltar.setContentAreaFilled(false);
+        btnVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVoltar.setFocusPainted(false);
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVoltarMouseClicked(evt);
@@ -93,12 +98,14 @@ public class FrCadLivros extends javax.swing.JDialog {
                 btnVoltarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 460, -1, 30));
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 410, 120, 40));
 
         btnSalvar.setBackground(new java.awt.Color(255, 255, 153));
         btnSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
-        btnSalvar.setText("Salvar");
+        btnSalvar.setBorderPainted(false);
+        btnSalvar.setContentAreaFilled(false);
+        btnSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalvar.setFocusPainted(false);
         btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSalvarMouseClicked(evt);
@@ -109,50 +116,55 @@ public class FrCadLivros extends javax.swing.JDialog {
                 btnSalvarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 460, -1, 30));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 410, 120, 40));
 
         edtTitulo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtTituloActionPerformed(evt);
             }
         });
-        jPanel1.add(edtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 190, -1));
-        jPanel1.add(edtIsbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 280, 122, -1));
+        jPanel1.add(edtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 180, -1));
+        jPanel1.add(edtIsbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 130, -1));
 
         edtCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtCategoriaActionPerformed(evt);
             }
         });
-        jPanel1.add(edtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 122, -1));
-        jPanel1.add(edtAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 93, -1));
+        jPanel1.add(edtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 130, -1));
+        jPanel1.add(edtAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 130, -1));
 
         lblPreco.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblPreco.setForeground(new java.awt.Color(204, 204, 0));
         lblPreco.setText("Preço");
-        jPanel1.add(lblPreco, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 365, -1, -1));
-        jPanel1.add(edtAnoPublicacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 333, 122, -1));
+        jPanel1.add(lblPreco, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, -1, 20));
+        jPanel1.add(edtAnoPublicacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 130, -1));
 
         edtPreco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtPrecoActionPerformed(evt);
             }
         });
-        jPanel1.add(edtPreco, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 108, -1));
+        jPanel1.add(edtPreco, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 130, 20));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 80, 410, 360));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_salvar.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 410, 120, 40));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_voltar.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 410, 130, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -336,6 +348,9 @@ public class FrCadLivros extends javax.swing.JDialog {
     private javax.swing.JTextField edtIsbn;
     private javax.swing.JFormattedTextField edtPreco;
     private javax.swing.JTextField edtTitulo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblAnoPublicacao;
     private javax.swing.JLabel lblCategoria;

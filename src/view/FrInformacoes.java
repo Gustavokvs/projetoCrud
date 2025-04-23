@@ -5,6 +5,9 @@
  */
 package view;
 
+import java.awt.Desktop;
+import java.net.URI;
+
 /**
  *
  * @author thain
@@ -17,6 +20,8 @@ public class FrInformacoes extends javax.swing.JDialog {
     public FrInformacoes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+
         
            this.setLocationRelativeTo(null);
     }
@@ -35,7 +40,12 @@ public class FrInformacoes extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnVoltar = new javax.swing.JButton();
+        btnGabriel = new javax.swing.JButton();
+        btnGustavo = new javax.swing.JButton();
+        btnThaina = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -50,47 +60,119 @@ public class FrInformacoes extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 0));
         jLabel2.setText("Versão 1.0.0");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 190, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 204, 0));
         jLabel3.setText("Data 12/04/2025");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(204, 204, 0));
-        jLabel4.setText("Autores: Gabriel Bock, Gustavo Kruger e Thainá Tavares");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, -1, -1));
+        jLabel4.setText("Autores:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, -1, -1));
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 153));
-        jButton1.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voltar.png"))); // NOI18N
-        jButton1.setText("Voltar");
-        jButton1.setOpaque(false);
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnVoltar.setBackground(new java.awt.Color(255, 255, 153));
+        btnVoltar.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        btnVoltar.setBorderPainted(false);
+        btnVoltar.setContentAreaFilled(false);
+        btnVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVoltar.setFocusPainted(false);
+        btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                btnVoltarMouseClicked(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 361, -1, 30));
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, 120, 40));
+
+        btnGabriel.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
+        btnGabriel.setForeground(new java.awt.Color(255, 255, 0));
+        btnGabriel.setText("Gabriel Bock");
+        btnGabriel.setBorderPainted(false);
+        btnGabriel.setContentAreaFilled(false);
+        btnGabriel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGabriel.setFocusPainted(false);
+        btnGabriel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGabrielActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGabriel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, -1, 20));
+
+        btnGustavo.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
+        btnGustavo.setForeground(new java.awt.Color(255, 255, 0));
+        btnGustavo.setText("Gustavo Kruger");
+        btnGustavo.setBorderPainted(false);
+        btnGustavo.setContentAreaFilled(false);
+        btnGustavo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGustavo.setFocusPainted(false);
+        btnGustavo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGustavoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGustavo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 230, -1, 20));
+
+        btnThaina.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
+        btnThaina.setForeground(new java.awt.Color(255, 255, 0));
+        btnThaina.setText("Thainá Tavares");
+        btnThaina.setBorderPainted(false);
+        btnThaina.setContentAreaFilled(false);
+        btnThaina.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnThaina.setFocusPainted(false);
+        btnThaina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThainaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnThaina, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 230, -1, 20));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_voltar.png"))); // NOI18N
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, 120, 40));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 440, 300));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void btnVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVoltarMouseClicked
         this.dispose();
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_btnVoltarMouseClicked
+
+    private void btnGabrielActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGabrielActionPerformed
+try {
+    Desktop.getDesktop().browse(new URI("https://github.com/gabrielbock04"));
+} catch (Exception ex) {
+    ex.printStackTrace();
+}
+    }//GEN-LAST:event_btnGabrielActionPerformed
+
+    private void btnGustavoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGustavoActionPerformed
+try {
+    Desktop.getDesktop().browse(new URI("https://github.com/Gustavokvs"));
+} catch (Exception ex) {
+    ex.printStackTrace();
+}    }//GEN-LAST:event_btnGustavoActionPerformed
+
+    private void btnThainaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThainaActionPerformed
+try {
+    Desktop.getDesktop().browse(new URI("https://github.com/souzathaina"));
+} catch (Exception ex) {
+    ex.printStackTrace();
+}
+    }//GEN-LAST:event_btnThainaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,11 +220,16 @@ public class FrInformacoes extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnGabriel;
+    private javax.swing.JButton btnGustavo;
+    private javax.swing.JButton btnThaina;
+    private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

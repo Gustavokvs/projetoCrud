@@ -60,46 +60,60 @@ public class FrConVendas extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVenda = new javax.swing.JTable();
         btnPesquisar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btmExcluir.setBackground(new java.awt.Color(255, 255, 153));
         btmExcluir.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btmExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/excluir.png"))); // NOI18N
-        btmExcluir.setText("Excluir");
+        btmExcluir.setBorderPainted(false);
+        btmExcluir.setContentAreaFilled(false);
+        btmExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btmExcluir.setFocusPainted(false);
         btmExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btmExcluirActionPerformed(evt);
             }
         });
-        jPanel1.add(btmExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 530, -1, 30));
+        jPanel1.add(btmExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 520, 120, 40));
 
+        btmVoltar.setBackground(new java.awt.Color(255, 255, 153));
         btmVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btmVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voltar.png"))); // NOI18N
-        btmVoltar.setText("Voltar");
+        btmVoltar.setBorderPainted(false);
+        btmVoltar.setContentAreaFilled(false);
+        btmVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btmVoltar.setFocusPainted(false);
         btmVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btmVoltarActionPerformed(evt);
             }
         });
-        jPanel1.add(btmVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 530, -1, 30));
+        jPanel1.add(btmVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(202, 520, 120, 40));
 
+        BtmEditar.setBackground(new java.awt.Color(255, 255, 153));
         BtmEditar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BtmEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
-        BtmEditar.setText("Editar");
+        BtmEditar.setBorderPainted(false);
+        BtmEditar.setContentAreaFilled(false);
+        BtmEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BtmEditar.setFocusPainted(false);
         BtmEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtmEditarActionPerformed(evt);
             }
         });
-        jPanel1.add(BtmEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 530, -1, 30));
+        jPanel1.add(BtmEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 520, 120, 40));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(204, 204, 0));
         jLabel1.setText("Vendas");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(289, 38, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, -1, -1));
 
         tblVenda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -129,11 +143,14 @@ public class FrConVendas extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tblVenda);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 699, 350));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 699, 350));
 
+        btnPesquisar.setBackground(new java.awt.Color(255, 255, 153));
         btnPesquisar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pesquisar.png"))); // NOI18N
-        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setBorderPainted(false);
+        btnPesquisar.setContentAreaFilled(false);
+        btnPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPesquisar.setFocusPainted(false);
         btnPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnPesquisarMouseClicked(evt);
@@ -144,13 +161,28 @@ public class FrConVendas extends javax.swing.JDialog {
                 btnPesquisarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 80, -1, -1));
+        jPanel1.add(btnPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 70, 120, 50));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_editar.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 520, -1, 40));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_excluir.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 520, 120, 40));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_voltar.png"))); // NOI18N
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 520, 120, 40));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_pesquisar.png"))); // NOI18N
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 70, 120, 50));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 30, 360, 270));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,6 +309,11 @@ public class FrConVendas extends javax.swing.JDialog {
     private javax.swing.JButton btmVoltar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblVenda;
