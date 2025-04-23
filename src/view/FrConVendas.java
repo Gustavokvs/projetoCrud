@@ -246,7 +246,6 @@ public class FrConVendas extends javax.swing.JDialog {
 
         VendaController controller = new VendaController();
         ArrayList<Venda> vendas = controller.listarTodos();
-        System.out.println("Vendas no controlador: " + vendas.size());  // Aqui você vê quantas vendas estão sendo recuperadas
 
         for (Venda v : vendas) {
             StringBuilder livrosStr = new StringBuilder();
