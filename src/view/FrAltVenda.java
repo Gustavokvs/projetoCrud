@@ -7,7 +7,7 @@ package view;
 
 import javax.swing.JList;
 import javax.swing.JLabel;
-
+import javax.swing.border.EmptyBorder;
 import javax.swing.JPanel;
 import controller.ClienteController;
 import controller.LivroController;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
@@ -32,16 +33,18 @@ import model.Venda;
  */
 public class FrAltVenda extends javax.swing.JDialog {
 
-    private int idVenda; // variável para armazenar o ID da venda
+    private int idVenda;
+    private javax.swing.JPanel jPanelLivros = new javax.swing.JPanel();
+    private Map<String, Cliente> mapaClientes = new HashMap<>();
 
     public FrAltVenda(java.awt.Frame parent, boolean modal, int idVenda) {
         super(parent, modal);
         this.idVenda = idVenda;
         initComponents();
         jPanelLivros.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
-        jPanel1.add(jPanelLivros, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 700, 250));
+        jPanel1.add(jPanelLivros, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, 700, 250));
 
-        preencherCombos();
+
         carregarVenda();
     }
 
@@ -61,8 +64,6 @@ public class FrAltVenda extends javax.swing.JDialog {
         lbLivro = new javax.swing.JLabel();
         btmSalvar = new javax.swing.JButton();
         btmCancelar = new javax.swing.JButton();
-        comboLivro = new javax.swing.JComboBox<>();
-        comboQuant = new javax.swing.JComboBox<>();
         comboCliente = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -95,12 +96,6 @@ public class FrAltVenda extends javax.swing.JDialog {
         });
         jPanel1.add(btmCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 480, -1, -1));
 
-        comboLivro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(comboLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, -1, -1));
-
-        comboQuant.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(comboQuant, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, -1, -1));
-
         comboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(comboCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
 
@@ -131,114 +126,86 @@ public class FrAltVenda extends javax.swing.JDialog {
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btmCancelarActionPerformed
 
-    private javax.swing.JPanel jPanelLivros = new javax.swing.JPanel();
+    private void preencherComboBoxCliente() {
+        ClienteController clienteController = new ClienteController();
+        List<Cliente> listaClientes = clienteController.listarTodos();
 
-private void preencherCombos() {
-    // Preencher apenas os comboBox existentes
-    preencherComboBox(comboCliente, new ClienteController().listarTodos());
-    List<Livro> livros = new LivroController().listarTodos();
-    preencherComboBox(comboLivro, livros);  // Agora o comboLivro irá conter objetos Livro.
+        comboCliente.removeAllItems();
+        mapaClientes.clear();
 
-    // Caso haja livros no combo, selecionar o primeiro automaticamente
-    if (!livros.isEmpty()) {
-        comboLivro.setSelectedIndex(0);  // Selecionar o primeiro livro
-    }
-
-    comboQuant.removeAllItems(); // limpar quantidades anteriores
-    for (int i = 1; i <= 10; i++) {
-        comboQuant.addItem(String.valueOf(i)); // Converte o int para String
-    }
-}
-
-    private void preencherComboBox(JComboBox comboBox, List<?> lista) {
-        comboBox.removeAllItems();
-        for (Object item : lista) {
-            comboBox.addItem(item);
+        for (Cliente cliente : listaClientes) {
+            String nome = cliente.getNome();
+            comboCliente.addItem(nome);
+            mapaClientes.put(nome, cliente);
         }
     }
 
-    private void adicionarLivroEQuantidade(Livro livro, Integer quant) {
-        JPanel painelLivros = new JPanel();
+    private void carregarVenda() {
+        VendaController vendaController = new VendaController();
+        Venda venda = vendaController.getVendaPorId(idVenda);
 
-        // Usar o combo já existente para livro
-        JComboBox<Livro> comboLivros = new JComboBox<>();
-        // Preencher o comboLivros com objetos Livro
-        JComboBox<Integer> comboQuant = new JComboBox<>(); // Inicialização do comboQuant
+        preencherComboBoxCliente();
 
-        // Adicionando o livro ao JComboBox
-        comboLivros.addItem(livro);
-        comboLivros.setSelectedItem(livro);
-
-        // Preenchendo o comboQuant com valores de 1 a 10
-        for (int i = 1; i <= 10; i++) {
-            comboQuant.addItem(i);
-        }
-        comboQuant.setSelectedItem(quant);
-
-        painelLivros.add(comboLivros);
-        painelLivros.add(comboQuant);
-
-        jPanelLivros.add(painelLivros);
-        jPanelLivros.revalidate();
-        jPanelLivros.repaint();
-    }
-
-private void carregarVenda() {
-    VendaController vendaController = new VendaController();
-    Venda venda = vendaController.getVendaPorId(idVenda);
-
-    if (venda != null) {
-        // Preenchendo a data da venda
+        Cliente cliente = new ClienteController().buscarPorId(venda.getIdCliente());
+        comboCliente.setSelectedItem(cliente.getNome());
         edtData.setText(venda.getDataVenda().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-        // Selecionar o cliente corretamente
-        Cliente clienteVenda = null;
-        for (int i = 0; i < comboCliente.getItemCount(); i++) {
-            Cliente cliente = (Cliente) comboCliente.getItemAt(i);
-            if (cliente.getId() == venda.getIdCliente()) {
-                clienteVenda = cliente;
-                break;
-            }
-        }
-
-        if (clienteVenda != null) {
-            comboCliente.setSelectedItem(clienteVenda);
-        } else {
-            JOptionPane.showMessageDialog(this, "Cliente não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // Selecionar o primeiro livro da venda
-        List<Livro> livrosNaVenda = new ArrayList<>(venda.getLivrosVendidos().keySet());
-        if (!livrosNaVenda.isEmpty()) {
-            Livro primeiroLivro = livrosNaVenda.get(0);
-            // Selecionando o primeiro livro do combo
-            for (int i = 0; i < comboLivro.getItemCount(); i++) {
-                Livro livroCombo = (Livro) comboLivro.getItemAt(i);
-                if (livroCombo.getId() == primeiroLivro.getId()) {
-                    comboLivro.setSelectedIndex(i);
-                    break;
-                }
-            }
-        }
-
-        // Adicionando livros e quantidades ao painel
         for (Map.Entry<Livro, Integer> entry : venda.getLivrosVendidos().entrySet()) {
-            Livro livro = entry.getKey();
-            Integer quantidade = entry.getValue();
-
-            // Evitar adicionar o primeiro livro novamente
-            if (!livrosNaVenda.get(0).equals(livro)) {
-                adicionarLivroEQuantidade(livro, quantidade);
-            }
+            adicionarLivroEQuantidade(entry.getKey(), entry.getValue());
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Venda não encontrada!", "Erro", JOptionPane.ERROR_MESSAGE);
     }
+
+private void adicionarLivroEQuantidade(Livro livro, Integer quantidade) {
+    // Painel para um único par Livro + Quantidade
+    JPanel painelLivroQuant = new JPanel();
+    painelLivroQuant.setBorder(new EmptyBorder(2, 0, 2, 0)); // top, left, bottom, right
+    painelLivroQuant.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 2)); // Reduzido vgap
+
+    // Cria o JComboBox de livros com todos os livros disponíveis
+    JComboBox<Livro> comboLivros = new JComboBox<>();
+    LivroController livroController = new LivroController();
+    List<Livro> listaLivros = livroController.listarTodos();
+    for (Livro l : listaLivros) {
+        comboLivros.addItem(l);
+    }
+    for (int i = 0; i < comboLivros.getItemCount(); i++) {
+        Livro item = comboLivros.getItemAt(i);
+        if (item != null && item.getId() == livro.getId()) {
+            comboLivros.setSelectedIndex(i);
+            break;
+        }
+    }
+
+    // Cria o JComboBox de quantidade
+    JComboBox<Integer> comboQuant = new JComboBox<>();
+    for (int i = 1; i <= 10; i++) {
+        comboQuant.addItem(i);
+    }
+    comboQuant.setSelectedItem(quantidade);
+
+    // Tamanho dos JComboBox
+    comboLivros.setPreferredSize(new java.awt.Dimension(180, comboLivros.getPreferredSize().height));
+    comboQuant.setPreferredSize(new java.awt.Dimension(80, comboQuant.getPreferredSize().height));
+
+    painelLivroQuant.add(comboLivros);
+    painelLivroQuant.add(comboQuant);
+
+    // Certifica-se que jPanelLivros use um alinhamento à esquerda e layout vertical
+    jPanelLivros.setLayout(new BoxLayout(jPanelLivros, BoxLayout.Y_AXIS));
+    jPanelLivros.setAlignmentX(RIGHT_ALIGNMENT);
+
+    painelLivroQuant.setAlignmentX(RIGHT_ALIGNMENT); // Alinha o painel individual à esquerda
+
+    jPanelLivros.add(painelLivroQuant);
+    jPanelLivros.revalidate();
+    jPanelLivros.repaint();
 }
 
     private void salvarVenda() {
         try {
-            Cliente cliente = (Cliente) comboCliente.getSelectedItem();
+            String nomeSelecionado = comboCliente.getSelectedItem().toString();
+            Cliente cliente = mapaClientes.get(nomeSelecionado); // CERTO
+
             if (cliente == null) {
                 JOptionPane.showMessageDialog(this, "Selecione um cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -313,8 +280,6 @@ private void carregarVenda() {
     private javax.swing.JButton btmCancelar;
     private javax.swing.JButton btmSalvar;
     private javax.swing.JComboBox<String> comboCliente;
-    private javax.swing.JComboBox<String> comboLivro;
-    private javax.swing.JComboBox<String> comboQuant;
     private javax.swing.JTextField edtData;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbCliente;
