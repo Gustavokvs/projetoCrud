@@ -86,4 +86,10 @@ public class Livro {
         if (idsCategorias == null) return ""; // evita NullPointerException
         return String.join(",", idsCategorias.stream().map(String::valueOf).toArray(String[]::new));
     }
+
+    // Sobrescrevendo o método toString para retornar o título do livro
+    @Override
+    public String toString() {
+        return titulo;  // Retorna o título do livro para exibição
+    }
 }
