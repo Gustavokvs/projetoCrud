@@ -301,6 +301,37 @@ public class LivroController {
         }
     }
 
+    public Livro buscarPorTitulo(String titulo) {
+        GerenciadorConexao conexao = new GerenciadorConexao();
+        String sql = "SELECT * FROM livro WHERE titulo = ?";
+        PreparedStatement comando = conexao.prepararComando(sql);
+        ResultSet resultado = null;
+        Livro livro = null;
+
+        try {
+            comando.setString(1, titulo);
+            resultado = comando.executeQuery();
+
+            if (resultado.next()) {
+                livro = new Livro();
+                livro.setId(resultado.getInt("id"));
+                livro.setTitulo(resultado.getString("titulo"));
+                livro.setIsbn(resultado.getString("isbn"));
+                livro.setPreco(resultado.getDouble("preco"));
+                livro.setAnoPublicacao(resultado.getInt("ano_publicacao"));
+                livro.setIdAutor(resultado.getInt("id_autor"));
+                livro.setIdsCategorias(buscarIdsGenerosPorLivro(livro.getId()));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexao.fecharConexao(comando, resultado);
+        }
+
+        return livro;
+    }
+
     private ArrayList<Integer> buscarIdsGenerosPorLivro(int idLivro) {
         GerenciadorConexao conexao = new GerenciadorConexao();
         String sql = "SELECT id_genero FROM livro_genero WHERE id_livro = ?";

@@ -40,6 +40,9 @@ public class FrCadGenero extends javax.swing.JDialog {
         btnVoltar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         edtNome = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -54,30 +57,43 @@ public class FrCadGenero extends javax.swing.JDialog {
         lblNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblNome.setForeground(new java.awt.Color(204, 204, 0));
         lblNome.setText("Nome");
-        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
+        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
 
         btnVoltar.setBackground(new java.awt.Color(255, 255, 153));
         btnVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voltar.png"))); // NOI18N
-        btnVoltar.setText("Voltar");
+        btnVoltar.setBorderPainted(false);
+        btnVoltar.setContentAreaFilled(false);
+        btnVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVoltar.setFocusPainted(false);
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVoltarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 191, 110, 30));
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 120, 40));
 
         btnSalvar.setBackground(new java.awt.Color(255, 255, 153));
         btnSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
-        btnSalvar.setText("Salvar");
+        btnSalvar.setBorderPainted(false);
+        btnSalvar.setContentAreaFilled(false);
+        btnSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalvar.setFocusPainted(false);
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 190, -1, 30));
-        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 264, -1));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, 120, 40));
+        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 264, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_salvar.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, 120, 40));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_voltar.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 130, 40));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 50, 400, 280));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,7 +103,7 @@ public class FrCadGenero extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -168,6 +184,9 @@ public class FrCadGenero extends javax.swing.JDialog {
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JTextField edtNome;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblTitulo;

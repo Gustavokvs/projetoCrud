@@ -31,6 +31,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import java.time.LocalDate;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -38,15 +40,18 @@ import java.time.LocalDate;
  */
 public class FrCadVenda extends javax.swing.JDialog {
 
-    private List<Livro> livrosComQuantidade = new ArrayList<>();
+    private List<JComboBox<?>[]> livrosComQuantidade = new ArrayList<>();
 
     /**
      * Creates new form FrCadVenda
      */
-    public FrCadVenda(java.awt.Frame parent, boolean modal) {
+   public FrCadVenda(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        preencherComboBoxLivros();
+        preencherComboBoxQuantidades(); // <- aqui
+        preencherComboBoxClientes();
     }
 
     VendaController controller = new VendaController();
@@ -69,12 +74,16 @@ public class FrCadVenda extends javax.swing.JDialog {
         lblCliente = new javax.swing.JLabel();
         lblDataVenda = new javax.swing.JLabel();
         lblQuantidade = new javax.swing.JLabel();
-        edtLivro = new javax.swing.JTextField();
-        edtCliente = new javax.swing.JTextField();
-        edtQuantidade = new javax.swing.JTextField();
         edtDataVenda = new javax.swing.JFormattedTextField();
         btnVoltar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        ComQuant = new javax.swing.JComboBox<>();
+        ComLivro = new javax.swing.JComboBox<>();
+        ComClientes = new javax.swing.JComboBox<>();
+        btnAddLivro = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -83,8 +92,8 @@ public class FrCadVenda extends javax.swing.JDialog {
 
         lblTitulo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(204, 204, 0));
-        lblTitulo.setText("Dados de venda");
-        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, -1, -1));
+        lblTitulo.setText("Cadastro de venda");
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, -1, -1));
 
         lblLivro.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblLivro.setForeground(new java.awt.Color(204, 204, 0));
@@ -105,17 +114,16 @@ public class FrCadVenda extends javax.swing.JDialog {
         lblQuantidade.setForeground(new java.awt.Color(204, 204, 0));
         lblQuantidade.setText("Quantidade");
         jPanel1.add(lblQuantidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
-        jPanel1.add(edtLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 116, -1));
-        jPanel1.add(edtCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 63, -1));
-        jPanel1.add(edtQuantidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 103, -1));
 
         edtDataVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-        jPanel1.add(edtDataVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 90, -1));
+        jPanel1.add(edtDataVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 120, -1));
 
         btnVoltar.setBackground(new java.awt.Color(255, 255, 153));
         btnVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voltar.png"))); // NOI18N
-        btnVoltar.setText("Voltar");
+        btnVoltar.setBorderPainted(false);
+        btnVoltar.setContentAreaFilled(false);
+        btnVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVoltar.setFocusPainted(false);
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVoltarMouseClicked(evt);
@@ -126,12 +134,14 @@ public class FrCadVenda extends javax.swing.JDialog {
                 btnVoltarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 350, -1, 30));
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 120, 40));
 
         btnSalvar.setBackground(new java.awt.Color(255, 255, 153));
         btnSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
-        btnSalvar.setText("Salvar");
+        btnSalvar.setBorderPainted(false);
+        btnSalvar.setContentAreaFilled(false);
+        btnSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalvar.setFocusPainted(false);
         btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSalvarMouseClicked(evt);
@@ -142,17 +152,54 @@ public class FrCadVenda extends javax.swing.JDialog {
                 btnSalvarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 350, -1, 30));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 340, 120, 40));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_salvar.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 340, 120, 40));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_voltar.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 130, 40));
+
+        ComQuant.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComQuant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComQuantActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ComQuant, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 70, -1));
+
+        ComLivro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(ComLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 70, -1));
+
+        ComClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComClientesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ComClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 70, -1));
+
+        btnAddLivro.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnAddLivro.setText("Adicionar Livro");
+        btnAddLivro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddLivroActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAddLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, -1, -1));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 60, 400, 350));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -179,119 +226,208 @@ public class FrCadVenda extends javax.swing.JDialog {
         limparCampos();;
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void ComQuantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComQuantActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComQuantActionPerformed
+
+    private void ComClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComClientesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComClientesActionPerformed
+
+    private void btnAddLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLivroActionPerformed
+
+        adicionarComboDinamico();
+    }//GEN-LAST:event_btnAddLivroActionPerformed
+
 // Adicionando livros e quantidades
 // Correção de 'Livro' e 'quantidade'
-    public void gravar() {
-        // Criação de uma nova venda
+    private void adicionarComboDinamico() {
+    JComboBox<String> novoComLivro = new JComboBox<>();
+    JComboBox<String> novoComQuant = new JComboBox<>();
+
+    // Preencher livros
+    LivroController livroController = new LivroController();
+    List<Livro> livros = livroController.listarTodos();
+    DefaultComboBoxModel<String> modelLivro = new DefaultComboBoxModel<>();
+    for (Livro livro : livros) {
+        modelLivro.addElement(livro.getTitulo());
+    }
+    novoComLivro.setModel(modelLivro);
+
+    // Quantidades
+    String[] quantidades = new String[10];
+    for (int i = 0; i < 10; i++) {
+        quantidades[i] = String.valueOf(i + 1);
+    }
+    novoComQuant.setModel(new DefaultComboBoxModel<>(quantidades));
+
+    // Alinhamento com o ComLivro existente
+    int xLivro = 190;      // mesma posição de ComLivro
+    int xQuant = 350;      // posiciona o ComQuant ao lado (ajuste se necessário)
+    int baseY = 130;       // Y do primeiro combo
+    int yOffset = (livrosComQuantidade.size() + 1) * 40;  // pula o primeiro fixo, começa abaixo
+
+    jPanel1.add(novoComLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(xLivro, baseY + yOffset, 140, -1));
+    jPanel1.add(novoComQuant, new org.netbeans.lib.awtextra.AbsoluteConstraints(xQuant, baseY + yOffset, 80, -1));
+
+    livrosComQuantidade.add(new JComboBox[]{novoComLivro, novoComQuant});
+
+    jPanel1.revalidate();
+    jPanel1.repaint();
+}
+
+    public class LivroQuant {
+
+        private JComboBox novoComLivro;
+        private JComboBox novoComQuant;
+
+        public LivroQuant(JComboBox novoComLivro, JComboBox novoComQuant) {
+            this.novoComLivro = novoComLivro;
+            this.novoComQuant = novoComQuant;
+        }
+
+        public JComboBox getNovoComLivro() {
+            return novoComLivro;
+        }
+
+        public JComboBox getNovoComQuant() {
+            return novoComQuant;
+        }
+    }
+
+    private void preencherComboBoxLivros() {
+        LivroController livroController = new LivroController();
+        List<Livro> livros = livroController.listarTodos();
+
+        // Criando três modelos independentes
+        DefaultComboBoxModel<String> model1 = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<String> model2 = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<String> model3 = new DefaultComboBoxModel<>();
+
+        for (Livro livro : livros) {
+            String titulo = livro.getTitulo();
+            model1.addElement(titulo);
+            model2.addElement(titulo);
+            model3.addElement(titulo);
+        }
+
+        ComLivro.setModel(model1);
+
+    }
+
+    private void preencherComboBoxQuantidades() {
+        // Criar os valores de 1 a 10 como array
+        String[] itens = new String[10];
+        for (int i = 0; i < 10; i++) {
+            itens[i] = String.valueOf(i + 1);
+        }
+
+        // Criar modelos separados para cada JComboBox
+        ComQuant.setModel(new DefaultComboBoxModel<>(itens.clone()));
+
+    }
+
+    private void preencherComboBoxClientes() {
+        ClienteController clienteController = new ClienteController(); // Controller para acessar os clientes
+        List<Cliente> clientes = clienteController.listarTodos(); // Método que retorna todos os clientes do banco
+
+        DefaultComboBoxModel<String> modelClientes = new DefaultComboBoxModel<>(); // Modelo para a ComboBox
+        for (Cliente cliente : clientes) {
+            modelClientes.addElement(cliente.getNome()); // Adiciona o nome de cada cliente na ComboBox
+        }
+
+        ComClientes.setModel(modelClientes); // Define o modelo para a ComboBox
+    }
+
+// Adicionando livros e quantidades
+// Correção de 'Livro' e 'quantidade'
+    private void gravar() {
         Venda venda = new Venda();
 
-        // Buscar o cliente
-        int idCliente = Integer.parseInt(edtCliente.getText());
-        Cliente clienteBuscado = cliente.buscarPorId(idCliente);
-        if (clienteBuscado == null) {
-            JOptionPane.showMessageDialog(null, "Cliente não encontrado.");
-            return;
-        }
-        venda.setCliente(clienteBuscado);
-
-        // Processando a data da venda
-        String dataVendaStr = edtDataVenda.getText();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // Ajuste conforme o formato da sua data
-        LocalDate dataVenda = null;
-
         try {
-            dataVenda = LocalDate.parse(dataVendaStr, formatter);
-            venda.setDataVenda(dataVenda); // Supondo que você tenha um setter para dataVenda na classe Venda
+            // Busca do cliente
+            String nomeClienteSelecionado = (String) ComClientes.getSelectedItem();
+            ArrayList<Cliente> clientesBuscados = cliente.buscarPorNome(nomeClienteSelecionado);
+            if (clientesBuscados != null && !clientesBuscados.isEmpty()) {
+                Cliente clienteBuscado = clientesBuscados.get(0);
+                venda.setCliente(clienteBuscado);
+            } else {
+                JOptionPane.showMessageDialog(null, "Cliente não encontrado.");
+                return;
+            }
+
+            // Formatação e validação da data
+            String dataVendaStr = edtDataVenda.getText();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataVenda = LocalDate.parse(dataVendaStr, formatter);
+            venda.setDataVenda(dataVenda);
+
         } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(this, "Formato de data inválido.");
+            JOptionPane.showMessageDialog(null, "Data inválida. Use o formato dd/MM/yyyy.");
             return;
         }
 
-        // Processando os livros e suas quantidades
-        String idsLivrosStr = edtLivro.getText();
-        String[] idsLivros = idsLivrosStr.split(",");
+        // Mapeamento dos livros e quantidades
+        Map<Livro, Integer> livrosVendidos = new HashMap<>();
+        LivroController livroController = new LivroController();
 
-        List<Livro> livrosDaVenda = new ArrayList<>();
-        double valorTotal = 0;
+        // Adicionando o livro principal (se houver)
+        String tituloLivroPrincipal = (String) ComLivro.getSelectedItem();
+        Livro livroPrincipal = livroController.buscarPorTitulo(tituloLivroPrincipal);
+        int quantidadePrincipal = Integer.parseInt((String) ComQuant.getSelectedItem());
 
-        // Adicionando livros
-        for (String idLivroStr : idsLivros) {
-            try {
-                int idLivro = Integer.parseInt(idLivroStr.trim());
+        if (livroPrincipal != null && quantidadePrincipal > 0) {
+            livrosVendidos.put(livroPrincipal, quantidadePrincipal);
+        }
 
-                LivroController livroCtrl = new LivroController();
-                Livro livroBuscado = livroCtrl.buscarPorId(idLivro);
-                if (livroBuscado == null) {
-                    JOptionPane.showMessageDialog(null, "Erro: Livro não encontrado.");
-                    return;
-                }
+        // Adicionando os outros livros e suas quantidades
+        for (JComboBox<?>[] par : livrosComQuantidade) {
+            JComboBox<?> comboLivro = par[0];
+            JComboBox<?> comboQuant = par[1];
 
-                valorTotal += livroBuscado.getPreco();
-                livrosDaVenda.add(livroBuscado);
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Erro: ID do livro inválido.");
-                return;
+            String titulo = (String) comboLivro.getSelectedItem();
+            Livro livro = livroController.buscarPorTitulo(titulo);
+            int quant = Integer.parseInt((String) comboQuant.getSelectedItem());
+
+            if (livro != null && quant > 0) {
+                livrosVendidos.put(livro, quant);
             }
         }
 
-        // Pegar a quantidade inserida pelo usuário
-        String quantidadeStr = edtQuantidade.getText();
-        int quantidade = 0;
+        // Definindo os livros vendidos na venda
+        venda.setLivrosVendidos(livrosVendidos);
 
-        try {
-            quantidade = Integer.parseInt(quantidadeStr);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Quantidade inválida.");
-            return;
-        }
-
-        // Associando livros e suas quantidades
-        Map<Livro, Integer> livrosMap = new HashMap<>();
-        for (Livro livro : livrosDaVenda) {
-            livrosMap.put(livro, quantidade); // Definindo a quantidade de cada livro
-        }
-        venda.setLivrosVendidos(livrosMap);
-
-        // Gravando a venda
+        // Tentando registrar a venda
         try {
             controller.registrarVenda(venda);
-            JOptionPane.showMessageDialog(this, "Venda registrada com sucesso!");
+            JOptionPane.showMessageDialog(null, "Venda registrada com sucesso!");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao registrar venda: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao registrar venda.");
         }
     }
 
-    public void limparCampos() {
-        edtCliente.setText("");
+    private void adicionarLivroQuantidade(JComboBox<String> comboLivro, JComboBox<String> comboQuant, Map<Livro, Integer> mapa, LivroController controller) {
+        String tituloSelecionado = (String) comboLivro.getSelectedItem();
+        int quantidade = Integer.parseInt((String) comboQuant.getSelectedItem());
+
+        Livro livro = controller.buscarPorTitulo(tituloSelecionado);
+        if (livro != null && quantidade > 0) {
+            mapa.put(livro, quantidade); // Adiciona o livro e sua quantidade ao mapa
+        }
+    }
+
+    private void limparCampos() {
         edtDataVenda.setText("");
-        edtLivro.setText("");
-        edtQuantidade.setText("");
-        edtCliente.requestFocus(); // volta o cursor pro primeiro campo
+        ComLivro.setSelectedIndex(0);
+
+        ComQuant.setSelectedIndex(0);
+
     }
 
-    public boolean verificarCampos() {
-
-        if (edtLivro.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Preencha o campo Livro com o ID.");
-            edtLivro.requestFocus();
-            return false;
-        }
-
-        if (edtCliente.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Preencha o campo Cliente com o ID.");
-            edtCliente.requestFocus();
-            return false;
-        }
-
-        if (edtQuantidade.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Preencha o campo Quantidade.");
-            edtQuantidade.requestFocus();
-            return false;
-        }
+    private boolean verificarCampos() {
 
         if (edtDataVenda.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Preencha o campo Data da Venda.");
-            edtDataVenda.requestFocus();
+            JOptionPane.showMessageDialog(this, "Informe a data da venda.");
             return false;
         }
 
@@ -313,16 +449,24 @@ public class FrCadVenda extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrCadVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrCadVenda.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrCadVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrCadVenda.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrCadVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrCadVenda.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrCadVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrCadVenda.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -342,12 +486,16 @@ public class FrCadVenda extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComClientes;
+    private javax.swing.JComboBox<String> ComLivro;
+    private javax.swing.JComboBox<String> ComQuant;
+    private javax.swing.JButton btnAddLivro;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnVoltar;
-    private javax.swing.JTextField edtCliente;
     private javax.swing.JFormattedTextField edtDataVenda;
-    private javax.swing.JTextField edtLivro;
-    private javax.swing.JTextField edtQuantidade;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblDataVenda;

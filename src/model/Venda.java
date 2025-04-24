@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Venda {
 
-    private int id;
+   private int id;
     private int idCliente;
     private String clienteNome; // Pode ser evitado, já que é redundante
     private LocalDate dataVenda;

@@ -67,6 +67,9 @@ public class FrAltGenero extends javax.swing.JDialog {
         edtNome = new javax.swing.JTextField();
         btnVoltar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,49 +79,68 @@ public class FrAltGenero extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(204, 204, 0));
         jLabel1.setText("Alterar nome do genero");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 0));
         jLabel2.setText("Código");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, -1, -1));
 
         lblNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblNome.setForeground(new java.awt.Color(204, 204, 0));
         lblNome.setText("Nome");
-        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 101, -1, -1));
+        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
 
         edtCodigo.setEditable(false);
-        jPanel1.add(edtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, 49, -1));
-        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 164, -1));
+        jPanel1.add(edtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, 49, -1));
+
+        edtNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edtNomeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 164, -1));
 
         btnVoltar.setBackground(new java.awt.Color(255, 255, 153));
         btnVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voltar.png"))); // NOI18N
-        btnVoltar.setText("Voltar");
+        btnVoltar.setBorderPainted(false);
+        btnVoltar.setContentAreaFilled(false);
+        btnVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVoltar.setFocusPainted(false);
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVoltarMouseClicked(evt);
             }
         });
-        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(289, 220, 110, 30));
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, 120, 40));
 
         btnSalvar.setBackground(new java.awt.Color(255, 255, 153));
         btnSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
-        btnSalvar.setText("Salvar");
+        btnSalvar.setBorderPainted(false);
+        btnSalvar.setContentAreaFilled(false);
+        btnSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalvar.setFocusPainted(false);
         btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSalvarMouseClicked(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 220, -1, 30));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 200, 120, 40));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_salvar.png"))); // NOI18N
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 200, 120, 40));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_voltar.png"))); // NOI18N
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, 120, 40));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 70, 410, 260));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,6 +159,10 @@ public class FrAltGenero extends javax.swing.JDialog {
             gravarGenero();
         }
     }//GEN-LAST:event_btnSalvarMouseClicked
+
+    private void edtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtNomeActionPerformed
 
     
     public boolean verificarCampos() {
@@ -200,7 +226,10 @@ public class FrAltGenero extends javax.swing.JDialog {
     private javax.swing.JTextField edtCodigo;
     private javax.swing.JTextField edtNome;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblNome;
     // End of variables declaration//GEN-END:variables

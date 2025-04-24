@@ -35,17 +35,82 @@ public class FrConAutores extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblAutores = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btmVoltar = new javax.swing.JButton();
         btmPesquisar = new javax.swing.JButton();
         btmEditar1 = new javax.swing.JButton();
         btmExcluir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblAutores = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btmVoltar.setBackground(new java.awt.Color(255, 255, 153));
+        btmVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btmVoltar.setBorderPainted(false);
+        btmVoltar.setContentAreaFilled(false);
+        btmVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btmVoltar.setFocusPainted(false);
+        btmVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btmVoltarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btmVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 270, 120, 40));
+
+        btmPesquisar.setBackground(new java.awt.Color(255, 255, 153));
+        btmPesquisar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btmPesquisar.setBorderPainted(false);
+        btmPesquisar.setContentAreaFilled(false);
+        btmPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btmPesquisar.setFocusPainted(false);
+        btmPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btmPesquisarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btmPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, 120, 50));
+
+        btmEditar1.setBackground(new java.awt.Color(255, 255, 153));
+        btmEditar1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btmEditar1.setBorderPainted(false);
+        btmEditar1.setContentAreaFilled(false);
+        btmEditar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btmEditar1.setFocusPainted(false);
+        btmEditar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btmEditar1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btmEditar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 110, 40));
+
+        btmExcluir.setBackground(new java.awt.Color(255, 255, 153));
+        btmExcluir.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btmExcluir.setBorderPainted(false);
+        btmExcluir.setContentAreaFilled(false);
+        btmExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btmExcluir.setFocusPainted(false);
+        btmExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btmExcluirActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btmExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 120, 40));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 204, 0));
+        jLabel1.setText("Autores");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, -1, -1));
 
         tblAutores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -79,55 +144,22 @@ public class FrConAutores extends javax.swing.JDialog {
             tblAutores.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 290, 100));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 290, 110));
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_voltar.png"))); // NOI18N
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 270, 120, 40));
 
-        btmVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btmVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voltar.png"))); // NOI18N
-        btmVoltar.setText("Voltar");
-        btmVoltar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btmVoltarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btmVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, -1, 30));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_excluir.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 120, 40));
 
-        btmPesquisar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btmPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pesquisar.png"))); // NOI18N
-        btmPesquisar.setText("Pesquisar");
-        btmPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btmPesquisarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btmPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, -1, -1));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_editar.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 270, -1, 40));
 
-        btmEditar1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btmEditar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
-        btmEditar1.setText("Editar");
-        btmEditar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btmEditar1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btmEditar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 260, -1, 30));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_pesquisar.png"))); // NOI18N
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, 120, 50));
 
-        btmExcluir.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btmExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/excluir.png"))); // NOI18N
-        btmExcluir.setText("Excluir");
-        btmExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btmExcluirActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btmExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 260, -1, 30));
-
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(204, 204, 0));
-        jLabel1.setText("Autores");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, -1, -1));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, 460, 360));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 410));
 
@@ -260,6 +292,11 @@ public class FrConAutores extends javax.swing.JDialog {
     private javax.swing.JButton btmPesquisar;
     private javax.swing.JButton btmVoltar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAutores;

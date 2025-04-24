@@ -5,13 +5,18 @@
  */
 package view;
 
+import controller.AutorController;
+import controller.GeneroController;
 import controller.GerenciadorConexao;
 import controller.LivroController;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.Livro;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import model.Autor;
+import model.Genero;
 
 
 /**
@@ -20,35 +25,32 @@ import java.util.Arrays;
  */
 public class FrAltLivro extends javax.swing.JDialog {
 
-    private int id;
+    private Livro livro;
+    private List<Autor> listaAutores;  // Lista de autores do banco
+    private List<String> listaCategorias;  // Lista de categorias do banco
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public FrAltLivro(java.awt.Frame parent, boolean modal, int id) {
+    public FrAltLivro(FrConLivros parent, boolean modal, Livro livro) {
         super(parent, modal);
         initComponents();
-        this.setLocationRelativeTo(null);
-        setId(id);
-        carregarLivro(); // carrega os dados do livro no form
+        this.livro = livro;
+
+    // 👇 ISSO AQUI TEM QUE ESTAR DENTRO DO CONSTRUTOR
+    listaCategorias = new ArrayList<>();
+    listaCategorias.add("Romance");
+    listaCategorias.add("Aventura");
+    listaCategorias.add("Terror");
+    listaCategorias.add("Suspense");
+    listaCategorias.add("Ficção Científica");
+    for (String genero : listaCategorias) {
+        comboCategoria.addItem(genero);
     }
 
-    public FrAltLivro(java.awt.Dialog parent, boolean modal, Livro livro) {
-        super(parent, modal);
-        initComponents();
-        this.setLocationRelativeTo(null);
 
-        // Preenche os campos com os dados do livro
-        edtIdLivro.setText(String.valueOf(livro.getId()));
-        edtTitulo.setText(livro.getTitulo());
-        edtIsbn.setText(livro.getIsbn());
-        edtPreco.setText(String.valueOf(livro.getPreco()));
-        edtAnoPublicacao.setText(String.valueOf(livro.getAnoPublicacao()));
-        edtCategoria.setText(String.valueOf(livro.getIdsCategorias()));
+    preencherCampos();
+    }
 
-
-        edtAutorId.setText(String.valueOf(livro.getIdAutor()));
+    FrAltLivro(FrConLivros aThis, boolean b, int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -71,13 +73,18 @@ public class FrAltLivro extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        edtCategoria = new javax.swing.JTextField();
         edtTitulo = new javax.swing.JTextField();
         edtIsbn = new javax.swing.JTextField();
         edtPreco = new javax.swing.JTextField();
         edtAnoPublicacao = new javax.swing.JTextField();
-        edtAutorId = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        comboAutor = new javax.swing.JComboBox<>();
+        comboCategoria = new javax.swing.JComboBox<>();
+        btnAdicionarCategoria = new javax.swing.JButton();
+        btnLimpar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -87,85 +94,120 @@ public class FrAltLivro extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(204, 204, 0));
         jLabel1.setText("Código do livro:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 90, -1, 20));
 
         edtIdLivro.setEditable(false);
-        jPanel1.add(edtIdLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 47, -1));
+        edtIdLivro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edtIdLivroActionPerformed(evt);
+            }
+        });
+        jPanel1.add(edtIdLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, 47, -1));
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 0));
         jLabel2.setText("Autor ID");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, -1, -1));
 
         lbCategoria.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbCategoria.setForeground(new java.awt.Color(204, 204, 0));
         lbCategoria.setText("Categoria ID");
-        jPanel1.add(lbCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 360, -1, -1));
+        jPanel1.add(lbCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(204, 204, 0));
         jLabel5.setText("Título");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(204, 204, 0));
         jLabel6.setText("ISBN");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(204, 204, 0));
         jLabel7.setText("Preço");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, -1, -1));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(204, 204, 0));
         jLabel8.setText("Ano de publicação");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, -1, -1));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, -1, -1));
 
         btnSalvar.setBackground(new java.awt.Color(255, 255, 153));
         btnSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
-        btnSalvar.setText("Salvar");
+        btnSalvar.setBorderPainted(false);
+        btnSalvar.setContentAreaFilled(false);
+        btnSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalvar.setFocusPainted(false);
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 440, -1, 30));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 430, 120, 40));
 
         btnCancelar.setBackground(new java.awt.Color(255, 255, 153));
         btnCancelar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel.png"))); // NOI18N
-        btnCancelar.setText("Cancelar");
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.setContentAreaFilled(false);
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelar.setFocusPainted(false);
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 440, -1, 30));
-
-        edtCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edtCategoriaActionPerformed(evt);
-            }
-        });
-        jPanel1.add(edtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 110, -1));
-        jPanel1.add(edtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 170, -1));
-        jPanel1.add(edtIsbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 170, -1));
-        jPanel1.add(edtPreco, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 70, -1));
-        jPanel1.add(edtAnoPublicacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 110, -1));
-        jPanel1.add(edtAutorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 50, -1));
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, 120, 40));
+        jPanel1.add(edtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 170, -1));
+        jPanel1.add(edtIsbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 170, -1));
+        jPanel1.add(edtPreco, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 130, -1));
+        jPanel1.add(edtAnoPublicacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, 130, -1));
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 204, 0));
         jLabel3.setText("Alterar Livro");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, -1, -1));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_salvar.png"))); // NOI18N
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 430, 120, 40));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_voltar.png"))); // NOI18N
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, 120, 40));
+
+        comboAutor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(comboAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, -1, -1));
+
+        comboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(comboCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, -1, -1));
+
+        btnAdicionarCategoria.setBackground(new java.awt.Color(255, 255, 255));
+        btnAdicionarCategoria.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnAdicionarCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
+        btnAdicionarCategoria.setText("Adicionar categoria");
+        btnAdicionarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarCategoriaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAdicionarCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 380, -1, 30));
+
+        btnLimpar.setText("jButton1");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 310, -1, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 400, 390));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,13 +217,23 @@ public class FrAltLivro extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void edtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtCategoriaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edtCategoriaActionPerformed
-
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+// Atualiza os dados do livro com os valores dos campos
+        livro.setTitulo(edtTitulo.getText());
+        livro.setIsbn(edtIsbn.getText());
+        livro.setPreco(Double.parseDouble(edtPreco.getText()));
+        livro.setAnoPublicacao(Integer.parseInt(edtAnoPublicacao.getText()));
 
-        salvar();
+        // Atualiza o autor e a categoria selecionados
+        livro.setIdAutor(listaAutores.get(comboAutor.getSelectedIndex()).getId());
+        livro.setIdsCategorias(Arrays.asList(Integer.parseInt(getCategoriaSelecionada())));
+
+        // Chama o método do controller para atualizar o livro no banco de dados
+        LivroController livroController = new LivroController();
+        livroController.atualizar(livro);
+
+        JOptionPane.showMessageDialog(this, "Livro alterado com sucesso!");
+        this.dispose();  // Fecha a tela de alteração
 
 
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -190,219 +242,100 @@ public class FrAltLivro extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrAltLivro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrAltLivro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrAltLivro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrAltLivro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void edtIdLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtIdLivroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtIdLivroActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FrAltLivro dialog = new FrAltLivro(new javax.swing.JFrame(), true, 1); // Use um ID válido aqui
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void btnAdicionarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarCategoriaActionPerformed
 
-private void salvar() {
-    
-    if (!verificarCampos()) {
-        return; // Se a validação falhar, interrompe o salvamento
-    }
-    // O re
-    // Capturar os dados dos campos
-    String titulo = edtTitulo.getText().trim();
-    String isbn = edtIsbn.getText().trim();
-    String precoStr = edtPreco.getText().trim();
-    String anoPublicacaoStr = edtAnoPublicacao.getText().trim();
-    String categoriaStr = edtCategoria.getText().trim(); // Agora pode ser algo como "1,2"
-    String autorIdStr = edtAutorId.getText().trim();
+    }//GEN-LAST:event_btnAdicionarCategoriaActionPerformed
 
-    // Converter os dados para os tipos corretos
-    double preco;
-    int anoPublicacao, autorId;
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLimparActionPerformed
 
-    try {
-        preco = Double.parseDouble(precoStr);
-        anoPublicacao = Integer.parseInt(anoPublicacaoStr);
-        autorId = Integer.parseInt(autorIdStr);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos válidos para preço, ano de publicação e autor.", "Erro", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+   // Inicializa a listaCategorias com valores fixos
 
-    // Pegar o texto do campo de categorias
-    String inputCategorias = categoriaStr; // Já pegamos do campo
 
-    // Converter a entrada em uma lista de inteiros
-    List<Integer> novaListaDeCategorias = Arrays.stream(inputCategorias.split(","))
-        .map(String::trim) // Remover espaços antes ou depois dos números
-        .map(Integer::parseInt) // Converter para Integer
-        .collect(Collectors.toList()); // Coletar em uma lista
-
-    // Criar o objeto Livro com os dados capturados
-    Livro livro = new Livro();
-    livro.setId(Integer.parseInt(edtIdLivro.getText())); // O ID do livro já está no campo de texto, mesmo que não editável
-    livro.setTitulo(titulo);
-    livro.setIsbn(isbn);
-    livro.setPreco(preco);
-    livro.setAnoPublicacao(anoPublicacao);
-    livro.setIdAutor(autorId);
-    livro.setIdsCategorias(novaListaDeCategorias); // A lista de categorias foi capturada e convertida
-
-    // Chamar o método de atualização no controller para salvar o livro
-    LivroController controller = new LivroController();
-    boolean sucesso = controller.atualizar(livro);
-
-    // Exibir mensagens de sucesso ou erro
-    if (sucesso) {
-        JOptionPane.showMessageDialog(this, "Livro atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        this.dispose(); // Fechar a janela de alteração
-    } else {
-        JOptionPane.showMessageDialog(this, "Erro ao atualizar o livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-    }
-}
-
-private boolean verificarCampos() {
-    // Verificar se todos os campos obrigatórios estão preenchidos
-    if (edtTitulo.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, preencha o título do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-
-    if (edtIsbn.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, preencha o ISBN do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-
-    if (edtPreco.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, preencha o preço do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-
-    if (edtAnoPublicacao.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, preencha o ano de publicação do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-
-    if (edtCategoria.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, preencha a categoria do livro.", "Erro", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-
-    if (edtAutorId.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, preencha o ID do autor.", "Erro", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-
-    // Verificar se os campos numéricos são válidos
-    try {
-        Double.parseDouble(edtPreco.getText().trim());
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Preço inválido. Por favor, insira um valor numérico válido para o preço.", "Erro", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-
-    try {
-        Integer.parseInt(edtAnoPublicacao.getText().trim());
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Ano de publicação inválido. Por favor, insira um valor numérico válido para o ano de publicação.", "Erro", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-
-    // Validar as categorias - se o campo não for vazio, deve ser um número válido (ou lista de números separados por vírgula)
-    String categorias = edtCategoria.getText().trim();
-    String[] categoriaArray = categorias.split(",");
-    for (String categoria : categoriaArray) {
-        try {
-            Integer.parseInt(categoria.trim()); // Tenta converter cada item separado por vírgula
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Categoria inválida. Por favor, insira um valor numérico válido para a categoria.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-    }
-
-    try {
-        Integer.parseInt(edtAutorId.getText().trim());
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "ID do autor inválido. Por favor, insira um valor numérico válido para o ID do autor.", "Erro", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-
-    return true;
-}
-
-    private void carregarLivro() {
-    LivroController livroController = new LivroController();
-    Livro livro = livroController.buscarPorId(id);
-
+// Método para preencher os campos com os dados do livro
+private void preencherCampos() {
     if (livro != null) {
-        edtIdLivro.setText(String.valueOf(livro.getId()));
         edtTitulo.setText(livro.getTitulo());
-        edtIsbn.setText(livro.getIsbn());
-        edtPreco.setText(String.valueOf(livro.getPreco()));
         edtAnoPublicacao.setText(String.valueOf(livro.getAnoPublicacao()));
-        
-        // Converter a lista de categorias em um formato "id1,id2,..."
-        String categorias = livro.getIdsCategorias().stream()
-                                 .map(String::valueOf)
-                                 .collect(Collectors.joining(","));
-        edtCategoria.setText(categorias);  // Preencher o campo com os IDs das categorias
-        
-        edtAutorId.setText(String.valueOf(livro.getIdAutor()));
-    } else {
-        JOptionPane.showMessageDialog(this, "Livro não encontrado.");
-        dispose();
+        edtPreco.setText(String.valueOf(livro.getPreco()));
+        comboCategoria.setSelectedItem(livro.getCategorias());
+        comboAutor.setSelectedItem(livro.getIdAutor()); // se usar nomes, talvez precise ajustar
     }
-}
 
+
+        // Seleciona a categoria no JComboBox com base no idCategoria do livro
+        for (String genero : listaCategorias) {
+            // Verifica se o ID da categoria está na lista de categorias do livro
+            if (livro.getCategorias().contains(genero)) {
+                comboCategoria.setSelectedItem(genero);  // Atribui a categoria diretamente
+            }
+
+        }
+    }
+
+    // Método para carregar os autores no ComboBox
+    private void carregarAutores() {
+        // Supondo que você tenha um método que retorna a lista de autores do banco
+        AutorController autorController = new AutorController();
+        listaAutores = autorController.listarTodos();  // Retorna lista de autores do banco
+
+        // Adiciona cada autor no ComboBox
+        for (Autor autor : listaAutores) {
+            comboAutor.addItem(autor.getNome());  // Adiciona o nome do autor ao ComboBox
+        }
+    }
+
+    // Método para carregar as categorias no ComboBox (como ID ou String)
+    private void carregarCategorias() {
+        // Cria uma instância do controller para acessar os dados das categorias
+        GeneroController generoController = new GeneroController();
+
+        // Obtém a lista de categorias do banco de dados
+        List<Genero> listaCategorias = generoController.listarTodos();  // Retorna lista de objetos Genero
+
+        // Adiciona cada categoria ao ComboBox
+        for (Genero genero : listaCategorias) {
+            comboCategoria.addItem(genero.getNome());  // Adiciona o nome da categoria ao ComboBox
+        }
+    }
+
+    // Métodos para obter os valores selecionados nos ComboBox
+    private Autor getAutorSelecionado() {
+        return listaAutores.get(comboAutor.getSelectedIndex());  // Retorna o autor selecionado
+    }
+
+    private String getCategoriaSelecionada() {
+        return (String) comboCategoria.getSelectedItem();  // Retorna a categoria selecionada
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdicionarCategoria;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JComboBox<String> comboAutor;
+    private javax.swing.JComboBox<String> comboCategoria;
     private javax.swing.JTextField edtAnoPublicacao;
-    private javax.swing.JTextField edtAutorId;
-    private javax.swing.JTextField edtCategoria;
     private javax.swing.JTextField edtIdLivro;
     private javax.swing.JTextField edtIsbn;
     private javax.swing.JTextField edtPreco;
     private javax.swing.JTextField edtTitulo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbCategoria;
     // End of variables declaration//GEN-END:variables

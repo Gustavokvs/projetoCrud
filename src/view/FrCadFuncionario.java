@@ -41,33 +41,33 @@ public class FrCadFuncionario extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         btnVoltar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
-        lblNome = new javax.swing.JLabel();
-        lblCargo = new javax.swing.JLabel();
-        lblEmail = new javax.swing.JLabel();
-        lblTelefone = new javax.swing.JLabel();
         edtCargo = new javax.swing.JTextField();
         edtEmail = new javax.swing.JTextField();
         edtNome = new javax.swing.JTextField();
         edtTelefone = new javax.swing.JTextField();
         chkAtivo = new javax.swing.JRadioButton();
+        lblTitulo = new javax.swing.JLabel();
+        lblNome = new javax.swing.JLabel();
+        lblCargo = new javax.swing.JLabel();
+        lblEmail = new javax.swing.JLabel();
+        lblTelefone = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(204, 204, 0));
-        jLabel1.setText("Cadastro de Funcionário");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
-
         btnVoltar.setBackground(new java.awt.Color(255, 255, 153));
         btnVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voltar.png"))); // NOI18N
-        btnVoltar.setText("Voltar");
+        btnVoltar.setBorderPainted(false);
+        btnVoltar.setContentAreaFilled(false);
+        btnVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVoltar.setFocusPainted(false);
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVoltarMouseClicked(evt);
@@ -78,12 +78,14 @@ public class FrCadFuncionario extends javax.swing.JDialog {
                 btnVoltarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 390, 110, 30));
+        jPanel1.add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 370, 120, 40));
 
         btnSalvar.setBackground(new java.awt.Color(255, 255, 153));
         btnSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
-        btnSalvar.setText("Salvar");
+        btnSalvar.setBorderPainted(false);
+        btnSalvar.setContentAreaFilled(false);
+        btnSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalvar.setFocusPainted(false);
         btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSalvarMouseClicked(evt);
@@ -94,54 +96,80 @@ public class FrCadFuncionario extends javax.swing.JDialog {
                 btnSalvarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 390, -1, 30));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 370, 120, 40));
 
-        lblNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lblNome.setForeground(new java.awt.Color(204, 204, 0));
-        lblNome.setText("Nome");
-        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
-
-        lblCargo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lblCargo.setForeground(new java.awt.Color(204, 204, 0));
-        lblCargo.setText("Cargo");
-        jPanel1.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
-
-        lblEmail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lblEmail.setForeground(new java.awt.Color(204, 204, 0));
-        lblEmail.setText("E-mail");
-        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
-
-        lblTelefone.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lblTelefone.setForeground(new java.awt.Color(204, 204, 0));
-        lblTelefone.setText("Telefone");
-        jPanel1.add(lblTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
-
+        edtCargo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        edtCargo.setBorder(null);
         edtCargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtCargoActionPerformed(evt);
             }
         });
-        jPanel1.add(edtCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 100, -1));
-        jPanel1.add(edtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 104, -1));
-        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 100, -1));
-        jPanel1.add(edtTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 104, -1));
+        jPanel1.add(edtCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 150, 20));
+
+        edtEmail.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        edtEmail.setBorder(null);
+        jPanel1.add(edtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 150, 20));
+
+        edtNome.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        edtNome.setBorder(null);
+        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 150, 20));
+
+        edtTelefone.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        edtTelefone.setForeground(new java.awt.Color(255, 255, 204));
+        edtTelefone.setBorder(null);
+        jPanel1.add(edtTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 150, 20));
 
         chkAtivo.setBackground(new java.awt.Color(204, 204, 0));
         chkAtivo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         chkAtivo.setText("Ativo");
-        jPanel1.add(chkAtivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 345, 70, -1));
+        chkAtivo.setContentAreaFilled(false);
+        chkAtivo.setOpaque(true);
+        jPanel1.add(chkAtivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 70, -1));
+
+        lblTitulo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(204, 204, 0));
+        lblTitulo.setText("Cadastro de Funcionário");
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, -1, -1));
+
+        lblNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblNome.setForeground(new java.awt.Color(204, 204, 0));
+        lblNome.setText("Nome");
+        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
+
+        lblCargo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblCargo.setForeground(new java.awt.Color(204, 204, 0));
+        lblCargo.setText("Cargo");
+        jPanel1.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, -1));
+
+        lblEmail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblEmail.setForeground(new java.awt.Color(204, 204, 0));
+        lblEmail.setText("E-mail");
+        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+
+        lblTelefone.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblTelefone.setForeground(new java.awt.Color(204, 204, 0));
+        lblTelefone.setText("Telefone");
+        jPanel1.add(lblTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 80, 400, 320));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_salvar.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 370, 120, 40));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/botao_voltar.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 370, 130, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
         );
 
         pack();
@@ -288,10 +316,13 @@ public class FrCadFuncionario extends javax.swing.JDialog {
     private javax.swing.JTextField edtNome;
     private javax.swing.JTextField edtTelefone;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCargo;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblTelefone;
+    private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }
