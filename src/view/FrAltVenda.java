@@ -188,42 +188,40 @@ private void carregarVenda() {
     Venda venda = vendaController.getVendaPorId(idVenda);
 
     if (venda != null) {
+        // Preenchendo a data da venda
         edtData.setText(venda.getDataVenda().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-        // Selecionar cliente
-        boolean clienteSelecionado = false;
+        // Selecionar o cliente corretamente
+        Cliente clienteVenda = null;
         for (int i = 0; i < comboCliente.getItemCount(); i++) {
-            Object item = comboCliente.getItemAt(i);
-            if (item instanceof Cliente) {
-                Cliente cliente = (Cliente) item;
-                if (cliente.getId() == venda.getIdCliente()) {
-                    comboCliente.setSelectedIndex(i);
-                    clienteSelecionado = true;
+            Cliente cliente = (Cliente) comboCliente.getItemAt(i);
+            if (cliente.getId() == venda.getIdCliente()) {
+                clienteVenda = cliente;
+                break;
+            }
+        }
+
+        if (clienteVenda != null) {
+            comboCliente.setSelectedItem(clienteVenda);
+        } else {
+            JOptionPane.showMessageDialog(this, "Cliente não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Selecionar o primeiro livro da venda
+        List<Livro> livrosNaVenda = new ArrayList<>(venda.getLivrosVendidos().keySet());
+        if (!livrosNaVenda.isEmpty()) {
+            Livro primeiroLivro = livrosNaVenda.get(0);
+            // Selecionando o primeiro livro do combo
+            for (int i = 0; i < comboLivro.getItemCount(); i++) {
+                Livro livroCombo = (Livro) comboLivro.getItemAt(i);
+                if (livroCombo.getId() == primeiroLivro.getId()) {
+                    comboLivro.setSelectedIndex(i);
                     break;
                 }
             }
         }
 
-        if (!clienteSelecionado) {
-            System.out.println("Cliente não encontrado!");
-        }
-
-        // Garantir que o livro correto seja selecionado
-        List<Livro> livrosNaVenda = new ArrayList<>(venda.getLivrosVendidos().keySet());
-        if (!livrosNaVenda.isEmpty()) {
-            Livro livroVenda = livrosNaVenda.get(0);
-
-            // Verificar se o livro da venda existe no modelo do combo
-            for (int i = 0; i < comboLivro.getItemCount(); i++) {
-                Livro livroCombo = (Livro) comboLivro.getItemAt(i);
-                if (livroCombo.getId() == livroVenda.getId()) {
-                    comboLivro.setSelectedIndex(i);
-                    break;  // Livro correto encontrado e selecionado
-                }
-            }
-        }
-
-        // Seleção dos livros e quantidades, adicionar os outros livros no painel
+        // Adicionando livros e quantidades ao painel
         for (Map.Entry<Livro, Integer> entry : venda.getLivrosVendidos().entrySet()) {
             Livro livro = entry.getKey();
             Integer quantidade = entry.getValue();
@@ -234,7 +232,7 @@ private void carregarVenda() {
             }
         }
     } else {
-        System.out.println("Venda não encontrada!");
+        JOptionPane.showMessageDialog(this, "Venda não encontrada!", "Erro", JOptionPane.ERROR_MESSAGE);
     }
 }
 
