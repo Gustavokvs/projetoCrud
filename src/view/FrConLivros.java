@@ -188,25 +188,26 @@ public class FrConLivros extends javax.swing.JDialog {
         }
     }
 
-    private void alterarLivro() {
-        int linhaSelecionada = tblLivros.getSelectedRow();
-        if (linhaSelecionada != -1) {
-            int idLivro = (int) tblLivros.getValueAt(linhaSelecionada, 0);
+private void alterarLivro() {
+    int linhaSelecionada = tblLivros.getSelectedRow();  // Obtém a linha selecionada na tabela
+    if (linhaSelecionada != -1) {  // Verifica se foi selecionada uma linha
+        int idLivro = (int) tblLivros.getValueAt(linhaSelecionada, 0);  // Obtém o ID do livro
 
-            LivroController controller = new LivroController();
-            Livro liv = controller.buscarPorId(idLivro);
+        LivroController controller = new LivroController();
+        Livro livro = controller.buscarPorId(idLivro);  // Busca o livro pelo ID no controller
 
-            if (liv != null) {
-                // Agora passando o objeto Livro no construtor
-                FrAltLivro telaAlt = new FrAltLivro(this, true, liv);
-                telaAlt.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Livro não encontrado!");
-            }
+        if (livro != null) {  // Se o livro foi encontrado
+            // Passa o objeto Livro completo para o construtor
+            FrAltLivro telaAlt = new FrAltLivro(this, true, livro);
+            telaAlt.setVisible(true);  // Torna a tela de alteração visível
         } else {
-            JOptionPane.showMessageDialog(null, "Selecione um livro para alterar!");
+            JOptionPane.showMessageDialog(null, "Livro não encontrado!");  // Caso o livro não seja encontrado
         }
+    } else {
+        JOptionPane.showMessageDialog(null, "Selecione um livro para alterar!");  // Caso nenhuma linha tenha sido selecionada
     }
+}
+
 
     private void excluirLivro() {
         if (tblLivros.getSelectedRow() != -1) {
