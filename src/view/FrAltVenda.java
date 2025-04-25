@@ -56,9 +56,7 @@ public class FrAltVenda extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lbQuantidade = new javax.swing.JLabel();
         lbData = new javax.swing.JLabel();
-        edtQuantidade = new javax.swing.JTextField();
         lbIdCliente1 = new javax.swing.JLabel();
         edtData = new javax.swing.JTextField();
         lbLivro = new javax.swing.JLabel();
@@ -68,40 +66,27 @@ public class FrAltVenda extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         comboCliente = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbQuantidade.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbQuantidade.setForeground(new java.awt.Color(204, 204, 0));
-        lbQuantidade.setText("Quantidade");
-        jPanel1.add(lbQuantidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, -1, -1));
-
         lbData.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbData.setForeground(new java.awt.Color(204, 204, 0));
         lbData.setText("Data");
         jPanel1.add(lbData, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
 
-        edtQuantidade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edtQuantidadeActionPerformed(evt);
-            }
-        });
-        jPanel1.add(edtQuantidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 130, -1));
-
         lbIdCliente1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbIdCliente1.setForeground(new java.awt.Color(204, 204, 0));
-        lbIdCliente1.setText("ID Cliente");
+        lbIdCliente1.setText("Nome do Cliente");
         jPanel1.add(lbIdCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, -1));
         jPanel1.add(edtData, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 130, -1));
 
         lbLivro.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbLivro.setForeground(new java.awt.Color(204, 204, 0));
         lbLivro.setText("Livro");
-        jPanel1.add(lbLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, -1, -1));
+        jPanel1.add(lbLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 150, -1, -1));
 
         btmSalvar.setBackground(new java.awt.Color(255, 255, 153));
         btmSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -141,20 +126,21 @@ public class FrAltVenda extends javax.swing.JDialog {
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 400, 130, 40));
 
         comboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(comboCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fundo_logo.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 100, 400, 310));
+        jPanel1.add(comboCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 140, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,10 +154,6 @@ public class FrAltVenda extends javax.swing.JDialog {
     private void btmCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmCancelarActionPerformed
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btmCancelarActionPerformed
-
-    private void edtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtQuantidadeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edtQuantidadeActionPerformed
 
     private void preencherComboBoxCliente() {
         ClienteController clienteController = new ClienteController();
@@ -188,6 +170,8 @@ public class FrAltVenda extends javax.swing.JDialog {
     }
 
     private void carregarVenda() {
+        
+        
         VendaController vendaController = new VendaController();
         Venda venda = vendaController.getVendaPorId(idVenda);
 
@@ -207,6 +191,7 @@ private void adicionarLivroEQuantidade(Livro livro, Integer quantidade) {
     JPanel painelLivroQuant = new JPanel();
     painelLivroQuant.setBorder(new EmptyBorder(2, 0, 2, 0)); // top, left, bottom, right
     painelLivroQuant.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 2)); // Reduzido vgap
+    painelLivroQuant.setBackground(java.awt.Color.BLACK); // Define a cor de fundo como preta
 
     // Cria o JComboBox de livros com todos os livros disponíveis
     JComboBox<Livro> comboLivros = new JComboBox<>();
@@ -329,15 +314,12 @@ private void adicionarLivroEQuantidade(Livro livro, Integer quantidade) {
     private javax.swing.JButton btmSalvar;
     private javax.swing.JComboBox<String> comboCliente;
     private javax.swing.JTextField edtData;
-    private javax.swing.JTextField edtQuantidade;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbData;
     private javax.swing.JLabel lbIdCliente1;
     private javax.swing.JLabel lbLivro;
-    private javax.swing.JLabel lbQuantidade;
     // End of variables declaration//GEN-END:variables
 }

@@ -102,7 +102,7 @@ public class FrConFuncionario extends javax.swing.JDialog {
                 btnAlterarMouseClicked(evt);
             }
         });
-        jPanel1.add(btnAlterar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 520, 120, 40));
+        jPanel1.add(btnAlterar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 520, 120, 40));
 
         btnExcluir.setBackground(new java.awt.Color(255, 255, 153));
         btnExcluir.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -115,7 +115,7 @@ public class FrConFuncionario extends javax.swing.JDialog {
                 btnExcluirMouseClicked(evt);
             }
         });
-        jPanel1.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 520, 120, 40));
+        jPanel1.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 520, 120, 40));
 
         btnVoltar.setBackground(new java.awt.Color(255, 255, 153));
         btnVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N

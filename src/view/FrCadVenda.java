@@ -169,7 +169,7 @@ public class FrCadVenda extends javax.swing.JDialog {
         jPanel1.add(ComQuant, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 70, -1));
 
         ComLivro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(ComLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 70, -1));
+        jPanel1.add(ComLivro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 160, -1));
 
         ComClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         ComClientes.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +177,7 @@ public class FrCadVenda extends javax.swing.JDialog {
                 ComClientesActionPerformed(evt);
             }
         });
-        jPanel1.add(ComClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 70, -1));
+        jPanel1.add(ComClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 160, -1));
 
         btnAddLivro.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnAddLivro.setText("Adicionar Livro");

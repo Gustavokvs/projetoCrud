@@ -15,7 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 
 public class FrCadLivros extends javax.swing.JDialog {
 
-     private List<javax.swing.JComboBox<Genero>> generosAdicionais = new ArrayList<>();
+    private List<javax.swing.JComboBox<Genero>> generosAdicionais = new ArrayList<>();
     private List<Genero> listaGeneros = new ArrayList<>();
     private LivroController controller = new LivroController();
 
@@ -158,9 +158,9 @@ public class FrCadLivros extends javax.swing.JDialog {
                 comboAutorActionPerformed(evt);
             }
         });
-        jPanel1.add(comboAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 40, -1));
+        jPanel1.add(comboAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 190, -1));
 
-        jPanel1.add(comboGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 40, -1));
+        jPanel1.add(comboGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 180, -1));
 
         btnAdicionarGenero.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnAdicionarGenero.setText("Adicionais + genero");
@@ -209,63 +209,8 @@ public class FrCadLivros extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSalvarMouseClicked
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        try {
-        StringBuilder erros = new StringBuilder();
-
-        String titulo = edtTitulo.getText().trim();
-        String isbn = edtIsbn.getText().trim();
-        String precoStr = edtPreco.getText().trim();
-        String anoStr = edtAnoPublicacao.getText().trim();
-        Autor autorSelecionado = (Autor) comboAutor.getSelectedItem();
-        Genero generoSelecionado = (Genero) comboGenero.getSelectedItem();
-
-        // Verifica todos os campos e adiciona mensagens específicas
-        if (titulo.isEmpty()) erros.append("- O campo Título é obrigatório.\n");
-        if (isbn.isEmpty()) erros.append("- O campo ISBN é obrigatório.\n");
-        if (precoStr.isEmpty()) erros.append("- O campo Preço é obrigatório.\n");
-        if (anoStr.isEmpty()) erros.append("- O campo Ano de Publicação é obrigatório.\n");
-        if (autorSelecionado == null) erros.append("- Selecione um Autor.\n");
-        if (generoSelecionado == null) erros.append("- Selecione um Gênero.\n");
-
-        // Se tiver erros, mostra tudo junto e para o processo
-        if (erros.length() > 0) {
-            JOptionPane.showMessageDialog(this, "Por favor, corrija os seguintes erros:\n" + erros.toString());
-            return;
-        }
-
-        // Agora pode criar o livro com segurança
-        Livro livro = new Livro();
-        livro.setTitulo(titulo);
-        livro.setIsbn(isbn);
-        livro.setPreco(Double.parseDouble(precoStr));
-        livro.setAnoPublicacao(Integer.parseInt(anoStr));
-        livro.setIdAutor(autorSelecionado.getId());
-
-        List<Integer> idsCategorias = new ArrayList<>();
-        idsCategorias.add(generoSelecionado.getId());
-
-        for (javax.swing.JComboBox<Genero> combo : generosAdicionais) {
-            Genero generoAdicional = (Genero) combo.getSelectedItem();
-            if (generoAdicional != null) {
-                idsCategorias.add(generoAdicional.getId());
-            }
-        }
-
-        livro.setIdsCategorias(idsCategorias);
-
-        boolean sucesso = salvar(livro);
-        if (sucesso) {
-            JOptionPane.showMessageDialog(this, "Livro salvo com sucesso no banco de dados!");
-        } else {
-            JOptionPane.showMessageDialog(this, "Falha ao salvar o livro no banco.");
-        }
-
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Erro de formatação: o campo Preço ou Ano não está com valor numérico válido.");
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Erro ao criar o livro: " + e.getMessage());
-        e.printStackTrace();
-    
+        if(verificarCampos()){
+            gravar();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -274,6 +219,7 @@ public class FrCadLivros extends javax.swing.JDialog {
     }//GEN-LAST:event_comboAutorActionPerformed
 
     private void btnAdicionarGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarGeneroActionPerformed
+
         javax.swing.JComboBox<Genero> novoCombo = new javax.swing.JComboBox<>();
         for (Genero g : listaGeneros) {
             novoCombo.addItem(g);
@@ -284,10 +230,10 @@ public class FrCadLivros extends javax.swing.JDialog {
         generosAdicionais.add(novoCombo);
         jPanel1.revalidate();
         jPanel1.repaint();
-                        
+
     }//GEN-LAST:event_btnAdicionarGeneroActionPerformed
 
-      private void preencherComboBoxAutores() {
+    private void preencherComboBoxAutores() {
         AutorController autorController = new AutorController();
         ArrayList<Autor> autores = autorController.listarTodos();
 
@@ -307,8 +253,7 @@ public class FrCadLivros extends javax.swing.JDialog {
 
         comboGenero.setModel(modelo);
     }
-    
-    
+
     public boolean salvar(Livro livro) {
         String categoriasString = livro.getCategorias();
         List<Integer> categorias = new ArrayList<>();
@@ -326,16 +271,129 @@ public class FrCadLivros extends javax.swing.JDialog {
         return livroController.salvar(livro);  // Chamando o método salvar na instância do controlador
     }
 
-  
-
     private boolean verificarCategoria(List<Integer> categorias) {
         return categorias != null && !categorias.isEmpty();
     }
 
-    
-    
-   
+    public boolean verificarCampos() {
+        String titulo = edtTitulo.getText().trim();
+        String isbn = edtIsbn.getText().trim();
+        String precoStr = edtPreco.getText().trim();
+        String anoStr = edtAnoPublicacao.getText().trim();
+        Autor autorSelecionado = (Autor) comboAutor.getSelectedItem();
+        Genero generoSelecionado = (Genero) comboGenero.getSelectedItem();
 
+        // Validação do Título
+        if (titulo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Título' está em branco.");
+            return false;
+        }
+
+        // Validação do ISBN
+        if (isbn.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'ISBN' está em branco.");
+            return false;
+        }
+        if (!isbn.matches("^[0-9]{10,13}$")) {
+            JOptionPane.showMessageDialog(null, "ISBN inválido! Use de 10 a 13 dígitos numéricos.");
+            return false;
+        }
+
+        // Validação do Preço
+        if (precoStr.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Preço' está em branco.");
+            return false;
+        }
+        try {
+            double preco = Double.parseDouble(precoStr);
+            if (preco < 0) {
+                JOptionPane.showMessageDialog(null, "O preço não pode ser negativo.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Preço inválido! Use um número válido, como 19.90");
+            return false;
+        }
+
+        // Validação do Ano de Publicação
+        if (anoStr.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo 'Ano de Publicação' está em branco.");
+            return false;
+        }
+        try {
+            int ano = Integer.parseInt(anoStr);
+            if (ano < 1400 || ano > 2100) {
+                JOptionPane.showMessageDialog(null, "Ano inválido! Insira um ano entre 1400 e 2100.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Ano inválido! Use apenas números.");
+            return false;
+        }
+
+        // Validação do Autor
+        if (autorSelecionado == null) {
+            JOptionPane.showMessageDialog(null, "Selecione um autor.");
+            return false;
+        }
+
+        // Validação do Gênero
+        if (generoSelecionado == null) {
+            JOptionPane.showMessageDialog(null, "Selecione um gênero.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void gravar() {
+        // Criando uma instância do livro
+        Livro livro = new Livro();
+
+        // Definindo o título, ISBN, preço e ano de publicação
+        livro.setTitulo(edtTitulo.getText().trim());
+        livro.setIsbn(edtIsbn.getText().trim());
+        livro.setPreco(Double.parseDouble(edtPreco.getText().trim()));
+        livro.setAnoPublicacao(Integer.parseInt(edtAnoPublicacao.getText().trim()));
+
+        // Pegando o autor selecionado no JComboBox e atribuindo o idAutor
+        Autor autorSelecionado = (Autor) comboAutor.getSelectedItem();
+        livro.setIdAutor(autorSelecionado != null ? autorSelecionado.getId() : 0); // Usando o id do autor selecionado
+
+        // Pegando os gêneros selecionados (Lista de ids de categorias)
+        List<Integer> categoriasSelecionadas = new ArrayList<>();
+
+        // Pegando o gênero do combo principal
+        Genero generoSelecionado = (Genero) comboGenero.getSelectedItem();
+        if (generoSelecionado != null) {
+            categoriasSelecionadas.add(generoSelecionado.getId());
+        }
+
+        // Pegando os gêneros dos combos adicionais
+        for (javax.swing.JComboBox<Genero> combo : generosAdicionais) {
+            Genero generoAdicional = (Genero) combo.getSelectedItem();
+            if (generoAdicional != null) {
+                categoriasSelecionadas.add(generoAdicional.getId());
+            }
+        }
+
+        // Convertendo a lista de categorias para uma string com IDs separados por vírgula
+        StringBuilder categoriasString = new StringBuilder();
+        for (Integer categoriaId : categoriasSelecionadas) {
+            if (categoriasString.length() > 0) {
+                categoriasString.append(",");
+            }
+            categoriasString.append(categoriaId);
+        }
+
+        // Agora, tentamos salvar o livro, passando a string com os IDs das categorias
+        if (controller.inserir(livro, categoriasString.toString())) {
+            JOptionPane.showMessageDialog(null, "Livro cadastrado com sucesso!");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o livro.");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarGenero;
